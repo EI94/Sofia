@@ -1,0 +1,48 @@
+steps:
+  # Build dell'immagine Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/sofia-ai-464215/sofia-ai:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/sofia-ai-464215/sofia-ai:latest'
+      - '.'
+
+  # Push dell'immagine al Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/sofia-ai-464215/sofia-ai:$COMMIT_SHA'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/sofia-ai-464215/sofia-ai:latest'
+
+  # Deploy su Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'sofia-ai'
+      - '--image'
+      - 'gcr.io/sofia-ai-464215/sofia-ai:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8000'
+      - '--memory'
+      - '1Gi'
+      - '--cpu'
+      - '1'
+      - '--max-instances'
+      - '10'
+      - '--set-env-vars'
+      - 'ENV=production'
+
+options:
+  logging: CLOUD_LOGGING_ONLY 

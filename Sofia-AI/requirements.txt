@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-multipart
+langchain==0.2.*
+langchain-openai
+langchain-core
+langchain-community
+openai
+google-cloud-firestore
+google-cloud-vision
+google-api-python-client
+python-dotenv
+twilio
+elevenlabs
+pytest 

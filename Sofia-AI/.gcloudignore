@@ -1,0 +1,30 @@
+# File e directory da ignorare nel deploy
+.git
+.gitignore
+README.md
+tests/
+temp_plan_function.py
+gcloud-installer.exe
+GoogleCloudSDKInstaller.exe
+
+# Cache e temporanei
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Local development
+.env.local
+.env.development 
