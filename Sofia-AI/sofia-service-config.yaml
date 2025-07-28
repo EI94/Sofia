@@ -1,0 +1,104 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    run.googleapis.com/build-enable-automatic-updates: 'false'
+    run.googleapis.com/build-id: 1a5eb13a-c84e-45d4-bfde-c2c720555b64
+    run.googleapis.com/build-image-uri: europe-west1-docker.pkg.dev/sofia-ai-464215/cloud-run-source-deploy/sofia-ai
+    run.googleapis.com/build-name: projects/1075574333382/locations/europe-west1/builds/1a5eb13a-c84e-45d4-bfde-c2c720555b64
+    run.googleapis.com/build-source-location: gs://run-sources-sofia-ai-464215-europe-west1/services/sofia-ai/1753536078.641639-80f6e25bc701428482004ee953abc306.zip#1753536079216338
+    run.googleapis.com/client-name: gcloud
+    run.googleapis.com/client-version: 530.0.0
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+    run.googleapis.com/operation-id: bc96064f-1f94-465c-9973-d0c04044a415
+    run.googleapis.com/urls: '["https://sofia-ai-1075574333382.europe-west1.run.app","https://sofia-ai-jtcm2gle4a-ew.a.run.app"]'
+    serving.knative.dev/creator: pierpaolo.laurito@gmail.com
+    serving.knative.dev/lastModifier: pierpaolo.laurito@gmail.com
+  creationTimestamp: '2025-07-03T14:50:33.396511Z'
+  generation: 205
+  labels:
+    cloud.googleapis.com/location: europe-west1
+  name: sofia-ai
+  namespace: '1075574333382'
+  resourceVersion: AAY62FdUF7o
+  selfLink: /apis/serving.knative.dev/v1/namespaces/1075574333382/services/sofia-ai
+  uid: b49201e3-1a4c-4816-a4b0-1eb1c2615302
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '50'
+        autoscaling.knative.dev/minScale: '1'
+        run.googleapis.com/client-name: gcloud
+        run.googleapis.com/client-version: 530.0.0
+        run.googleapis.com/startup-cpu-boost: 'true'
+      labels:
+        client.knative.dev/nonce: pyawuxuijs
+        run.googleapis.com/startupProbeType: Default
+    spec:
+      containerConcurrency: 80
+      containers:
+      - env:
+        - name: ENV
+          value: production
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: openai-api-key
+        - name: TWILIO_ACCOUNT_SID
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: twilio-account-sid
+        - name: TWILIO_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: twilio-auth-token
+        - name: TWILIO_WHATSAPP_NUMBER
+          valueFrom:
+            secretKeyRef:
+              key: latest
+              name: twilio-whatsapp-number
+        image: gcr.io/sofia-ai-464215/sofia-ai:latest
+        ports:
+        - containerPort: 8000
+          name: http1
+        resources:
+          limits:
+            cpu: '2'
+            memory: 2Gi
+        startupProbe:
+          failureThreshold: 1
+          periodSeconds: 240
+          tcpSocket:
+            port: 8000
+          timeoutSeconds: 240
+      serviceAccountName: 1075574333382-compute@developer.gserviceaccount.com
+      timeoutSeconds: 300
+  traffic:
+  - latestRevision: true
+    percent: 100
+status:
+  address:
+    url: https://sofia-ai-jtcm2gle4a-ew.a.run.app
+  conditions:
+  - lastTransitionTime: '2025-07-26T17:25:12.739770Z'
+    status: 'True'
+    type: Ready
+  - lastTransitionTime: '2025-07-26T17:25:11.480596Z'
+    status: 'True'
+    type: ConfigurationsReady
+  - lastTransitionTime: '2025-07-26T17:25:12.711138Z'
+    status: 'True'
+    type: RoutesReady
+  latestCreatedRevisionName: sofia-ai-00205-4nr
+  latestReadyRevisionName: sofia-ai-00205-4nr
+  observedGeneration: 205
+  traffic:
+  - latestRevision: true
+    percent: 100
+    revisionName: sofia-ai-00205-4nr
+  url: https://sofia-ai-jtcm2gle4a-ew.a.run.app

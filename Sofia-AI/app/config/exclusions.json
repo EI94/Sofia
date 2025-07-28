@@ -1,0 +1,38 @@
+{
+  "it": {
+    "keywords": [
+      "730", "dichiarazione", "redditi", "fiscale", "contabilità", "unico",
+      "visto", "turistico", "lettera", "invito", "penale", "processo",
+      "sponsor", "sponsorizzazione", "commerciale", "società", "azienda",
+      "fattura", "iva", "tasse", "fisco", "commercialista", "ragioniere"
+    ],
+    "message": "Mi dispiace, non offriamo questo servizio. Siamo specializzati in immigrazione: permessi di soggiorno, ricongiungimenti familiari, cittadinanza."
+  },
+  "en": {
+    "keywords": [
+      "730", "tax", "return", "fiscal", "accounting", "income",
+      "visa", "tourist", "letter", "invitation", "criminal", "trial",
+      "sponsor", "sponsorship", "commercial", "company", "business",
+      "invoice", "vat", "taxes", "fiscal", "accountant", "bookkeeper"
+    ],
+    "message": "I'm sorry, we don't offer this service. We specialize in immigration: residence permits, family reunification, citizenship."
+  },
+  "fr": {
+    "keywords": [
+      "730", "déclaration", "revenus", "fiscal", "comptabilité", "unique",
+      "visa", "touristique", "lettre", "invitation", "pénal", "procès",
+      "sponsor", "sponsorisation", "commercial", "société", "entreprise",
+      "facture", "tva", "impôts", "fiscal", "comptable", "expert-comptable"
+    ],
+    "message": "Je suis désolé, nous n'offrons pas ce service. Nous sommes spécialisés dans l'immigration: permis de séjour, regroupement familial, citoyenneté."
+  },
+  "es": {
+    "keywords": [
+      "730", "declaración", "rentas", "fiscal", "contabilidad", "único",
+      "visado", "turístico", "carta", "invitación", "penal", "proceso",
+      "patrocinador", "patrocinio", "comercial", "sociedad", "empresa",
+      "factura", "iva", "impuestos", "fiscal", "contador", "contable"
+    ],
+    "message": "Lo siento, no ofrecemos este servicio. Nos especializamos en inmigración: permisos de residencia, reunificación familiar, ciudadanía."
+  }
+} 

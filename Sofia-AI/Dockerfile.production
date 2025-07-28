@@ -1,0 +1,37 @@
+# SOFIA AI - PRODUCTION DOCKERFILE
+# Il miglior product tester del mondo!
+
+FROM python:3.11-slim
+
+# Imposta variabili d'ambiente
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV ENVIRONMENT=production
+
+# Installa dipendenze di sistema
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crea directory di lavoro
+WORKDIR /app
+
+# Copia requirements
+COPY requirements.txt .
+
+# Installa dipendenze Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia codice applicazione
+COPY . .
+
+# Crea directory per i log
+RUN mkdir -p logs
+
+# Esponi porta
+EXPOSE 8000
+
+# Comando di avvio
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"] 

@@ -1,0 +1,183 @@
+2025-07-26 22:45:09,784 | INFO | __main__ | 🚀 AVVIO TEST COMPLETO SOFIA AI RAG/MEMORY
+2025-07-26 22:45:09,784 | INFO | __main__ | 🧪 TEST LLM GATEWAY
+2025-07-26 22:45:10,078 | INFO | app.gateways.llm | 🔍 API Key trovata: NO
+2025-07-26 22:45:10,078 | ERROR | app.gateways.llm | ❌ OPENAI_API_KEY non configurata
+2025-07-26 22:45:10,078 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,078 | INFO | __main__ | ✅ LLM response: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,078 | INFO | __main__ | ✅ LLM gateway funziona
+2025-07-26 22:45:10,078 | INFO | __main__ | 🧪 TEST MEMORY GATEWAY
+2025-07-26 22:45:10,078 | INFO | __main__ | ✅ Salvataggio memoria: False
+2025-07-26 22:45:10,078 | INFO | __main__ | ✅ Recupero memoria: None
+2025-07-26 22:45:10,078 | INFO | __main__ | 🧪 INIZIO TEST RAG/MEMORY SYSTEM
+2025-07-26 22:45:10,085 | INFO | app.chains.planner | 🔧 Inizializzazione gateways...
+2025-07-26 22:45:10,085 | INFO | app.chains.planner | ✅ Memory gateway inizializzato
+2025-07-26 22:45:10,085 | INFO | app.chains.planner | ✅ Calendar gateway inizializzato
+2025-07-26 22:45:10,085 | INFO | app.gateways.llm | 🔍 API Key trovata: NO
+2025-07-26 22:45:10,085 | ERROR | app.gateways.llm | ❌ OPENAI_API_KEY non configurata
+2025-07-26 22:45:10,085 | INFO | app.chains.planner | ✅ LLM gateway inizializzato
+2025-07-26 22:45:10,085 | INFO | app.chains.planner | 🔧 Inizializzazione Sofia Planner...
+2025-07-26 22:45:10,085 | INFO | app.chains.planner | ✅ Sofia Planner inizializzato
+2025-07-26 22:45:10,085 | INFO | __main__ | ✅ Importazioni completate
+2025-07-26 22:45:10,085 | INFO | __main__ | 🧪 Test 1: Verifica inizializzazione planner
+2025-07-26 22:45:10,085 | INFO | __main__ | ✅ Sofia planner inizializzato correttamente
+2025-07-26 22:45:10,085 | INFO | __main__ | ✅ Tipo planner: <class 'app.core.planner.manager_worker_planner.ManagerWorkerPlanner'>
+2025-07-26 22:45:10,085 | INFO | __main__ | 🧪 Test 2: Verifica gateways
+2025-07-26 22:45:10,085 | INFO | __main__ | ✅ LLM gateway presente
+2025-07-26 22:45:10,085 | INFO | __main__ | ✅ Memory gateway presente
+2025-07-26 22:45:10,085 | INFO | __main__ | ✅ Calendar gateway presente
+2025-07-26 22:45:10,085 | INFO | __main__ | 🧪 Test 3: Messaggio semplice 'Ciao'
+2025-07-26 22:45:10,085 | INFO | __main__ | 📱 Test con telefono: 393271234567
+2025-07-26 22:45:10,085 | INFO | __main__ | 💬 Test con messaggio: Ciao
+2025-07-26 22:45:10,085 | INFO | app.core.planner.manager_worker_planner | 🔍 PLAN INIZIATO - Phone: 393271234567, Message: Ciao...
+2025-07-26 22:45:10,085 | INFO | app.core.planner.manager_worker_planner | 🔍 Contesto utente caricato: {'phone': '393271234567', 'name': None, 'lang': 'it', 'summary': '', 'turn_count': 0}
+2025-07-26 22:45:10,085 | INFO | app.core.planner.manager_worker_planner | 🔍 Classificazione stato in corso...
+2025-07-26 22:45:10,085 | INFO | app.core.state.soft_state_machine | 🔍 CLASSIFY STATE - Message: Ciao...
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔍 Invio prompt classificazione a LLM...
+2025-07-26 22:45:10,086 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔍 LLM response classificazione: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratich...
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔍 JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,086 | ERROR | app.core.state.soft_state_machine | ❌ Errore parsing JSON: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,086 | ERROR | app.core.state.soft_state_machine | ❌ JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,086 | ERROR | app.core.state.soft_state_machine | ❌ Errore dettagliato: Expecting value: line 1 column 1 (char 0)
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔄 Fallback intelligente: GREETING
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔍 Stato classificato: GREETING (confidence: 0.6)
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔍 Manager decide strategia...
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🎯 MANAGER DECIDE - Confidence: 0.6, State: GREETING
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | ✅ Confidence buona (0.6), reset clarification count
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🎯 Strategia scelta: {'action': 'present_sofia', 'instruction': 'Presentati come Sofia e chiedi come puoi aiutare'}
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🎯 Manager decide: {'action': 'present_sofia', 'instruction': 'Presentati come Sofia e chiedi come puoi aiutare'}
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔍 Worker genera risposta...
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 WORKER INIZIATO - Action: present_sofia
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 Action: present_sofia, Instruction: Presentati come Sofia e chiedi come puoi aiutare
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 Parahelp template caricato
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 Prompt generato, lunghezza: 6371 caratteri
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 Chiamata LLM in corso...
+2025-07-26 22:45:10,086 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 LLM response ricevuta: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 Response pulita: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔧 Worker reply: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazione?
+2025-07-26 22:45:10,086 | WARNING | app.core.planner.manager_worker_planner | ⚠️ Loop rilevato, applico fallback
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔄 Loop fallback gestito
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔄 Fallback generico applicato
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔍 Aggiornamento memoria...
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🎯 Plan result: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'GREETING', 'confidence': 0.6, 'next_action': None}
+2025-07-26 22:45:10,086 | INFO | __main__ | ✅ Risultato ricevuto: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'GREETING', 'confidence': 0.6, 'next_action': None}
+2025-07-26 22:45:10,086 | INFO | __main__ | ✅ Tipo risultato: <class 'dict'>
+2025-07-26 22:45:10,086 | INFO | __main__ | ✅ Chiavi risultato: ['reply', 'state', 'confidence', 'next_action']
+2025-07-26 22:45:10,086 | INFO | __main__ | ✅ Reply presente: Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?...
+2025-07-26 22:45:10,086 | INFO | __main__ | 🧪 Test 4: Messaggio complesso 'Vorrei una consulenza per permesso di soggiorno'
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔍 PLAN INIZIATO - Phone: 393271234567, Message: Vorrei una consulenza per permesso di soggiorno...
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔍 Contesto utente caricato: {'phone': '393271234567', 'name': None, 'lang': 'it', 'summary': '', 'turn_count': 0}
+2025-07-26 22:45:10,086 | INFO | app.core.planner.manager_worker_planner | 🔍 Classificazione stato in corso...
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔍 CLASSIFY STATE - Message: Vorrei una consulenza per permesso di soggiorno...
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔍 Invio prompt classificazione a LLM...
+2025-07-26 22:45:10,086 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔍 LLM response classificazione: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratich...
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔍 JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,086 | ERROR | app.core.state.soft_state_machine | ❌ Errore parsing JSON: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,086 | ERROR | app.core.state.soft_state_machine | ❌ JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,086 | ERROR | app.core.state.soft_state_machine | ❌ Errore dettagliato: Expecting value: line 1 column 1 (char 0)
+2025-07-26 22:45:10,086 | INFO | app.core.state.soft_state_machine | 🔄 Fallback intelligente: PROPOSE_CONSULT
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Stato classificato: PROPOSE_CONSULT (confidence: 0.7)
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Manager decide strategia...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 MANAGER DECIDE - Confidence: 0.7, State: PROPOSE_CONSULT
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | ✅ Confidence buona (0.7), reset clarification count
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Strategia scelta: {'action': 'propose_consultation', 'instruction': 'Chiedi se preferisce online o in presenza'}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Manager decide: {'action': 'propose_consultation', 'instruction': 'Chiedi se preferisce online o in presenza'}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Worker genera risposta...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 WORKER INIZIATO - Action: propose_consultation
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Action: propose_consultation, Instruction: Chiedi se preferisce online o in presenza
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Parahelp template caricato
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Prompt generato, lunghezza: 6414 caratteri
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Chiamata LLM in corso...
+2025-07-26 22:45:10,087 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 LLM response ricevuta: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Response pulita: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Worker reply: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazione?
+2025-07-26 22:45:10,087 | WARNING | app.core.planner.manager_worker_planner | ⚠️ Loop rilevato, applico fallback
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔄 Loop fallback gestito
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔄 Fallback generico applicato
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Aggiornamento memoria...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Plan result: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'PROPOSE_CONSULT', 'confidence': 0.7, 'next_action': None}
+2025-07-26 22:45:10,087 | INFO | __main__ | ✅ Risultato complesso ricevuto: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'PROPOSE_CONSULT', 'confidence': 0.7, 'next_action': None}
+2025-07-26 22:45:10,087 | INFO | __main__ | ✅ Reply complesso: Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?...
+2025-07-26 22:45:10,087 | INFO | __main__ | 🧪 Test 5: Verifica memoria persistente
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 PLAN INIZIATO - Phone: 393271234567, Message: Mi chiamo Pierpaolo...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Contesto utente caricato: {'phone': '393271234567', 'name': None, 'lang': 'it', 'summary': '', 'turn_count': 0}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Classificazione stato in corso...
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 CLASSIFY STATE - Message: Mi chiamo Pierpaolo...
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 Invio prompt classificazione a LLM...
+2025-07-26 22:45:10,087 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 LLM response classificazione: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratich...
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,087 | ERROR | app.core.state.soft_state_machine | ❌ Errore parsing JSON: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,087 | ERROR | app.core.state.soft_state_machine | ❌ JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,087 | ERROR | app.core.state.soft_state_machine | ❌ Errore dettagliato: Expecting value: line 1 column 1 (char 0)
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔄 Fallback intelligente: GREETING
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Stato classificato: GREETING (confidence: 0.6)
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Manager decide strategia...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 MANAGER DECIDE - Confidence: 0.6, State: GREETING
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | ✅ Confidence buona (0.6), reset clarification count
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Strategia scelta: {'action': 'present_sofia', 'instruction': 'Presentati come Sofia e chiedi come puoi aiutare'}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Manager decide: {'action': 'present_sofia', 'instruction': 'Presentati come Sofia e chiedi come puoi aiutare'}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Worker genera risposta...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 WORKER INIZIATO - Action: present_sofia
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Action: present_sofia, Instruction: Presentati come Sofia e chiedi come puoi aiutare
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Parahelp template caricato
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Prompt generato, lunghezza: 6386 caratteri
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Chiamata LLM in corso...
+2025-07-26 22:45:10,087 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 LLM response ricevuta: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Response pulita: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Worker reply: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazione?
+2025-07-26 22:45:10,087 | WARNING | app.core.planner.manager_worker_planner | ⚠️ Loop rilevato, applico fallback
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔄 Loop fallback gestito
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔄 Fallback generico applicato
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Aggiornamento memoria...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Plan result: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'GREETING', 'confidence': 0.6, 'next_action': None}
+2025-07-26 22:45:10,087 | INFO | __main__ | ✅ Secondo messaggio: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'GREETING', 'confidence': 0.6, 'next_action': None}
+2025-07-26 22:45:10,087 | INFO | __main__ | ✅ Reply secondo messaggio: Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?...
+2025-07-26 22:45:10,087 | INFO | __main__ | 🧪 Test 6: Edge cases
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 PLAN INIZIATO - Phone: 393271234567, Message: ...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Contesto utente caricato: {'phone': '393271234567', 'name': None, 'lang': 'it', 'summary': '', 'turn_count': 0}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Classificazione stato in corso...
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 CLASSIFY STATE - Message: ...
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 Invio prompt classificazione a LLM...
+2025-07-26 22:45:10,087 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 LLM response classificazione: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratich...
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔍 JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,087 | ERROR | app.core.state.soft_state_machine | ❌ Errore parsing JSON: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,087 | ERROR | app.core.state.soft_state_machine | ❌ JSON pulito: Ciao! Sono Sofia, l'assistente virtuale dello Studio Immigrato di Milano. Posso aiutarti con pratiche di immigrazione, consulenze legali e appuntamenti. Come posso esserti utile oggi?
+2025-07-26 22:45:10,087 | ERROR | app.core.state.soft_state_machine | ❌ Errore dettagliato: Expecting value: line 1 column 1 (char 0)
+2025-07-26 22:45:10,087 | INFO | app.core.state.soft_state_machine | 🔄 Fallback intelligente: GREETING
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Stato classificato: GREETING (confidence: 0.6)
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Manager decide strategia...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 MANAGER DECIDE - Confidence: 0.6, State: GREETING
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | ✅ Confidence buona (0.6), reset clarification count
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Strategia scelta: {'action': 'present_sofia', 'instruction': 'Presentati come Sofia e chiedi come puoi aiutare'}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🎯 Manager decide: {'action': 'present_sofia', 'instruction': 'Presentati come Sofia e chiedi come puoi aiutare'}
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔍 Worker genera risposta...
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 WORKER INIZIATO - Action: present_sofia
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Action: present_sofia, Instruction: Presentati come Sofia e chiedi come puoi aiutare
+2025-07-26 22:45:10,087 | INFO | app.core.planner.manager_worker_planner | 🔧 Parahelp template caricato
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔧 Prompt generato, lunghezza: 6367 caratteri
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔧 Chiamata LLM in corso...
+2025-07-26 22:45:10,088 | WARNING | app.gateways.llm | ⚠️ Client OpenAI non disponibile, uso fallback
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔧 LLM response ricevuta: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔧 Response pulita: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazion...
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔧 Worker reply: Ciao! Sono Sofia dello Studio Immigrato. Come posso aiutarti oggi con le tue pratiche di immigrazione?
+2025-07-26 22:45:10,088 | WARNING | app.core.planner.manager_worker_planner | ⚠️ Loop rilevato, applico fallback
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔄 Loop fallback gestito
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔄 Fallback generico applicato
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🔍 Aggiornamento memoria...
+2025-07-26 22:45:10,088 | INFO | app.core.planner.manager_worker_planner | 🎯 Plan result: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'GREETING', 'confidence': 0.6, 'next_action': None}
+2025-07-26 22:45:10,088 | INFO | __main__ | ✅ Messaggio vuoto: {'reply': 'Mi dispiace, non ho capito bene. Puoi specificare meglio cosa ti serve?', 'state': 'GREETING', 'confidence': 0.6, 'next_action': None}
+2025-07-26 22:45:10,088 | ERROR | __main__ | ❌ Errore messaggio None: 'NoneType' object is not subscriptable
+2025-07-26 22:45:10,088 | INFO | __main__ | 🧪 Test 7: Verifica memoria Firestore
+2025-07-26 22:45:10,088 | INFO | __main__ | ✅ Dati utente da Firestore: None
+2025-07-26 22:45:10,088 | INFO | __main__ | ✅ TEST RAG/MEMORY COMPLETATO
+2025-07-26 22:45:10,088 | INFO | __main__ | 📊 RISULTATI FINALI:
+2025-07-26 22:45:10,088 | INFO | __main__ |    LLM Gateway: ✅ OK
+2025-07-26 22:45:10,088 | INFO | __main__ |    Memory Gateway: ✅ OK
+2025-07-26 22:45:10,088 | INFO | __main__ |    Sistema Completo: ✅ OK
+2025-07-26 22:45:10,088 | INFO | __main__ | 🎉 TUTTI I TEST SUPERATI!

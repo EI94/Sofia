@@ -10,10 +10,13 @@ services:
       - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
       - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
       - TWILIO_WHATSAPP_NUMBER=${TWILIO_WHATSAPP_NUMBER}
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/keys/sofia-backend-sa.json
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
       - FIRESTORE_PROJECT_ID=${FIRESTORE_PROJECT_ID}
-    volumes:
-      - ./core/app/keys:/app/keys:ro
+      - GOOGLE_CLOUD_PROJECT=${FIRESTORE_PROJECT_ID}
+    # Note: For production, use Google Cloud Service Account credentials via:
+    # 1. Environment variables (recommended for Cloud Run/GKE)
+    # 2. Google Cloud metadata service (automatic for GCE/Cloud Run)
+    # 3. If using file-based credentials, create keys directory and mount properly
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]

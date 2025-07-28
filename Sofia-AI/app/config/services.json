@@ -1,0 +1,170 @@
+{
+  "it": {
+    "permesso di soggiorno": {
+      "keywords": ["permesso", "soggiorno", "carta", "straniero", "regolare"],
+      "description": "Permessi di soggiorno per cittadini stranieri",
+      "details": "Assistenza completa per ottenere, rinnovare o convertire permessi di soggiorno. Tipi: studio, lavoro, cure mediche, ricerca lavoro, asilo, permesso UE a lungo termine. Completamento kit e appuntamento questura. Follow-up dopo 90 giorni di attesa."
+    },
+    "ricongiungimento familiare": {
+      "keywords": ["ricongiungimento", "familiare", "famiglia", "parenti", "coniuge", "figli", "genitori"],
+      "description": "Ricongiungimento familiare per cittadini stranieri",
+      "details": "Procedura consolare per familiari all'estero. SUI nulla osta, reddito minimo, idoneità alloggiativa. Certificati tradotti e legalizzati. Ricorsi contro ritardi consolari."
+    },
+    "cittadinanza italiana": {
+      "keywords": ["cittadinanza", "italiana", "nazionale", "passaporto italiano"],
+      "description": "Acquisto cittadinanza italiana",
+      "details": "Domande per residenza, matrimonio, minori, ius sanguinis. Ricorsi contro rigetti. Follow-up e cancellazione casellario giudiziario. Assistenza fino al giuramento."
+    },
+    "protezione internazionale": {
+      "keywords": ["asilo", "protezione", "rifugiato", "commissione", "politico"],
+      "description": "Protezione internazionale e asilo",
+      "details": "Prima domanda di asilo e rinnovi. Ricorsi contro rigetti. Gestione espulsioni e CPR. Trasferimenti e appuntamenti commissione. Ricorsi con effetto sospensivo."
+    },
+    "ricorsi": {
+      "keywords": ["ricorso", "tribunale", "tar", "rigetto", "appello"],
+      "description": "Ricorsi contro rigetti",
+      "details": "Ricorsi contro rigetti di questura/prefettura. Rifiuti appuntamenti ambasciata. Chiamate mancate nei decreti flussi."
+    },
+    "corsi lingua": {
+      "keywords": ["corso", "lingua", "a2", "b1", "formazione"],
+      "description": "Corsi di lingua e formazione",
+      "details": "Corsi di lingua per permesso di soggiorno a lungo termine (A2). Corsi per cittadinanza (B1). Corsi di formazione professionale."
+    },
+    "nulla osta": {
+      "keywords": ["nulla", "osta", "codice", "fiscale", "traduzioni"],
+      "description": "Nulla osta e documenti",
+      "details": "Nulla osta per ricongiungimento familiare. Emissione codice fiscale. Traduzioni giurate e apostille."
+    },
+    "articolo 31": {
+      "keywords": ["articolo", "31", "giudice", "minori", "genitori"],
+      "description": "Art. 31 T.U. Immigrazione",
+      "details": "Autorizzazione tribunale per i minori. Soggiorno genitori stranieri. Conversione da motivi familiari a lavoro."
+    },
+    "amnistia": {
+      "keywords": ["amnistia", "decreto", "flussi", "regolarizzazione"],
+      "description": "Amnistia e decreti flussi",
+      "details": "Regolarizzazione tramite amnistia. Domande decreti flussi. Lavoratori specializzati."
+    },
+    "sfruttamento": {
+      "keywords": ["sfruttamento", "lavoro", "denuncia", "datore"],
+      "description": "Assistenza per sfruttamento lavorativo",
+      "details": "Assistenza per sfruttamento lavorativo. Permessi per motivi di giustizia. Denunce contro datori di lavoro."
+    },
+    "convivenze": {
+      "keywords": ["convivenza", "unione", "civile", "pacs"],
+      "description": "Patti di convivenza e unioni civili",
+      "details": "Redazione e registrazione patti di convivenza. Unioni civili tra persone dello stesso sesso. Assistenza per cittadini stranieri."
+    },
+    "conversione minore": {
+      "keywords": ["conversione", "minore", "lavoro", "18", "anni"],
+      "description": "Conversione da minore a lavoro",
+      "details": "Convertire permesso per motivi familiari in permesso di lavoro. Al raggiungimento dei 18 anni. Contratto di lavoro."
+    }
+  },
+  "en": {
+    "residence permit": {
+      "keywords": ["permit", "residence", "card", "foreigner", "regular"],
+      "description": "Residence permits for foreign citizens",
+      "details": "Full assistance to obtain, renew or convert residence permits. Types: study, work, medical care, job-seeking, asylum, EU long-term permit. Kit completion and police-station appointment. Follow-ups after 90 days of waiting."
+    },
+    "family reunification": {
+      "keywords": ["reunification", "family", "relative", "spouse", "children", "parents"],
+      "description": "Family reunification for foreign citizens",
+      "details": "Consular procedure for relatives abroad. SUI nulla osta, minimum income, housing suitability. Certificates translated and legalised. Appeals against consular delays."
+    },
+    "italian citizenship": {
+      "keywords": ["citizenship", "italian", "national", "italian passport"],
+      "description": "Italian citizenship acquisition",
+      "details": "Applications by residence, marriage, minors, ius sanguinis. Appeals against rejections. Follow-ups and criminal-record clearance. Assistance up to the oath."
+    },
+    "international protection": {
+      "keywords": ["asylum", "protection", "refugee", "commission", "political"],
+      "description": "International protection and asylum",
+      "details": "First asylum request and renewals. Appeals against rejections. Handling expulsions and CPR. Transfers and commission appointments. Appeals with suspensive effect."
+    },
+    "appeals": {
+      "keywords": ["appeal", "tribunal", "tar", "rejection", "court"],
+      "description": "Appeals against rejections",
+      "details": "Appeals against rejections by police/prefecture. Embassy appointment refusals. Missed calls in quota-flow decrees."
+    },
+    "language courses": {
+      "keywords": ["course", "language", "a2", "b1", "training"],
+      "description": "Language courses and training",
+      "details": "Language courses for long-term permit (A2). Courses for citizenship (B1). Professional training courses."
+    },
+    "nulla osta": {
+      "keywords": ["nulla", "osta", "tax", "code", "translations"],
+      "description": "Nulla osta and documents",
+      "details": "Family-reunification nulla osta. Tax-code issuance. Sworn translations and apostilles."
+    },
+    "article 31": {
+      "keywords": ["article", "31", "judge", "minors", "parents"],
+      "description": "Art. 31 T.U. Immigration",
+      "details": "Juvenile-court authorisation. Stay of foreign parents. Conversion from family-reasons to work."
+    },
+    "amnesty": {
+      "keywords": ["amnesty", "decree", "flows", "regularisation"],
+      "description": "Amnesty and quota-flow decrees",
+      "details": "Regularisation via amnesty. Quota-flow applications. Specialised workers."
+    },
+    "exploitation": {
+      "keywords": ["exploitation", "work", "complaint", "employer"],
+      "description": "Assistance for labour exploitation",
+      "details": "Assistance for labour exploitation. Justice-motives permits. Employer complaints."
+    },
+    "cohabitation": {
+      "keywords": ["cohabitation", "civil", "union", "pacs"],
+      "description": "Cohabitation pacts and civil unions",
+      "details": "Drafting and registration of cohabitation agreements. Same-sex civil unions. Assistance for foreign nationals."
+    },
+    "minor conversion": {
+      "keywords": ["conversion", "minor", "work", "18", "years"],
+      "description": "Convert minor to work permit",
+      "details": "Convert family-reasons permit to work permit. Upon reaching 18 years. Employment contract."
+    }
+  },
+  "fr": {
+    "permis de séjour": {
+      "keywords": ["permis", "séjour", "carte", "étranger", "régulier"],
+      "description": "Permis de séjour pour citoyens étrangers",
+      "details": "Assistance complète pour obtenir, renouveler ou convertir les permis de séjour. Types: étude, travail, soins médicaux, recherche d'emploi, asile, permis UE de longue durée."
+    },
+    "regroupement familial": {
+      "keywords": ["regroupement", "familial", "famille", "parents", "conjoint", "enfants"],
+      "description": "Regroupement familial pour citoyens étrangers",
+      "details": "Procédure consulaire pour parents à l'étranger. Nulla osta SUI, revenu minimum, adéquation du logement."
+    },
+    "citoyenneté italienne": {
+      "keywords": ["citoyenneté", "italienne", "nationale", "passeport italien"],
+      "description": "Acquisition de la citoyenneté italienne",
+      "details": "Demandes par résidence, mariage, mineurs, ius sanguinis. Recours contre rejets."
+    },
+    "protection internationale": {
+      "keywords": ["asile", "protection", "réfugié", "commission", "politique"],
+      "description": "Protection internationale et asile",
+      "details": "Première demande d'asile et renouvellements. Recours contre rejets. Gestion des expulsions et CPR."
+    }
+  },
+  "es": {
+    "permiso de residencia": {
+      "keywords": ["permiso", "residencia", "tarjeta", "extranjero", "regular"],
+      "description": "Permisos de residencia para ciudadanos extranjeros",
+      "details": "Asistencia completa para obtener, renovar o convertir permisos de residencia. Tipos: estudio, trabajo, atención médica, búsqueda de empleo, asilo, permiso UE de larga duración."
+    },
+    "reunificación familiar": {
+      "keywords": ["reunificación", "familiar", "familia", "padres", "cónyuge", "hijos"],
+      "description": "Reunificación familiar para ciudadanos extranjeros",
+      "details": "Procedimiento consular para familiares en el extranjero. Nulla osta SUI, ingreso mínimo, idoneidad de vivienda."
+    },
+    "ciudadanía italiana": {
+      "keywords": ["ciudadanía", "italiana", "nacional", "pasaporte italiano"],
+      "description": "Adquisición de la ciudadanía italiana",
+      "details": "Solicitudes por residencia, matrimonio, menores, ius sanguinis. Recursos contra rechazos."
+    },
+    "protección internacional": {
+      "keywords": ["asilo", "protección", "refugiado", "comisión", "político"],
+      "description": "Protección internacional y asilo",
+      "details": "Primera solicitud de asilo y renovaciones. Recursos contra rechazos. Gestión de expulsiones y CPR."
+    }
+  }
+} 
