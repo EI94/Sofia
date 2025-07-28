@@ -4,8 +4,19 @@ from app.utils import name_extract
 
 class DummyLLM:
     def chat_completion(self, msgs, model="gpt-4o-mini"):
-        u=msgs[-1]["content"].lower()
+        user_msg = ""
+        for msg in msgs:
+            if msg["role"] == "user":
+                user_msg = msg["content"]
+                break
+        
+        # Extract user message from the prompt
+        if "User: \"" in user_msg:
+            user_msg = user_msg.split("User: \"")[-1].split("\"")[0]
+        
+        u = user_msg.lower()
         if "ciao" in u: return '{"intent":"GREET","reason":""}'
+        if "mi chiamo" in u: return '{"intent":"ASK_NAME","reason":""}'
         if "permesso" in u: return '{"intent":"ASK_SERVICE","reason":""}'
         return '{"intent":"UNKNOWN","reason":""}'
 llm=DummyLLM()

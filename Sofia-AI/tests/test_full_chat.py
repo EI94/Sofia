@@ -7,12 +7,22 @@ from app.agents.executor import dispatch
 
 class MockLLM:
     def chat_completion(self, messages, model="gpt-4o-mini"):
-        user_msg = messages[1]["content"] if len(messages) > 1 else ""
+        user_msg = ""
+        for msg in messages:
+            if msg["role"] == "user":
+                user_msg = msg["content"]
+                break
+        
+        # Extract user message from the prompt
+        if "User: \"" in user_msg:
+            user_msg = user_msg.split("User: \"")[-1].split("\"")[0]
         
         if "ciao" in user_msg.lower() or "hello" in user_msg.lower():
             return '{"intent": "GREET", "reason": "greeting"}'
-        elif "pierpaolo" in user_msg.lower():
+        elif "mi chiamo" in user_msg.lower() or "pierpaolo" in user_msg.lower():
             return '{"intent": "ASK_NAME", "reason": "name provided"}'
+        elif "permesso" in user_msg.lower():
+            return '{"intent": "ASK_SERVICE", "reason": "service requested"}'
         elif "consulenza" in user_msg.lower():
             return '{"intent": "PROPOSE_CONSULT", "reason": "consultation"}'
         else:

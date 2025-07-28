@@ -50,19 +50,32 @@ def handle_incoming(phone: str, text: str, channel: str = "text"):
 async def whatsapp_webhook(
     request: Request,
     From: str = Form(...),
-    Body: str = Form(...),
-    To: str = Form(...)
+    Body: str = Form(None),
+    To: str = Form(...),
+    MediaUrl0: str = Form(None),
+    NumMedia: str = Form("0")
 ):
     """WhatsApp webhook handler"""
     
-    logger.info(f"📱 WhatsApp webhook - From: {From}, Body: {Body}")
+    logger.info(f"📱 WhatsApp webhook - From: {From}, Body: {Body}, Media: {NumMedia}")
     
     try:
         # Extract phone number
         phone = From.replace("whatsapp:", "")
         
-        # Handle incoming message
-        reply = handle_incoming(phone, Body, "whatsapp")
+        # Handle media (payment receipt)
+        if NumMedia and int(NumMedia) > 0 and MediaUrl0:
+            logger.info(f"📸 Processing media: {MediaUrl0}")
+            # Store image URL in context for OCR processing
+            ctx = memory.load_context(phone) or context.Context(phone)
+            ctx.slots["payment_image_url"] = MediaUrl0
+            memory.save_context(ctx)
+            
+            # Process as payment receipt
+            reply = handle_incoming(phone, "image", "whatsapp")
+        else:
+            # Handle text message
+            reply = handle_incoming(phone, Body or "", "whatsapp")
         
         # Send response
         response_data = _send_whatsapp_message(phone, reply)
