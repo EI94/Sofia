@@ -16,6 +16,7 @@ def load_context(phone: str) -> Context | None:
                 name=user_data.get('name'),
                 client_type=user_data.get('client_type', 'new'),
                 state=user_data.get('state', 'GREETING'),
+                asked_name=user_data.get('asked_name', False),
                 slots=user_data.get('slots', {}),
                 history=user_data.get('history', [])
             )
@@ -31,6 +32,7 @@ def save_context(ctx: Context):
             'name': ctx.name,
             'client_type': ctx.client_type,
             'state': ctx.state,
+            'asked_name': ctx.asked_name,
             'slots': ctx.slots,
             'history': ctx.history
         }

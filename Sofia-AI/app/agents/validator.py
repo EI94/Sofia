@@ -16,6 +16,14 @@ VALID_TRANSITIONS = {
 def validate(ctx: Context, intent: str) -> str:
     """Validate state→intent transition, return CLARIFY if invalid"""
     
+    # Smart name handling: force ASK_NAME if no name and not already asking
+    if not ctx.name and intent not in ("ASK_NAME","CLARIFY"):
+        return "ASK_NAME"
+    
+    # If ASK_NAME but name already present, go to ASK_SERVICE
+    if intent == "ASK_NAME" and ctx.name:
+        return "ASK_SERVICE"
+    
     current_state = ctx.state
     valid_intents = VALID_TRANSITIONS.get(current_state, [])
     

@@ -17,8 +17,8 @@ def test_ask_name_skill():
     
     result = ask_name.run(ctx, "Ciao come stai")
     
-    assert "nome" in result.lower()
-    assert "per favore" in result.lower()
+    assert "Piacere! Come ti chiami?" in result
+    assert "Come ti chiami" in result
     
     # Test with name extraction
     ctx2 = Context(phone="+1234567890", lang="it")

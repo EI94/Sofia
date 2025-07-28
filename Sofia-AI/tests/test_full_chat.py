@@ -23,24 +23,23 @@ def test_happy_path_new_user():
     ctx = Context(phone="+1234567890")
     llm = MockLLM()
     
-    # Step 1: Greeting
+    # Step 1: Greeting → forced to ASK_NAME (smart name handling)
     intent, reason = plan(ctx, "Ciao!", llm)
     intent = validate(ctx, intent)
     reply = dispatch(intent, ctx, "Ciao!")
     
-    assert intent == "GREET"
-    assert "Ciao! Sono Sofia" in reply
+    assert intent == "ASK_NAME"  # Smart validator forces ASK_NAME
+    assert "Piacere! Come ti chiami?" in reply
     assert ctx.state == "ASK_NAME"
     
-    # Step 2: Name
+    # Step 2: Name (extracted automatically)
     intent, reason = plan(ctx, "Mi chiamo Pierpaolo", llm)
     intent = validate(ctx, intent)
     reply = dispatch(intent, ctx, "Mi chiamo Pierpaolo")
     
     assert intent == "ASK_NAME"
-    assert "nome" in reply.lower()
-    # State is managed by skills now, not executor
-    assert ctx.state in ["ASK_NAME", "ASK_SERVICE"]
+    assert "servizio" in reply.lower()  # Goes directly to ask_service
+    assert ctx.state == "ASK_SERVICE"  # Name extracted, state updated
 
 def test_edge_case_abusive_language():
     """Test edge case with abusive language"""
@@ -82,7 +81,7 @@ def test_edge_case_memory_persistence():
     intent = validate(ctx, intent)
     reply = dispatch(intent, ctx, "Ciao!")
     
-    # Check state was updated
+    # Check state was updated (smart name handling)
     assert ctx.state == "ASK_NAME"
     # Intent is not set by executor anymore
     # assert ctx.intent == "GREET"
@@ -100,6 +99,6 @@ def test_multilingual_support():
         intent = validate(ctx, intent)
         reply = dispatch(intent, ctx, "Hello")
         
-        # Should work in all languages
-        assert intent == "GREET"
+        # Should work in all languages (smart name handling)
+        assert intent == "ASK_NAME"  # Smart validator forces ASK_NAME
         assert reply != "Message not found: greet_intro" 
