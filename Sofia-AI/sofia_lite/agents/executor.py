@@ -2,6 +2,7 @@ from .context import Context
 from importlib import import_module
 from ..utils.name_extract import extract_name
 from ..middleware.memory import save_context
+from ..policy.guardrails import is_inappropriate, abuse_reply, warning_reply
 _ROUTE = {          # intent → skill module
     "GREET":"greet_user",
     "ASK_NAME":"ask_name",
@@ -16,6 +17,18 @@ _ROUTE = {          # intent → skill module
 }
 
 def dispatch(intent, ctx, text):
+    # Check for inappropriate content first
+    if is_inappropriate(text):
+        abuse_count = ctx.slots.get("abuse_count", 0)
+        if abuse_count >= 1:
+            # Second abuse - close conversation
+            return abuse_reply(ctx.lang)
+        else:
+            # First abuse - warning
+            ctx.slots["abuse_count"] = abuse_count + 1
+            save_context(ctx)
+            return warning_reply(ctx.lang)
+    
     # Special case: if validator forced ASK_NAME but we're in GREETING state,
     # we should call greet_user first to set the state, then ask_name
     if intent == "ASK_NAME" and ctx.state == "GREETING":
