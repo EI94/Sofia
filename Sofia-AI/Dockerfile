@@ -12,14 +12,18 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia il codice dell'applicazione
-COPY app/ ./app
+COPY sofia_lite/ ./sofia_lite/
+COPY scripts/ ./scripts/
 
 # Crea utente non-root per sicurezza
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
 USER app
 
+# Fail fast if a mandatory secret is missing
+ENV PYTHONUNBUFFERED=1
+
 # Esponi la porta (Cloud Run usa PORT env var)
 EXPOSE 8000
 
 # Comando per avviare l'applicazione
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"] 
+CMD ["python", "-m", "sofia_lite.whatsapp"] 

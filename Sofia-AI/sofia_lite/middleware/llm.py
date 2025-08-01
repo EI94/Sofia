@@ -4,13 +4,13 @@ from typing import Tuple
 # Initialize OpenAI client with error handling
 _CLIENT = None
 try:
-    api_key = os.getenv("OPENAI_API_KEY")
-    if api_key:
-        _CLIENT = openai.OpenAI(api_key=api_key)
-    else:
-        print("⚠️ OPENAI_API_KEY not set, LLM will return fallback responses")
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    if not api_key:
+        raise RuntimeError("missing OPENAI_API_KEY")
+    _CLIENT = openai.OpenAI(api_key=api_key)
 except Exception as e:
     print(f"⚠️ OpenAI client initialization failed: {e}")
+    raise RuntimeError("missing OPENAI_API_KEY")
 
 _SYS = ("Return ONLY JSON: "
         '{"intent":"<INTENT>","confidence":<0-1>}  '
@@ -20,7 +20,7 @@ _SYS = ("Return ONLY JSON: "
 @functools.lru_cache(maxsize=2048)
 def classify(msg: str, lang="it") -> Tuple[str, float]:
     if not _CLIENT:
-        return "CLARIFY", 0.0
+        raise RuntimeError("missing OPENAI_API_KEY")
     
     try:
         chat = _CLIENT.chat.completions.create(
@@ -30,13 +30,13 @@ def classify(msg: str, lang="it") -> Tuple[str, float]:
         )
         data = json.loads(chat.choices[0].message.content)
         return data["intent"], float(data["confidence"])
-    except Exception:
-        return "CLARIFY", 0.0
+    except Exception as e:
+        raise RuntimeError(f"LLM classification failed: {e}")
 
 def chat(sys_prompt: str, user_prompt: str) -> str:
     """For skill replies (slow path, full ParaHelp)."""
     if not _CLIENT:
-        return "Mi dispiace, il servizio non è disponibile al momento."
+        raise RuntimeError("missing OPENAI_API_KEY")
     
     try:
         rsp = _CLIENT.chat.completions.create(
@@ -46,5 +46,5 @@ def chat(sys_prompt: str, user_prompt: str) -> str:
                       {"role":"user","content":user_prompt}],
         )
         return rsp.choices[0].message.content.strip()
-    except Exception:
-        return "Mi dispiace, c'è stato un errore tecnico." 
+    except Exception as e:
+        raise RuntimeError(f"LLM chat failed: {e}") 

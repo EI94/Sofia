@@ -9,11 +9,20 @@ log = logging.getLogger("sofia.memory")
 class FirestoreMemoryGateway:
     def __init__(self):
         try:
-            self.db = firestore.Client(project=os.getenv("GOOGLE_PROJECT_ID"))
+            # Check for required credentials
+            credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
+            if not credentials_path:
+                raise RuntimeError("missing GOOGLE_APPLICATION_CREDENTIALS")
+            
+            project_id = os.getenv("GOOGLE_PROJECT_ID", "")
+            if not project_id:
+                raise RuntimeError("missing GOOGLE_PROJECT_ID")
+            
+            self.db = firestore.Client(project=project_id)
             log.info("✅ Firestore connection established")
         except Exception as e:
-            self.db = None
-            log.warning(f"⚠️ Firestore connection failed: {e}")
+            log.error(f"❌ Firestore connection failed: {e}")
+            raise RuntimeError(f"Firestore initialization failed: {e}")
     
     def get_user_context(self, phone: str):
         """Get user context from Firestore"""
