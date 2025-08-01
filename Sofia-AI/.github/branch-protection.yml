@@ -1,0 +1,38 @@
+# Sofia Lite Branch Protection Rules
+
+branches:
+  - name: main
+    protection:
+      required_status_checks:
+        strict: true
+        contexts:
+          - "Sofia Lite CI/CD Pipeline"
+          - "Unit Tests"
+          - "E2E Tests"
+          - "Load Tests"
+          - "Status Check"
+      enforce_admins: true
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: true
+      allow_force_pushes: false
+      allow_deletions: false
+      required_conversation_resolution: true
+
+  - name: sofia-lite-boot
+    protection:
+      required_status_checks:
+        strict: true
+        contexts:
+          - "Sofia Lite CI/CD Pipeline"
+          - "Unit Tests"
+          - "E2E Tests"
+          - "Load Tests"
+          - "Status Check"
+      enforce_admins: false
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: true
+      allow_force_pushes: false
+      allow_deletions: false
+      required_conversation_resolution: true
