@@ -1,0 +1,44 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: sofia-lite
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/execution-environment: gen2
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/execution-environment: gen2
+        run.googleapis.com/cpu-throttling: "false"
+        run.googleapis.com/startup-cpu-boost: "true"
+        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/maxScale: "100"
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+      - image: gcr.io/${PROJECT_ID}/sofia-lite:${SHORT_SHA}
+        name: sofia-lite
+        ports:
+        - containerPort: 8000
+        env:
+        - name: GOOGLE_CLOUD_PROJECT
+          value: ${PROJECT_ID}
+        - name: REVISION
+          value: ${SHORT_SHA}
+        resources:
+          limits:
+            cpu: "2"
+            memory: 4Gi
+          requests:
+            cpu: "1"
+            memory: 2Gi
+  traffic:
+  - percent: 99
+    tag: stable
+    revisionName: sofia-lite-stable
+  - percent: 1
+    tag: canary
+    revisionName: sofia-lite-${SHORT_SHA}
+    latestRevision: true

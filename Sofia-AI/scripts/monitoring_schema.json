@@ -1,0 +1,32 @@
+[
+  {
+    "name": "timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Timestamp of the conversation event"
+  },
+  {
+    "name": "phone",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Phone number of the user"
+  },
+  {
+    "name": "state",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Current conversation state"
+  },
+  {
+    "name": "intent",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Detected user intent"
+  },
+  {
+    "name": "revision",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Cloud Run revision (stable/canary)"
+  }
+]

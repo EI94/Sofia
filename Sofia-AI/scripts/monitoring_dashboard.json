@@ -1,0 +1,66 @@
+{
+  "displayName": "Sofia Lite Monitoring Dashboard",
+  "gridLayout": {
+    "columns": "2",
+    "widgets": [
+      {
+        "title": "Conversation States",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/conversation_states\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_RATE"
+                  }
+                }
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "yAxis": {
+            "label": "Conversations per minute"
+          }
+        }
+      },
+      {
+        "title": "Canary vs Stable Performance",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/response_time\" AND metric.labels.revision=\"canary\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_MEAN"
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "legendTemplate": "Canary"
+            },
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/response_time\" AND metric.labels.revision=\"stable\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_MEAN"
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "legendTemplate": "Stable"
+            }
+          ],
+          "yAxis": {
+            "label": "Response time (ms)"
+          }
+        }
+      }
+    ]
+  }
+}
