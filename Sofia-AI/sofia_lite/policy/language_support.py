@@ -101,14 +101,14 @@ _MSG = {
     },
     "route_active_app": {
         "it": "Ciao! Vedo che sei un cliente attivo. Per informazioni sulla tua pratica, ti consiglio di utilizzare l'app Studio Immigrato.",
-        "en": "Hello! I see you're an active client. For information about your case, I recommend using the Studio Immigrato app.",
+        "en": "Hello! I see you're an active client. For information about your case, I recommend using the Studio Immigrato sofia_lite.",
         "fr": "Bonjour! Je vois que vous êtes un client actif. Pour des informations sur votre dossier, je recommande d'utiliser l'application Studio Immigrato.",
         "es": "¡Hola! Veo que eres un cliente activo. Para información sobre tu caso, te recomiendo usar la aplicación Studio Immigrato.",
         "ar": "مرحباً! أرى أنك عميل نشط. للحصول على معلومات حول قضيتك، أوصي باستخدام تطبيق Studio Immigrato.",
         "hi": "नमस्ते! मैं देख रही हूं कि आप एक सक्रिय ग्राहक हैं। आपके मामले की जानकारी के लिए, मैं Studio Immigrato ऐप का उपयोग करने की सलाह देती हूं।",
         "ur": "ہیلو! میں دیکھ رہی ہوں کہ آپ ایک فعال کلائنٹ ہیں۔ آپ کے کیس کی معلومات کے لیے، میں Studio Immigrato ایپ استعمال کرنے کی تجویز دیتی ہوں۔",
         "bn": "হ্যালো! আমি দেখছি আপনি একজন সক্রিয় গ্রাহক। আপনার মামলার তথ্যের জন্য, আমি Studio Immigrato অ্যাপ ব্যবহার করার পরামর্শ দিচ্ছি।",
-        "wo": "Salam! Man gis nga client actif laa. Ngir information ci sa cas, maa laa Studio Immigrato app.",
+        "wo": "Salam! Man gis nga client actif laa. Ngir information ci sa cas, maa laa Studio Immigrato sofia_lite.",
     },
     "clarify": {
         "it": "Mi dispiace, non ho capito bene. Puoi ripetere o spiegare meglio cosa ti serve?",

@@ -1,6 +1,39 @@
 # Wrapper for Firestore memory
-from ..gateways.memory import FirestoreMemoryGateway
+import os
+import logging
+from google.cloud import firestore
 from ..agents.context import Context
+
+log = logging.getLogger("sofia.memory")
+
+class FirestoreMemoryGateway:
+    def __init__(self):
+        try:
+            self.db = firestore.Client(project=os.getenv("GOOGLE_PROJECT_ID"))
+            log.info("✅ Firestore connection established")
+        except Exception as e:
+            self.db = None
+            log.warning(f"⚠️ Firestore connection failed: {e}")
+    
+    def get_user_context(self, phone: str):
+        """Get user context from Firestore"""
+        if not self.db:
+            return None
+        try:
+            doc = self.db.collection('users').document(phone).get()
+            return doc.to_dict() if doc.exists else None
+        except Exception as e:
+            log.error(f"❌ Firestore get error: {e}")
+            return None
+    
+    def save_user_context(self, phone: str, user_data: dict):
+        """Save user context to Firestore"""
+        if not self.db:
+            return
+        try:
+            self.db.collection('users').document(phone).set(user_data)
+        except Exception as e:
+            log.error(f"❌ Firestore save error: {e}")
 
 # Create singleton instance
 _memory_gateway = FirestoreMemoryGateway()
