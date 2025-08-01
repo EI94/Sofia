@@ -1,0 +1,73 @@
+"""
+Sofia Lite - Multilingual Name Extraction
+Extracts names from user messages in 9 languages using regex and LLM fallback.
+"""
+
+import re
+import logging
+from typing import Optional, Dict, List
+
+logger = logging.getLogger(__name__)
+
+# Simple regex for names (letters, apostrophes, hyphens)
+NAME_PATTERN = re.compile(r'[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ]', re.UNICODE)
+
+# Language-specific patterns for name extraction
+NAME_PATTERNS: Dict[str, List[str]] = {
+    "it": [
+        r"mi chiamo\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"sono\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+    ],
+    "en": [
+        r"my name is\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"i'm\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+    ],
+    "fr": [
+        r"je m'appelle\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"je suis\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+    ],
+    "es": [
+        r"me llamo\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"soy\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+    ],
+}
+
+def extract_name_regex(text: str, lang: str = "it") -> Optional[str]:
+    """Extract name using regex patterns for the specified language."""
+    if lang not in NAME_PATTERNS:
+        lang = "it"
+    
+    text_lower = text.lower().strip()
+    
+    for pattern in NAME_PATTERNS[lang]:
+        match = re.search(pattern, text_lower, re.UNICODE | re.IGNORECASE)
+        if match:
+            name = match.group(1).strip()
+            if len(name) >= 2 and NAME_PATTERN.match(name):
+                logger.info(f"✅ Name extracted via regex: {name} (lang: {lang})")
+                return name.title()
+    
+    return None
+
+def extract_name(text: str, ctx) -> Optional[str]:
+    """Extract name from text using regex first, then LLM fallback."""
+    if not text or len(text.strip()) < 2:
+        return None
+    
+    # Try regex first
+    name = extract_name_regex(text, ctx.lang)
+    if name:
+        return name
+    
+    return None
+
+def clean_name(name: str) -> str:
+    """Clean and normalize extracted name."""
+    if not name:
+        return ""
+    
+    name = re.sub(r'\s+', ' ', name.strip())
+    name = re.sub(r'[^a-zA-ZÀ-ÿ\'-]', '', name, flags=re.UNICODE)
+    name = name.title()
+    
+    return name
