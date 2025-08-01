@@ -1,10 +1,12 @@
-import openai, os, json, functools
+import openai, json, functools
 from typing import Tuple
+from .. import get_config
 
 # Initialize OpenAI client with error handling
 _CLIENT = None
 try:
-    api_key = os.getenv("OPENAI_API_KEY", "")
+    cfg = get_config()
+    api_key = cfg["OPENAI_KEY"]
     if not api_key:
         raise RuntimeError("missing OPENAI_API_KEY")
     _CLIENT = openai.OpenAI(api_key=api_key)

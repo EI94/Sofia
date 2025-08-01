@@ -1,0 +1,7 @@
+LICENSE
+setup.py
+sofia_lite.egg-info/PKG-INFO
+sofia_lite.egg-info/SOURCES.txt
+sofia_lite.egg-info/dependency_links.txt
+sofia_lite.egg-info/requires.txt
+sofia_lite.egg-info/top_level.txt

@@ -1,8 +1,8 @@
 # Wrapper for Firestore memory
-import os
 import logging
 from google.cloud import firestore
 from ..agents.context import Context
+from .. import get_config
 
 log = logging.getLogger("sofia.memory")
 
@@ -10,11 +10,12 @@ class FirestoreMemoryGateway:
     def __init__(self):
         try:
             # Check for required credentials
-            credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
+            cfg = get_config()
+            credentials_path = cfg["GOOGLE_CREDENTIALS"]
             if not credentials_path:
                 raise RuntimeError("missing GOOGLE_APPLICATION_CREDENTIALS")
             
-            project_id = os.getenv("GOOGLE_PROJECT_ID", "")
+            project_id = cfg["GCLOUD_PROJECT"]
             if not project_id:
                 raise RuntimeError("missing GOOGLE_PROJECT_ID")
             
