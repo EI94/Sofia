@@ -1,7 +1,11 @@
+from sofia_lite.agents.prompt_builder import build_system_prompt
+from sofia_lite.middleware.llm import chat
 from ..middleware.calendar import get_three_slots
-from ..policy.language_support import T
-def run(ctx,text):
+
+def run(ctx, text):
     slots = get_three_slots()
-    ctx.slots["candidates"]=slots
-    ctx.state="ASK_SLOT"
-    return T("ask_slot",ctx.lang).format(opts=", ".join(f"{i+1}) {s}" for i,s in enumerate(slots))) 
+    ctx.slots["candidates"] = slots
+    ctx.state = "ASK_SLOT"
+    sys = build_system_prompt(ctx)
+    user = f"Il cliente ha scelto consulenza in presenza. Proponi questi slot orari: {', '.join(f'{i+1}) {s}' for i,s in enumerate(slots))}"
+    return chat(sys, user) 

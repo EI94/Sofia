@@ -1,5 +1,8 @@
-from ..policy.language_support import T
+from sofia_lite.agents.prompt_builder import build_system_prompt
+from sofia_lite.middleware.llm import chat
 
-def run(ctx, text):
+def run(ctx, user_msg):
+    sys = build_system_prompt(ctx)
+    user = "Il cliente ha appena iniziato la conversazione. Presentati come Sofia di Studio Immigrato e chiedi il suo nome."
     ctx.state = "ASK_NAME"
-    return T("greet_intro", ctx.lang) 
+    return chat(sys, user) 

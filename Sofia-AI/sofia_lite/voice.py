@@ -2,33 +2,46 @@ from fastapi import APIRouter, Form, Request
 from twilio.twiml.voice_response import VoiceResponse
 import os
 import logging
-from ..middleware import llm, memory, voice_transcript, voice_tts
-from ..agents import context, planner, validator, executor
-from ..policy import guardrails
+from sofia_lite.middleware.llm import classify
+from sofia_lite.agents.orchestrator import Orchestrator
+from sofia_lite.middleware.loop_guard import LoopGuard
+from sofia_lite.skills import dispatch
+from sofia_lite.agents.context import Context
+from sofia_lite.middleware.memory import load_context, save_context
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
+# Initialize components
+orchestrator = Orchestrator()
+loop_guard = LoopGuard()
+
 def handle_incoming(phone: str, text: str, channel: str = "voice"):
-    """Unified handler for incoming messages"""
+    """Unified handler for incoming messages using Sofia Lite core"""
     
     # Load or create context
-    ctx = memory.load_context(phone) or context.Context(phone)
+    ctx = load_context(phone) or Context(phone=phone, lang="it", state="GREETING")
     
-    # 1 - Guard rails
-    abuse = guardrails.is_abusive(text)
-    if abuse:
-        return guardrails.close_message(ctx.lang)
+    # 1 - Classify intent
+    intent, confidence = classify(text, ctx.lang)
+    logger.info(f"🎯 Intent: {intent} (confidence: {confidence})")
     
-    # 2 - Planner
-    intent, reason = planner.plan(ctx, text, llm)
-    intent = validator.validate(ctx, intent)
+    # 2 - Get next stage from orchestrator
+    next_stage = orchestrator.next_stage(ctx, intent)
+    logger.info(f"🔄 Stage transition: {ctx.state} → {next_stage}")
     
     # 3 - Execute skill
-    reply = executor.dispatch(intent, ctx, text)
+    reply = dispatch(next_stage, ctx, text)
+    logger.info(f"💬 Skill response: {reply[:50]}...")
     
-    # 4 - Persist
-    memory.save_context(ctx)
+    # 4 - Check for loops
+    loop_check = loop_guard.check_loop(ctx, intent, reply)
+    if loop_check["escalate"]:
+        logger.warning(f"🔄 Loop detected: {loop_check['reason']}")
+        reply = loop_check["message"]
+    
+    # 5 - Persist context
+    save_context(ctx)
     
     return reply
 

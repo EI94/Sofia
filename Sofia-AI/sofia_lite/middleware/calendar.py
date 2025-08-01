@@ -1,12 +1,32 @@
 # Wrapper for Google Calendar
-from ..gateways.calendar import GoogleCalendarGateway
 from datetime import datetime, timedelta
 import logging
 
 logger = logging.getLogger(__name__)
 
+# Mock calendar gateway for Sofia Lite
+class MockCalendarGateway:
+    def get_available_slots(self):
+        return [
+            "Domani alle 15:00",
+            "Domani alle 16:30", 
+            "Mercoledì alle 10:00"
+        ]
+    
+    def book_appointment(self, phone, name, slot):
+        logger.info(f"Mock booking: {name} ({phone}) at {slot}")
+        return True
+    
+    def create_event(self, title, description, start_time, duration_minutes):
+        logger.info(f"Mock event created: {title}")
+        return "https://calendar.google.com/event/mock"
+    
+    def block_professional_slot(self, slot, service):
+        logger.info(f"Mock professional slot blocked: {slot} for {service}")
+        return True
+
 # Create singleton instance
-_calendar_gateway = GoogleCalendarGateway()
+_calendar_gateway = MockCalendarGateway()
 
 def get_available_slots():
     """Get available calendar slots"""

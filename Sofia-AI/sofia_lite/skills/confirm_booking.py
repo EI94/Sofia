@@ -1,5 +1,6 @@
+from sofia_lite.agents.prompt_builder import build_system_prompt
+from sofia_lite.middleware.llm import chat
 from ..middleware.calendar import book, create_calendar_event, send_reminder
-from ..policy.language_support import T
 import re
 
 def run(ctx, text):
@@ -9,13 +10,17 @@ def run(ctx, text):
     selected_slot = extract_slot_choice(text, ctx.slots.get("candidates", []))
     
     if not selected_slot:
-        return T("slot_not_understood", ctx.lang)
+        sys = build_system_prompt(ctx)
+        user = "Il cliente non ha specificato chiaramente lo slot orario. Chiedi gentilmente di scegliere tra le opzioni disponibili."
+        return chat(sys, user)
     
     # Book the appointment
     booking_success = book(ctx.phone, ctx.name, selected_slot)
     
     if not booking_success:
-        return T("booking_failed", ctx.lang)
+        sys = build_system_prompt(ctx)
+        user = "La prenotazione non è riuscita. Chiedi gentilmente di riprovare o di contattare direttamente l'ufficio."
+        return chat(sys, user)
     
     # Create Google Calendar event
     try:
@@ -35,19 +40,16 @@ def run(ctx, text):
         ctx.slots["booking_confirmed"] = True
         ctx.slots["calendar_event_url"] = event_url
         
-        return T("confirm_booking", ctx.lang).format(
-            name=ctx.name,
-            slot=selected_slot,
-            calendar_url=event_url
-        )
+        sys = build_system_prompt(ctx)
+        user = f"La prenotazione è stata confermata per {ctx.name} alle {selected_slot}. Ringrazia il cliente e conferma i dettagli."
+        return chat(sys, user)
         
     except Exception as e:
         # Booking succeeded but calendar failed
         ctx.state = "CONFIRMED"
-        return T("booking_confirmed_no_calendar", ctx.lang).format(
-            name=ctx.name,
-            slot=selected_slot
-        )
+        sys = build_system_prompt(ctx)
+        user = f"La prenotazione è stata confermata per {ctx.name} alle {selected_slot}, ma c'è stato un problema con il calendario. Ringrazia comunque il cliente."
+        return chat(sys, user)
 
 def extract_slot_choice(text: str, candidates: list) -> str:
     """Extract slot choice from user text"""
