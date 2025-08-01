@@ -1,6 +1,7 @@
 import json
 from .prompt_builder import build_system_prompt
 from .context import Context
+from .state import State
 
 INTENTS = ["GREET","ASK_NAME","ASK_SERVICE","PROPOSE_CONSULT",
            "ASK_CHANNEL","ASK_SLOT","ASK_PAYMENT","CONFIRM",
@@ -29,4 +30,41 @@ User: \"{user_msg}\"
         return data["intent"], data["reason"]
     except Exception as e:
         # Fallback to UNKNOWN if parsing fails
-        return "UNKNOWN", f"Error parsing response: {str(e)}" 
+        return "UNKNOWN", f"Error parsing response: {str(e)}"
+
+def next_state(current_state: State, intent: str) -> State:
+    """
+    Determine the next state based on current state and intent.
+    
+    Args:
+        current_state: Current conversation state
+        intent: Detected user intent
+        
+    Returns:
+        Next state to transition to
+    """
+    # Intent to state mapping
+    intent_to_state = {
+        "GREET": State.ASK_NAME,
+        "ASK_NAME": State.ASK_SERVICE,
+        "ASK_SERVICE": State.PROPOSE_CONSULT,
+        "PROPOSE_CONSULT": State.WAIT_SLOT,
+        "ASK_CHANNEL": State.WAIT_SLOT,
+        "ASK_SLOT": State.WAIT_PAYMENT,
+        "ASK_PAYMENT": State.CONFIRMED,
+        "CONFIRM": State.CONFIRMED,
+        "ROUTE_ACTIVE": State.ASK_SERVICE,
+        "CLARIFY": State.ASK_CLARIFICATION,
+        "UNKNOWN": State.ASK_CLARIFICATION,
+    }
+    
+    # Get target state from intent
+    target_state = intent_to_state.get(intent, State.ASK_CLARIFICATION)
+    
+    # Validate transition
+    from .state import can_transition
+    if can_transition(current_state, target_state):
+        return target_state
+    else:
+        # Fallback to clarification if transition is invalid
+        return State.ASK_CLARIFICATION 
