@@ -1,0 +1,117 @@
+{
+  "GREET": [
+    "Ciao!",
+    "Ciao",
+    "Salve",
+    "Buongiorno",
+    "Buonasera",
+    "Hello",
+    "Hi",
+    "Bonjour",
+    "Hola",
+    "مرحبا",
+    "नमस्ते",
+    "السلام علیکم",
+    "হ্যালো",
+    "Salamalekum"
+  ],
+  "WHO_ARE_YOU": [
+    "Chi sei?",
+    "Who are you?",
+    "Qui êtes-vous?",
+    "¿Quién eres?",
+    "من أنت؟",
+    "आप कौन हैं?",
+    "آپ کون ہیں؟",
+    "আপনি কে?",
+    "Ya nga?"
+  ],
+  "ASK_SERVICE": [
+    "Che servizi offrite?",
+    "What services do you offer?",
+    "Quels services proposez-vous?",
+    "¿Qué servicios ofrecen?",
+    "ما هي الخدمات التي تقدمونها؟",
+    "आप कौन सी सेवाएं प्रदान करते हैं?",
+    "آپ کیا خدمات فراہم کرتے ہیں؟",
+    "আপনি কি সেবা প্রদান করেন?",
+    "Lan lañu defar?"
+  ],
+  "REQUEST_SERVICE": [
+    "Ho bisogno di un permesso di soggiorno",
+    "I need a residence permit",
+    "J'ai besoin d'un permis de séjour",
+    "Necesito un permiso de residencia",
+    "أحتاج إلى تصريح إقامة",
+    "मुझे निवास परमिट की आवश्यकता है",
+    "مجھے رہائشی اجازت کی ضرورت ہے",
+    "আমার আবাসিক অনুমতির প্রয়োজন",
+    "Ma bëggoona permesso di soggiorno"
+  ],
+  "ASK_COST": [
+    "Quanto costa?",
+    "How much does it cost?",
+    "Combien ça coûte?",
+    "¿Cuánto cuesta?",
+    "كم يكلف؟",
+    "कितना खर्च होता है?",
+    "کتنا خرچ ہوتا ہے؟",
+    "কত খরচ হয়?",
+    "Ñaata la am?"
+  ],
+  "ASK_NAME": [
+    "Mi chiamo Mario",
+    "My name is John",
+    "Je m'appelle Pierre",
+    "Me llamo Carlos",
+    "اسمي محمد",
+    "मेरा नाम राजेश है",
+    "میرا نام احمد ہے",
+    "আমার নাম রাহুল",
+    "Sama bopp ma Mario"
+  ],
+  "ASK_SLOT": [
+    "Quando hai disponibilità?",
+    "When are you available?",
+    "Quand êtes-vous disponible?",
+    "¿Cuándo están disponibles?",
+    "متى تكون متاحًا؟",
+    "आप कब उपलब्ध हैं?",
+    "آپ کب دستیاب ہیں؟",
+    "আপনি কখন উপলব্ধ?",
+    "Kan nga am?"
+  ],
+  "ASK_PAYMENT": [
+    "Come posso pagare?",
+    "How can I pay?",
+    "Comment puis-je payer?",
+    "¿Cómo puedo pagar?",
+    "كيف يمكنني الدفع؟",
+    "मैं कैसे भुगतान कर सकता हूं?",
+    "میں کیسے ادائیگی کر سکتا ہوں؟",
+    "আমি কীভাবে অর্থ প্রদান করতে পারি?",
+    "Nan laa may?"
+  ],
+  "CONFIRM": [
+    "Sì, va bene",
+    "Yes, that's fine",
+    "Oui, c'est bien",
+    "Sí, está bien",
+    "نعم، هذا جيد",
+    "हाँ, यह ठीक है",
+    "ہاں، یہ ٹھیک ہے",
+    "হ্যাঁ, এটা ঠিক আছে",
+    "Waaw, dafa baax"
+  ],
+  "CLARIFY": [
+    "Non ho capito",
+    "I don't understand",
+    "Je ne comprends pas",
+    "No entiendo",
+    "لا أفهم",
+    "मैं नहीं समझता",
+    "میں نہیں سمجھتا",
+    "আমি বুঝতে পারছি না",
+    "Dégguma"
+  ]
+} 

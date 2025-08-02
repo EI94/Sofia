@@ -13,8 +13,12 @@ VALID_TRANSITIONS = {
     "ROUTE_ACTIVE": ["ROUTE_ACTIVE", "GREETING", "CLARIFY"]
 }
 
-def validate(ctx: Context, intent: str) -> str:
-    """Validate state→intent transition, return CLARIFY if invalid"""
+def validate(ctx: Context, intent: str, confidence: float = 1.0) -> str:
+    """Validate state→intent transition, return CLARIFY if invalid or low confidence"""
+    
+    # Se confidence < 0.35, forza CLARIFY
+    if confidence < 0.35:
+        return "CLARIFY"
     
     # Smart name handling: force ASK_NAME if no name and not already asking
     if not ctx.name and intent not in ("ASK_NAME","CLARIFY"):

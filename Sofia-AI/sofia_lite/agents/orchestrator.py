@@ -49,9 +49,17 @@ class Orchestrator:
         intent, reason = plan(ctx, message, chat)
         log.info(f"🎯 Intent detected: {intent} for {phone}")
         
+        # Extract confidence from reason if available
+        confidence = 1.0
+        if "confidence:" in reason:
+            try:
+                confidence = float(reason.split("confidence:")[1].split(")")[0].strip())
+            except:
+                confidence = 1.0
+        
         # Validate intent and state transition
-        intent = validate(ctx, intent)
-        log.info(f"✅ Intent validated: {intent}")
+        intent = validate(ctx, intent, confidence)
+        log.info(f"✅ Intent validated: {intent} (conf: {confidence:.2f})")
         
         # Execute intent
         response = dispatch(intent, ctx, message)

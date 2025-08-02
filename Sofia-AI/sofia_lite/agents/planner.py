@@ -1,143 +1,170 @@
 import json
-import re
-from typing import List, Tuple
+import os
+import logging
+from typing import Tuple
+from tenacity import retry, stop_after_attempt, wait_exponential
 from .prompt_builder import build_system_prompt
 from .context import Context
 from .state import State
+from .. import get_config
+
+log = logging.getLogger("sofia.planner")
 
 # Definizione degli intent con priorità (più alta = più importante)
 INTENTS = ["GREET","ASK_NAME","ASK_SERVICE","PROPOSE_CONSULT",
            "ASK_CHANNEL","ASK_SLOT","ASK_PAYMENT","CONFIRM",
            "ROUTE_ACTIVE","CLARIFY","UNKNOWN"]
 
-# Pattern regex per classificazione intent
-INTENT_PATTERNS = {
-    "GREET": [
-        r"\b(ciao|hello|hi|hola|bonjour|salve|buongiorno|buonasera)\b",
-        r"\b(salve|ciao|hello|hi)\b",
-        r"^ciao$",  # Solo "ciao"
-        r"^hello$",  # Solo "hello"
-        r"^hi$",     # Solo "hi"
-    ],
-    "REQUEST_SERVICE": [
-        r"\b(permesso|soggiorno|cittadinanza|ricongiungimento|familiare)\b",
-        r"\b(servizi|aiuto|consulenza|assistenza)\b",
-        r"\b(ho bisogno|vorrei|voglio|cerco)\b",
-    ],
-    "ASK_COST": [
-        r"\b(costo|quanto|price|prezzo|60|euro|€)\b",
-        r"\b(quanto costa|quanto pagare|prezzo|tariffa)\b",
-    ],
-    "ASK_NAME": [
-        r"\b(mi chiamo|sono|my name is|i'm|je m'appelle|me llamo)\b",
-        r"\b(nome|name|chiamare)\b",
-    ],
-    "ASK_SLOT": [
-        r"\b(appuntamento|slot|orario|data|quando|domani|lunedì)\b",
-        r"\b(disponibilità|libero|prenotare|prenotazione)\b",
-    ],
-    "ASK_PAYMENT": [
-        r"\b(pagare|pagamento|bonifico|iban|ricevuta)\b",
-        r"\b(come pagare|metodo pagamento|trasferimento)\b",
-    ],
-    "CONFIRM": [
-        r"\b(sì|yes|ok|va bene|perfetto|confermo|confermare)\b",
-        r"\b(procedere|andare avanti|ok|va bene)\b",
-    ],
-    "CLARIFY": [
-        r"\b(non capisco|non ho capito|ripeti|spiega)\b",
-        r"\b(cosa|come|quando|dove|perché)\b",
-    ],
-    "WHO_ARE_YOU": [
-        r"\b(chi sei|who are you|chi ti sei|what are you)\b",
-        r"\b(sei|are you|what is your name)\b",
-        r"^chi sei\?*$",  # Solo "chi sei?"
-        r"^who are you\?*$",  # Solo "who are you?"
-    ]
-}
+# Few-shot examples per OpenAI
+FEW_SHOT_EXAMPLES = """
+Examples:
+User: "Ciao!" → Intent: GREET
+User: "Hello" → Intent: GREET  
+User: "Salve" → Intent: GREET
+User: "Chi sei?" → Intent: WHO_ARE_YOU
+User: "Who are you?" → Intent: WHO_ARE_YOU
+User: "Che servizi offrite?" → Intent: ASK_SERVICE
+User: "What services do you offer?" → Intent: ASK_SERVICE
+User: "Ho bisogno di un permesso di soggiorno" → Intent: REQUEST_SERVICE
+User: "I need a residence permit" → Intent: REQUEST_SERVICE
+User: "Quanto costa?" → Intent: ASK_COST
+User: "How much does it cost?" → Intent: ASK_COST
+User: "Mi chiamo Mario" → Intent: ASK_NAME
+User: "My name is John" → Intent: ASK_NAME
+User: "Quando hai disponibilità?" → Intent: ASK_SLOT
+User: "When are you available?" → Intent: ASK_SLOT
+User: "Come posso pagare?" → Intent: ASK_PAYMENT
+User: "How can I pay?" → Intent: ASK_PAYMENT
+User: "Sì, va bene" → Intent: CONFIRM
+User: "Yes, that's fine" → Intent: CONFIRM
+User: "Non ho capito" → Intent: CLARIFY
+User: "I don't understand" → Intent: CLARIFY
+User: "asdfghjkl" → Intent: CLARIFY
+"""
 
-def classify_intents(text: str) -> List[str]:
+def classify_intent(text: str, lang: str) -> Tuple[str, float]:
     """
-    Classifica tutti gli intent presenti nel testo in ordine di priorità.
+    Classifica l'intent del testo usando LLM + similarity fallback.
     
     Args:
         text: Testo da analizzare
+        lang: Lingua del testo
         
     Returns:
-        Lista ordinata di intent (più alta priorità = più importante)
+        Tuple (intent, confidence)
     """
-    text_lower = text.lower().strip()
-    detected_intents = []
+    # In test mode, usa solo similarity
+    if os.getenv("TEST_MODE") == "true":
+        try:
+            intent, confidence = _classify_with_similarity(text)
+            log.info(f"🔍 Test mode: similarity classified '{text}' as {intent} (conf: {confidence:.2f})")
+            return intent, confidence
+        except Exception as e:
+            log.error(f"❌ Test mode similarity failed: {e}")
+            return "CLARIFY", 0.1
     
-    # Ordine di priorità degli intent (più alta = più importante)
-    priority_order = [
-        "WHO_ARE_YOU",      # Priorità alta - domanda su chi è Sofia
-        "REQUEST_SERVICE",  # Priorità massima - richiesta servizio
-        "ASK_COST",         # Informazioni sui costi
-        "ASK_SLOT",         # Richiesta appuntamento
-        "ASK_PAYMENT",      # Informazioni pagamento
-        "ASK_NAME",         # Fornitura nome
-        "CONFIRM",          # Conferma
-        "GREET",            # Saluto
-        "CLARIFY",          # Chiarimento
-    ]
-    
-    # Cerca tutti gli intent presenti
-    for intent, patterns in INTENT_PATTERNS.items():
-        for pattern in patterns:
-            if re.search(pattern, text_lower, re.IGNORECASE):
-                if intent not in detected_intents:
-                    detected_intents.append(intent)
-                break  # Trovato un pattern per questo intent, passa al prossimo
-    
-    # Ordina per priorità
-    ordered_intents = []
-    for intent in priority_order:
-        if intent in detected_intents:
-            ordered_intents.append(intent)
-    
-    # Aggiungi intent non classificati
-    for intent in detected_intents:
-        if intent not in ordered_intents:
-            ordered_intents.append(intent)
-    
-    return ordered_intents
+    # Primo tentativo: OpenAI
+    try:
+        intent, confidence = _classify_with_openai(text, lang)
+        log.info(f"🤖 OpenAI classified '{text}' as {intent} (conf: {confidence:.2f})")
+        return intent, confidence
+    except Exception as e:
+        log.warning(f"⚠️ OpenAI classification failed: {e}, trying similarity fallback")
+        
+        # Fallback: similarity
+        try:
+            intent, confidence = _classify_with_similarity(text)
+            log.info(f"🔍 Similarity classified '{text}' as {intent} (conf: {confidence:.2f})")
+            return intent, confidence
+        except Exception as e2:
+            log.error(f"❌ Both OpenAI and similarity failed: {e2}")
+            return "CLARIFY", 0.1
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
+def _classify_with_openai(text: str, lang: str) -> Tuple[str, float]:
+    """Classifica intent usando OpenAI con few-shot examples"""
+    try:
+        import openai
+        cfg = get_config()
+        client = openai.OpenAI(api_key=cfg["OPENAI_API_KEY"])
+        
+        prompt = f"""{FEW_SHOT_EXAMPLES}
+
+Classify the intent of this user message. Respond with JSON only:
+{{"intent": "INTENT_NAME", "confidence": 0.95}}
+
+User message: "{text}"
+Language: {lang}
+
+JSON response:"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0,
+            max_tokens=50
+        )
+        
+        result = json.loads(response.choices[0].message.content.strip())
+        return result["intent"], result["confidence"]
+        
+    except Exception as e:
+        log.error(f"❌ OpenAI classification error: {e}")
+        raise
+
+def _classify_with_similarity(text: str) -> Tuple[str, float]:
+    """Classifica intent usando sentence-transformers similarity"""
+    try:
+        from sentence_transformers import SentenceTransformer
+        import numpy as np
+        
+        # Carica il modello
+        model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+        
+        # Carica gli esempi
+        examples_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'intent_examples.json')
+        with open(examples_path, 'r', encoding='utf-8') as f:
+            intent_examples = json.load(f)
+        
+        # Vettorizza il testo di input
+        text_embedding = model.encode([text])[0]
+        
+        best_intent = "CLARIFY"
+        best_similarity = 0.0
+        
+        # Calcola similarità con tutti gli esempi
+        for intent, examples in intent_examples.items():
+            if examples:
+                example_embeddings = model.encode(examples)
+                similarities = np.dot(example_embeddings, text_embedding) / (
+                    np.linalg.norm(example_embeddings, axis=1) * np.linalg.norm(text_embedding)
+                )
+                max_similarity = np.max(similarities)
+                
+                if max_similarity > best_similarity:
+                    best_similarity = max_similarity
+                    best_intent = intent
+        
+        # Se similarity < 0.55, ritorna CLARIFY
+        if best_similarity < 0.55:
+            return "CLARIFY", best_similarity
+        
+        return best_intent, best_similarity
+        
+    except Exception as e:
+        log.error(f"❌ Similarity classification error: {e}")
+        raise
 
 def plan(ctx: Context, user_msg: str, llm) -> tuple[str, str]:
     """
-    Returns (intent:str, rationale:str) usando multi-intent con priorità
+    Returns (intent:str, rationale:str) usando Intent Engine 2.0
     """
-    # Prima prova con classificazione regex
-    intents = classify_intents(user_msg)
+    # Classifica intent con confidence
+    intent, confidence = classify_intent(user_msg, ctx.lang)
     
-    if intents:
-        # Prova ogni intent in ordine di priorità
-        for intent in intents:
-            state = next_state(ctx.state, intent)
-            if state and state != State.ASK_CLARIFICATION:
-                return intent, f"Multi-intent detected: {intent} (from: {intents})"
+    log.info(f"🎯 Intent Engine 2.0: '{user_msg}' → {intent} (conf: {confidence:.2f})")
     
-    # Fallback a LLM se regex non trova nulla
-    sys_prompt = build_system_prompt(ctx)
-    plan_prompt = f"""{sys_prompt}
-
-You must answer with strict JSON:
-{{"intent": "<one_of_{INTENTS}>", "reason": "<short why>"}}
-
-User: \"{user_msg}\"
-"""
-    
-    try:
-        rsp = llm.chat_completion([
-            {"role": "system", "content": sys_prompt},
-            {"role": "user", "content": plan_prompt}
-        ], model="gpt-4o-mini")
-        
-        data = json.loads(rsp)
-        return data["intent"], data["reason"]
-    except Exception as e:
-        # Fallback to CLARIFY if parsing fails
-        return "CLARIFY", f"Error parsing response: {str(e)}"
+    return intent, f"Intent Engine 2.0: {intent} (confidence: {confidence:.2f})"
 
 def next_state(current_state: State, intent: str) -> State:
     """
