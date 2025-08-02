@@ -1,0 +1,98 @@
+{
+  "scenario_id": "es_new_happy_2",
+  "type": "new",
+  "lang": "es",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    0.28813791275024414,
+    0.3262519836425781,
+    0.2671370506286621,
+    0.28459596633911133,
+    0.2847769260406494,
+    0.2928760051727295
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": {
+        "user": "Buenos días",
+        "expect_intent": "GREET"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.28813791275024414,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": {
+        "user": "Me llamo Ana García",
+        "expect_intent": "ASK_NAME"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.3262519836425781,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": {
+        "user": "Necesito ayuda con la ciudadanía",
+        "expect_intent": "REQUEST_SERVICE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.2671370506286621,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": {
+        "user": "En línea",
+        "expect_intent": "ASK_CHANNEL"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.28459596633911133,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": {
+        "user": "Viernes a las 12:00",
+        "expect_intent": "ASK_SLOT"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.2847769260406494,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": {
+        "user": "Sí, está bien",
+        "expect_intent": "CONFIRM"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.2928760051727295,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-02T12:57:54.057980",
+  "end_time": "2025-08-02T12:58:10.824282"
+}

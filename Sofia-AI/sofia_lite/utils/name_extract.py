@@ -15,20 +15,31 @@ NAME_PATTERN = re.compile(r'[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\s\'-]*[a-zA-ZÀ-ÿ]', re.U
 # Language-specific patterns for name extraction
 NAME_PATTERNS: Dict[str, List[str]] = {
     "it": [
-        r"mi chiamo\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
-        r"sono\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"(?:mi chiamo|sono)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
     ],
     "en": [
-        r"my name is\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
-        r"i'm\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"(?:my name is|i'm|i am)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
     ],
     "fr": [
-        r"je m'appelle\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
-        r"je suis\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"(?:je m'appelle|je suis)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
     ],
     "es": [
-        r"me llamo\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
-        r"soy\s+([a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\'-]*[a-zA-ZÀ-ÿ])",
+        r"(?:me llamo|soy)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
+    ],
+    "ar": [
+        r"(?:اسمي|أنا)\s+([\u0600-\u06FF\s\'-]{2,})",  # Arabic Unicode range
+    ],
+    "hi": [
+        r"(?:मेरा नाम|मैं)\s+([\u0900-\u097F\s\'-]{2,})",  # Hindi Unicode range
+    ],
+    "ur": [
+        r"(?:میرا نام|میں)\s+([\u0600-\u06FF\s\'-]{2,})",  # Urdu uses Arabic script
+    ],
+    "bn": [
+        r"(?:আমার নাম|আমি)\s+([\u0980-\u09FF\s\'-]{2,})",  # Bengali Unicode range
+    ],
+    "wo": [
+        r"(?:sama bopp ma|man)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
     ],
 }
 
@@ -67,7 +78,8 @@ def clean_name(name: str) -> str:
         return ""
     
     name = re.sub(r'\s+', ' ', name.strip())
-    name = re.sub(r'[^a-zA-ZÀ-ÿ\s\'-]', '', name, flags=re.UNICODE)
+    # Support Unicode characters for all languages
+    name = re.sub(r'[^a-zA-ZÀ-ÿ\u0600-\u06FF\u0900-\u097F\u0980-\u09FF\s\'-]', '', name, flags=re.UNICODE)
     name = name.title()
     
     return name

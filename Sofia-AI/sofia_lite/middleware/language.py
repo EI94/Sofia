@@ -7,10 +7,10 @@ from typing import Optional
 
 log = logging.getLogger("sofia.language")
 
-def detect(text: str) -> str:
+def detect_lang(text: str) -> str:
     """
-    Detect language from text.
-    Returns language code (it, en, fr, es, ar, hi, ur, bn)
+    Detect language from text with double fallback.
+    Returns ISO-2 language code (it, en, fr, es, ar, hi, ur, bn, wo)
     """
     try:
         from langdetect import detect as langdetect_detect
@@ -21,29 +21,92 @@ def detect(text: str) -> str:
         if not clean_text:
             return "it"  # Default to Italian
         
-        # Detect language
-        lang = langdetect_detect(clean_text)
+        # Fallback 1: langdetect (fast probabilistic)
+        try:
+            lang = langdetect_detect(clean_text)
+            lang_map = {
+                "it": "it",  # Italian
+                "en": "en",  # English
+                "fr": "fr",  # French
+                "es": "es",  # Spanish
+                "ar": "ar",  # Arabic
+                "hi": "hi",  # Hindi
+                "ur": "ur",  # Urdu
+                "bn": "bn",  # Bengali
+                "wo": "wo",  # Wolof
+            }
+            
+            detected_lang = lang_map.get(lang, None)
+            if detected_lang:
+                log.info(f"🌍 Langdetect: {lang} -> {detected_lang}")
+                return detected_lang
+                
+        except Exception as e:
+            log.warning(f"Langdetect failed: {e}")
         
-        # Map to supported languages
-        lang_map = {
-            "it": "it",  # Italian
-            "en": "en",  # English
-            "fr": "fr",  # French
-            "es": "es",  # Spanish
-            "ar": "ar",  # Arabic
-            "hi": "hi",  # Hindi
-            "ur": "ur",  # Urdu
-            "bn": "bn",  # Bengali
-        }
+        # Fallback 2: keyword-based detection
+        detected_lang = detect_by_keywords(clean_text)
+        if detected_lang:
+            log.info(f"🔍 Keyword detection: {detected_lang}")
+            return detected_lang
         
-        detected_lang = lang_map.get(lang, "it")
-        log.info(f"Language detected: {lang} -> {detected_lang}")
-        
-        return detected_lang
+        # Fallback 3: default to Italian
+        log.warning("All language detection failed, defaulting to Italian")
+        return "it"
         
     except Exception as e:
-        log.warning(f"Language detection failed: {e}, defaulting to Italian")
+        log.error(f"Language detection completely failed: {e}, defaulting to Italian")
         return "it"
+
+def detect_by_keywords(text: str) -> str:
+    """
+    Keyword-based language detection for 9 languages.
+    """
+    text_lower = text.lower()
+    
+    # Italian keywords
+    if any(word in text_lower for word in ["ciao", "salve", "buongiorno", "buonasera", "grazie", "per favore", "mi chiamo", "sono"]):
+        return "it"
+    
+    # English keywords
+    if any(word in text_lower for word in ["hello", "hi", "good morning", "good evening", "thank you", "please", "my name is", "i am"]):
+        return "en"
+    
+    # French keywords
+    if any(word in text_lower for word in ["bonjour", "salut", "bonsoir", "merci", "s'il vous plaît", "je m'appelle", "je suis"]):
+        return "fr"
+    
+    # Spanish keywords
+    if any(word in text_lower for word in ["hola", "buenos días", "buenas tardes", "gracias", "por favor", "me llamo", "soy"]):
+        return "es"
+    
+    # Arabic keywords
+    if any(word in text_lower for word in ["مرحبا", "أهلا", "صباح الخير", "مساء الخير", "شكرا", "من فضلك", "اسمي", "أنا"]):
+        return "ar"
+    
+    # Hindi keywords
+    if any(word in text_lower for word in ["नमस्ते", "हैलो", "शुभ प्रभात", "शुभ संध्या", "धन्यवाद", "कृपया", "मेरा नाम", "मैं"]):
+        return "hi"
+    
+    # Urdu keywords
+    if any(word in text_lower for word in ["السلام علیکم", "ہیلو", "صبح بخیر", "شام بخیر", "شکریہ", "براہ کرم", "میرا نام", "میں"]):
+        return "ur"
+    
+    # Bengali keywords
+    if any(word in text_lower for word in ["হ্যালো", "নমস্কার", "শুভ সকাল", "শুভ সন্ধ্যা", "ধন্যবাদ", "অনুগ্রহ করে", "আমার নাম", "আমি"]):
+        return "bn"
+    
+    # Wolof keywords
+    if any(word in text_lower for word in ["salamalekum", "salam", "bonjour", "merci", "jerejef", "ma naam", "man"]):
+        return "wo"
+    
+    return None
+
+def detect(text: str) -> str:
+    """
+    Alias for detect_lang for backward compatibility.
+    """
+    return detect_lang(text)
 
 def get_message(lang: str, key: str) -> str:
     """

@@ -1,0 +1,56 @@
+{
+  "scenario_id": "it_active_clarify_1",
+  "type": "active",
+  "lang": "it",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    0.3139200210571289,
+    0.30896997451782227,
+    0.29543590545654297
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": {
+        "user": "qwertyuiop",
+        "expect_intent": "CLARIFY"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.3139200210571289,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": {
+        "user": "Ciao",
+        "expect_intent": "GREET"
+      },
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 0.30896997451782227,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "greeting"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": {
+        "user": "Stato del mio caso",
+        "expect_intent": "ROUTE_ACTIVE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.29543590545654297,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-02T12:57:20.359784",
+  "end_time": "2025-08-02T12:57:30.290830"
+}

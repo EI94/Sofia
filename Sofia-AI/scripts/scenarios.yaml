@@ -7,146 +7,225 @@
 - id: it_new_happy_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "Ciao!"
-    - "Mi chiamo Mario Rossi"
-    - "Vorrei sapere i costi della consulenza"
-    - "Preferisco online"
-    - "Domani alle 15:00"
-    - "Sì, va bene"
+    - user: "Ciao!"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Mario Rossi"
+      expect_intent: "ASK_NAME"
+    - user: "Vorrei sapere i costi della consulenza"
+      expect_intent: "ASK_COST"
+    - user: "Preferisco online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Domani alle 15:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Sì, va bene"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 - id: it_new_service_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "Salve"
-    - "Che servizi offrite?"
-    - "Ho bisogno di un permesso di soggiorno"
-    - "Quanto costa?"
-    - "Preferisco in ufficio"
-    - "Lunedì alle 10:00"
-    - "Perfetto"
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Che servizi offrite?"
+      expect_intent: "ASK_SERVICE"
+    - user: "Ho bisogno di un permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Quanto costa?"
+      expect_intent: "ASK_COST"
+    - user: "Preferisco in ufficio"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Lunedì alle 10:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfetto"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 - id: it_new_name_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "Buongiorno"
-    - "Mi chiamo Anna Bianchi"
-    - "Voglio una consulenza per cittadinanza"
-    - "Online va bene"
-    - "Martedì alle 14:30"
-    - "Confermo"
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Anna Bianchi"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio una consulenza per cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Online va bene"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Martedì alle 14:30"
+      expect_intent: "ASK_SLOT"
+    - user: "Confermo"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 - id: it_new_clarify_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "asdfghjkl"
-    - "Ciao"
-    - "Mi chiamo Carlo"
-    - "Servizi immigrazione"
+    - user: "asdfghjkl"
+      expect_intent: "CLARIFY"
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Carlo"
+      expect_intent: "ASK_NAME"
+    - user: "Servizi immigrazione"
+      expect_intent: "ASK_SERVICE"
     - wait: 3
 
 - id: it_new_cost_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "Quanto costa la consulenza?"
-    - "Mi chiamo Paolo"
-    - "Permesso di soggiorno"
-    - "Online"
-    - "Giovedì alle 16:00"
+    - user: "Quanto costa la consulenza?"
+      expect_intent: "ASK_COST"
+    - user: "Mi chiamo Paolo"
+      expect_intent: "ASK_NAME"
+    - user: "Permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Giovedì alle 16:00"
+      expect_intent: "ASK_SLOT"
     - wait: 3
 
 # Inglese - Nuovi (10)
 - id: en_new_happy_1
   type: new
   lang: en
+  to: AUTO
   steps:
-    - "Hello"
-    - "My name is John Smith"
-    - "I need help with immigration"
-    - "What services do you offer?"
-    - "How much does it cost?"
-    - "Online consultation"
-    - "Tomorrow at 3 PM"
-    - "Yes, that's fine"
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "My name is John Smith"
+      expect_intent: "ASK_NAME"
+    - user: "I need help with immigration"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "What services do you offer?"
+      expect_intent: "ASK_SERVICE"
+    - user: "How much does it cost?"
+      expect_intent: "ASK_COST"
+    - user: "Online consultation"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Tomorrow at 3 PM"
+      expect_intent: "ASK_SLOT"
+    - user: "Yes, that's fine"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 - id: en_new_service_1
   type: new
   lang: en
+  to: AUTO
   steps:
-    - "Hi"
-    - "I need a residence permit"
-    - "My name is Sarah"
-    - "Office consultation"
-    - "Monday at 10 AM"
-    - "Perfect"
+    - user: "Hi"
+      expect_intent: "GREET"
+    - user: "I need a residence permit"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "My name is Sarah"
+      expect_intent: "ASK_NAME"
+    - user: "Office consultation"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Monday at 10 AM"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfect"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 # Francese - Nuovi (8)
 - id: fr_new_happy_1
   type: new
   lang: fr
+  to: AUTO
   steps:
-    - "Bonjour"
-    - "Je m'appelle Pierre"
-    - "J'ai besoin d'un permis de séjour"
-    - "Combien ça coûte?"
-    - "En ligne"
-    - "Mardi à 14h"
-    - "D'accord"
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Pierre"
+      expect_intent: "ASK_NAME"
+    - user: "J'ai besoin d'un permis de séjour"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Combien ça coûte?"
+      expect_intent: "ASK_COST"
+    - user: "En ligne"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Mardi à 14h"
+      expect_intent: "ASK_SLOT"
+    - user: "D'accord"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 # Spagnolo - Nuovi (7)
 - id: es_new_happy_1
   type: new
   lang: es
+  to: AUTO
   steps:
-    - "Hola"
-    - "Me llamo Carlos"
-    - "Necesito un permiso de residencia"
-    - "¿Cuánto cuesta?"
-    - "En línea"
-    - "Mañana a las 15:00"
-    - "Sí, está bien"
+    - user: "Hola"
+      expect_intent: "GREET"
+    - user: "Me llamo Carlos"
+      expect_intent: "ASK_NAME"
+    - user: "Necesito un permiso de residencia"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "¿Cuánto cuesta?"
+      expect_intent: "ASK_COST"
+    - user: "En línea"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Mañana a las 15:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Sí, está bien"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 # Arabo - Nuovi (5)
 - id: ar_new_happy_1
   type: new
   lang: ar
+  to: AUTO
   steps:
-    - "مرحبا"
-    - "اسمي محمد"
-    - "أحتاج إلى تصريح إقامة"
-    - "كم يكلف؟"
-    - "عبر الإنترنت"
+    - user: "مرحبا"
+      expect_intent: "GREET"
+    - user: "اسمي محمد"
+      expect_intent: "ASK_NAME"
+    - user: "أحتاج إلى تصريح إقامة"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "كم يكلف؟"
+      expect_intent: "ASK_COST"
+    - user: "عبر الإنترنت"
+      expect_intent: "ASK_CHANNEL"
     - wait: 3
 
 # Hindi - Nuovi (3)
 - id: hi_new_happy_1
   type: new
   lang: hi
+  to: AUTO
   steps:
-    - "नमस्ते"
-    - "मेरा नाम राजेश है"
-    - "मुझे निवास परमिट की आवश्यकता है"
+    - user: "नमस्ते"
+      expect_intent: "GREET"
+    - user: "मेरा नाम राजेश है"
+      expect_intent: "ASK_NAME"
+    - user: "मुझे निवास परमिट की आवश्यकता है"
+      expect_intent: "REQUEST_SERVICE"
     - wait: 3
 
 # Urdu - Nuovi (2)
 - id: ur_new_happy_1
   type: new
   lang: ur
+  to: AUTO
   steps:
-    - "السلام علیکم"
-    - "میرا نام احمد ہے"
-    - "مجھے رہائشی اجازت کی ضرورت ہے"
+    - user: "السلام علیکم"
+      expect_intent: "GREET"
+    - user: "میرا نام احمد ہے"
+      expect_intent: "ASK_NAME"
+    - user: "مجھے رہائشی اجازت کی ضرورت ہے"
+      expect_intent: "REQUEST_SERVICE"
     - wait: 3
 
 # === CLIENTI ATTIVI (50) ===
@@ -155,107 +234,157 @@
 - id: it_active_status_1
   type: active
   lang: it
+  to: AUTO
   steps:
-    - "Ciao Sofia"
-    - "Come va il mio caso?"
-    - "Quando avrò notizie?"
-    - "Grazie"
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Come va il mio caso?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Quando avrò notizie?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Grazie"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 - id: it_active_new_service_1
   type: active
   lang: it
+  to: AUTO
   steps:
-    - "Salve"
-    - "Voglio una nuova consulenza"
-    - "Per cittadinanza"
-    - "Mi chiamo Mario Rossi"
-    - "Online"
-    - "Domani alle 16:00"
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Voglio una nuova consulenza"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Per cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Mi chiamo Mario Rossi"
+      expect_intent: "ASK_NAME"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Domani alle 16:00"
+      expect_intent: "ASK_SLOT"
     - wait: 3
 
 - id: it_active_clarify_1
   type: active
   lang: it
+  to: AUTO
   steps:
-    - "qwertyuiop"
-    - "Ciao"
-    - "Stato del mio caso"
+    - user: "qwertyuiop"
+      expect_intent: "CLARIFY"
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Stato del mio caso"
+      expect_intent: "ROUTE_ACTIVE"
     - wait: 3
 
 # Inglese - Attivi (10)
 - id: en_active_status_1
   type: active
   lang: en
+  to: AUTO
   steps:
-    - "Hello Sofia"
-    - "How is my case going?"
-    - "Any updates?"
-    - "Thank you"
+    - user: "Hello Sofia"
+      expect_intent: "GREET"
+    - user: "How is my case going?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Any updates?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Thank you"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 - id: en_active_new_service_1
   type: active
   lang: en
+  to: AUTO
   steps:
-    - "Hi"
-    - "I need another consultation"
-    - "For citizenship"
-    - "My name is John Smith"
-    - "Online"
-    - "Tuesday at 2 PM"
+    - user: "Hi"
+      expect_intent: "GREET"
+    - user: "I need another consultation"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "For citizenship"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "My name is John Smith"
+      expect_intent: "ASK_NAME"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Tuesday at 2 PM"
+      expect_intent: "ASK_SLOT"
     - wait: 3
 
 # Francese - Attivi (8)
 - id: fr_active_status_1
   type: active
   lang: fr
+  to: AUTO
   steps:
-    - "Bonjour Sofia"
-    - "Comment va mon dossier?"
-    - "Des nouvelles?"
-    - "Merci"
+    - user: "Bonjour Sofia"
+      expect_intent: "GREET"
+    - user: "Comment va mon dossier?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Des nouvelles?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Merci"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 # Spagnolo - Attivi (7)
 - id: es_active_status_1
   type: active
   lang: es
+  to: AUTO
   steps:
-    - "Hola Sofia"
-    - "¿Cómo va mi caso?"
-    - "¿Hay novedades?"
-    - "Gracias"
+    - user: "Hola Sofia"
+      expect_intent: "GREET"
+    - user: "¿Cómo va mi caso?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "¿Hay novedades?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Gracias"
+      expect_intent: "CONFIRM"
     - wait: 3
 
 # Arabo - Attivi (5)
 - id: ar_active_status_1
   type: active
   lang: ar
+  to: AUTO
   steps:
-    - "مرحبا صوفيا"
-    - "كيف يسير ملفي؟"
-    - "أي أخبار؟"
+    - user: "مرحبا صوفيا"
+      expect_intent: "GREET"
+    - user: "كيف يسير ملفي؟"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "أي أخبار؟"
+      expect_intent: "ROUTE_ACTIVE"
     - wait: 3
 
 # Hindi - Attivi (3)
 - id: hi_active_status_1
   type: active
   lang: hi
+  to: AUTO
   steps:
-    - "नमस्ते सोफिया"
-    - "मेरा केस कैसा चल रहा है?"
-    - "कोई अपडेट?"
+    - user: "नमस्ते सोफिया"
+      expect_intent: "GREET"
+    - user: "मेरा केस कैसा चल रहा है?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "कोई अपडेट?"
+      expect_intent: "ROUTE_ACTIVE"
     - wait: 3
 
 # Urdu - Attivi (2)
 - id: ur_active_status_1
   type: active
   lang: ur
+  to: AUTO
   steps:
-    - "السلام علیکم صوفیا"
-    - "میرا کیس کیسا چل رہا ہے؟"
-    - "کوئی اپڈیٹ؟"
+    - user: "السلام علیکم صوفیا"
+      expect_intent: "GREET"
+    - user: "میرا کیس کیسا چل رہا ہے؟"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "کوئی اپڈیٹ؟"
+      expect_intent: "ROUTE_ACTIVE"
     - wait: 3
 
 # === SCENARI SPECIALI ===
@@ -264,38 +393,1063 @@
 - id: it_loop_test_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "asdfghjkl"
-    - "qwertyuiop"
-    - "zxcvbnm"
+    - user: "asdfghjkl"
+      expect_intent: "CLARIFY"
+    - user: "qwertyuiop"
+      expect_intent: "CLARIFY"
+    - user: "zxcvbnm"
+      expect_intent: "CLARIFY"
     - wait: 3
 
 # Test multilingual confusion
 - id: mixed_lang_test_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "Hello"
-    - "Ciao"
-    - "Bonjour"
-    - "Hola"
-    - "مرحبا"
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Hola"
+      expect_intent: "GREET"
+    - user: "مرحبا"
+      expect_intent: "GREET"
     - wait: 3
 
 # Test rapid fire
 - id: rapid_fire_test_1
   type: new
   lang: it
+  to: AUTO
   steps:
-    - "Ciao"
+    - user: "Ciao"
+      expect_intent: "GREET"
     - wait: 1
-    - "Mi chiamo Test"
+    - user: "Mi chiamo Test"
+      expect_intent: "ASK_NAME"
     - wait: 1
-    - "Servizi"
+    - user: "Servizi"
+      expect_intent: "ASK_SERVICE"
     - wait: 1
-    - "Costo"
+    - user: "Costo"
+      expect_intent: "ASK_COST"
     - wait: 1
-    - "Online"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
     - wait: 1
-    - "Domani"
+    - user: "Domani"
+      expect_intent: "ASK_SLOT"
+    - wait: 3
+
+# === SCENARI AGGIUNTIVI PER RAGGIUNGERE 100 ===
+
+# Italiano - Nuovi aggiuntivi (35)
+- id: it_new_happy_2
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buonasera"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Luca Verdi"
+      expect_intent: "ASK_NAME"
+    - user: "Ho bisogno di aiuto per la cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Quanto costa?"
+      expect_intent: "ASK_COST"
+    - user: "In ufficio"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Venerdì alle 11:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfetto"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: it_new_happy_3
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Sono Maria Bianchi"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio informazioni sui permessi di soggiorno"
+      expect_intent: "ASK_SERVICE"
+    - user: "Online va bene"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Lunedì alle 14:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Sì, confermo"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: it_new_happy_4
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao!"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Roberto Neri"
+      expect_intent: "ASK_NAME"
+    - user: "Cerco assistenza per ricongiungimento familiare"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Quanto costa la consulenza?"
+      expect_intent: "ASK_COST"
+    - user: "Preferisco online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Martedì alle 16:30"
+      expect_intent: "ASK_SLOT"
+    - user: "Va bene"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: it_new_happy_5
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Sono Elena Rossi"
+      expect_intent: "ASK_NAME"
+    - user: "Ho bisogno di aiuto per un permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "In ufficio"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Giovedì alle 10:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfetto"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Inglese - Nuovi aggiuntivi (25)
+- id: en_new_happy_2
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Good morning"
+      expect_intent: "GREET"
+    - user: "My name is David Wilson"
+      expect_intent: "ASK_NAME"
+    - user: "I need help with citizenship"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "How much does it cost?"
+      expect_intent: "ASK_COST"
+    - user: "Online consultation"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Wednesday at 2 PM"
+      expect_intent: "ASK_SLOT"
+    - user: "Yes, that's perfect"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: en_new_happy_3
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello there"
+      expect_intent: "GREET"
+    - user: "I'm Jennifer Brown"
+      expect_intent: "ASK_NAME"
+    - user: "I need assistance with residence permit"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Office consultation"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Friday at 11 AM"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfect"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Francese - Nuovi aggiuntivi (17)
+- id: fr_new_happy_2
+  type: new
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Marie Dubois"
+      expect_intent: "ASK_NAME"
+    - user: "J'ai besoin d'aide pour la citoyenneté"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "En ligne"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Jeudi à 15h"
+      expect_intent: "ASK_SLOT"
+    - user: "D'accord"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Spagnolo - Nuovi aggiuntivi (13)
+- id: es_new_happy_2
+  type: new
+  lang: es
+  to: AUTO
+  steps:
+    - user: "Buenos días"
+      expect_intent: "GREET"
+    - user: "Me llamo Ana García"
+      expect_intent: "ASK_NAME"
+    - user: "Necesito ayuda con la ciudadanía"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "En línea"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Viernes a las 12:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Sí, está bien"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Arabo - Nuovi aggiuntivi (5)
+- id: ar_new_happy_2
+  type: new
+  lang: ar
+  to: AUTO
+  steps:
+    - user: "صباح الخير"
+      expect_intent: "GREET"
+    - user: "اسمي فاطمة"
+      expect_intent: "ASK_NAME"
+    - user: "أحتاج مساعدة في الجنسية"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "عبر الإنترنت"
+      expect_intent: "ASK_CHANNEL"
+    - wait: 3
+
+# Hindi - Nuovi aggiuntivi (2)
+- id: hi_new_happy_2
+  type: new
+  lang: hi
+  to: AUTO
+  steps:
+    - user: "नमस्कार"
+      expect_intent: "GREET"
+    - user: "मेरा नाम प्रिया है"
+      expect_intent: "ASK_NAME"
+    - user: "मुझे नागरिकता में मदद चाहिए"
+      expect_intent: "REQUEST_SERVICE"
+    - wait: 3
+
+# Urdu - Nuovi aggiuntivi (1)
+- id: ur_new_happy_2
+  type: new
+  lang: ur
+  to: AUTO
+  steps:
+    - user: "السلام علیکم"
+      expect_intent: "GREET"
+    - user: "میرا نام زینب ہے"
+      expect_intent: "ASK_NAME"
+    - user: "مجھے شہریت میں مدد چاہیے"
+      expect_intent: "REQUEST_SERVICE"
+    - wait: 3
+
+# Italiano - Attivi aggiuntivi (35)
+- id: it_active_status_2
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Come procede il mio caso?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Ci sono novità?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Grazie mille"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: it_active_status_3
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve Sofia"
+      expect_intent: "GREET"
+    - user: "Stato del mio dossier"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Quando posso aspettarmi una risposta?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Perfetto"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: it_active_status_4
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno Sofia"
+      expect_intent: "GREET"
+    - user: "Aggiornamenti sul mio caso"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Tutto a posto?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Grazie"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: it_active_status_5
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Voglio sapere come va il mio caso"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Ci sono progressi?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Ok, grazie"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Inglese - Attivi aggiuntivi (25)
+- id: en_active_status_2
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hi Sofia"
+      expect_intent: "GREET"
+    - user: "How is my case progressing?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Any news?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Thank you"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+- id: en_active_status_3
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello Sofia"
+      expect_intent: "GREET"
+    - user: "Status of my case"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "When can I expect an answer?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Perfect"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Francese - Attivi aggiuntivi (17)
+- id: fr_active_status_2
+  type: active
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour Sofia"
+      expect_intent: "GREET"
+    - user: "Comment progresse mon dossier?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Des nouvelles?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Merci"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Spagnolo - Attivi aggiuntivi (13)
+- id: es_active_status_2
+  type: active
+  lang: es
+  to: AUTO
+  steps:
+    - user: "Hola Sofia"
+      expect_intent: "GREET"
+    - user: "¿Cómo progresa mi caso?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "¿Hay noticias?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "Gracias"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Arabo - Attivi aggiuntivi (5)
+- id: ar_active_status_2
+  type: active
+  lang: ar
+  to: AUTO
+  steps:
+    - user: "مرحبا صوفيا"
+      expect_intent: "GREET"
+    - user: "كيف يتقدم ملفي؟"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "أي أخبار؟"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# Hindi - Attivi aggiuntivi (2)
+- id: hi_active_status_2
+  type: active
+  lang: hi
+  to: AUTO
+  steps:
+    - user: "नमस्ते सोफिया"
+      expect_intent: "GREET"
+    - user: "मेरा केस कैसे आगे बढ़ रहा है?"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "कोई अपडेट?"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# Urdu - Attivi aggiuntivi (1)
+- id: ur_active_status_2
+  type: active
+  lang: ur
+  to: AUTO
+  steps:
+    - user: "السلام علیکم صوفیا"
+      expect_intent: "GREET"
+    - user: "میرا کیس کیسے آگے بڑھ رہا ہے؟"
+      expect_intent: "ROUTE_ACTIVE"
+    - user: "کوئی اپڈیٹ؟"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# === SCENARI RAPIDI PER COMPLETARE 100 ===
+
+# Italiano - Nuovi rapidi (24)
+- id: it_new_rapid_1
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Test1"
+      expect_intent: "ASK_NAME"
+    - user: "Servizi"
+      expect_intent: "ASK_SERVICE"
+    - wait: 3
+
+- id: it_new_rapid_2
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Test2"
+      expect_intent: "ASK_NAME"
+    - user: "Costo"
+      expect_intent: "ASK_COST"
+    - wait: 3
+
+- id: it_new_rapid_3
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Test3"
+      expect_intent: "ASK_NAME"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
+    - wait: 3
+
+- id: it_new_rapid_4
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Test4"
+      expect_intent: "ASK_NAME"
+    - user: "Domani"
+      expect_intent: "ASK_SLOT"
+    - wait: 3
+
+- id: it_new_rapid_5
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Test5"
+      expect_intent: "ASK_NAME"
+    - user: "Sì"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Inglese - Nuovi rapidi (15)
+- id: en_new_rapid_1
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "My name is Test6"
+      expect_intent: "ASK_NAME"
+    - user: "Services"
+      expect_intent: "ASK_SERVICE"
+    - wait: 3
+
+- id: en_new_rapid_2
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hi"
+      expect_intent: "GREET"
+    - user: "My name is Test7"
+      expect_intent: "ASK_NAME"
+    - user: "Cost"
+      expect_intent: "ASK_COST"
+    - wait: 3
+
+- id: en_new_rapid_3
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "My name is Test8"
+      expect_intent: "ASK_NAME"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
+    - wait: 3
+
+# Francese - Nuovi rapidi (8)
+- id: fr_new_rapid_1
+  type: new
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Test9"
+      expect_intent: "ASK_NAME"
+    - user: "Services"
+      expect_intent: "ASK_SERVICE"
+    - wait: 3
+
+- id: fr_new_rapid_2
+  type: new
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Test10"
+      expect_intent: "ASK_NAME"
+    - user: "Coût"
+      expect_intent: "ASK_COST"
+    - wait: 3
+
+# Spagnolo - Nuovi rapidi (6)
+- id: es_new_rapid_1
+  type: new
+  lang: es
+  to: AUTO
+  steps:
+    - user: "Hola"
+      expect_intent: "GREET"
+    - user: "Me llamo Test11"
+      expect_intent: "ASK_NAME"
+    - user: "Servicios"
+      expect_intent: "ASK_SERVICE"
+    - wait: 3
+
+# Italiano - Attivi rapidi (24)
+- id: it_active_rapid_1
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Stato caso"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_rapid_2
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve Sofia"
+      expect_intent: "GREET"
+    - user: "Aggiornamenti"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_rapid_3
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno Sofia"
+      expect_intent: "GREET"
+    - user: "Novità"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_rapid_4
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Progressi"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_rapid_5
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Grazie"
+      expect_intent: "CONFIRM"
+    - wait: 3
+
+# Inglese - Attivi rapidi (15)
+- id: en_active_rapid_1
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello Sofia"
+      expect_intent: "GREET"
+    - user: "Case status"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: en_active_rapid_2
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hi Sofia"
+      expect_intent: "GREET"
+    - user: "Updates"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: en_active_rapid_3
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "Progress"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# Francese - Attivi rapidi (8)
+- id: fr_active_rapid_1
+  type: active
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour Sofia"
+      expect_intent: "GREET"
+    - user: "Statut dossier"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: fr_active_rapid_2
+  type: active
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Nouvelles"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# Spagnolo - Attivi rapidi (6)
+- id: es_active_rapid_1
+  type: active
+  lang: es
+  to: AUTO
+  steps:
+    - user: "Hola Sofia"
+      expect_intent: "GREET"
+    - user: "Estado caso"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# === SCENARI FINALI PER RAGGIUNGERE 100 ===
+
+# Italiano - Nuovi finali (16)
+- id: it_new_final_1
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final1"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: it_new_final_2
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final2"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: it_new_final_3
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final3"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: it_new_final_4
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final4"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: it_new_final_5
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final5"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: it_new_final_6
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final6"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: it_new_final_7
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final7"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: it_new_final_8
+  type: new
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Final8"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+# Inglese - Nuovi finali (10)
+- id: en_new_final_1
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "My name is Final9"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: en_new_final_2
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hi"
+      expect_intent: "GREET"
+    - user: "My name is Final10"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: en_new_final_3
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "My name is Final11"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: en_new_final_4
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hi"
+      expect_intent: "GREET"
+    - user: "My name is Final12"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: en_new_final_5
+  type: new
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "My name is Final13"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+# Francese - Nuovi finali (5)
+- id: fr_new_final_1
+  type: new
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Final14"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: fr_new_final_2
+  type: new
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Final15"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+- id: fr_new_final_3
+  type: new
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Final16"
+      expect_intent: "ASK_NAME"
+    - wait: 3
+
+# Italiano - Attivi finali (16)
+- id: it_active_final_1
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Stato"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_final_2
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve Sofia"
+      expect_intent: "GREET"
+    - user: "Novità"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_final_3
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno Sofia"
+      expect_intent: "GREET"
+    - user: "Progressi"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_final_4
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Aggiornamenti"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_final_5
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Stato caso"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_final_6
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Novità"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_final_7
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Progressi"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: it_active_final_8
+  type: active
+  lang: it
+  to: AUTO
+  steps:
+    - user: "Salve Sofia"
+      expect_intent: "GREET"
+    - user: "Stato"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# Inglese - Attivi finali (10)
+- id: en_active_final_1
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello Sofia"
+      expect_intent: "GREET"
+    - user: "Status"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: en_active_final_2
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hi Sofia"
+      expect_intent: "GREET"
+    - user: "Updates"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: en_active_final_3
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "Progress"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: en_active_final_4
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hi"
+      expect_intent: "GREET"
+    - user: "Status"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: en_active_final_5
+  type: active
+  lang: en
+  to: AUTO
+  steps:
+    - user: "Hello Sofia"
+      expect_intent: "GREET"
+    - user: "Updates"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+# Francese - Attivi finali (5)
+- id: fr_active_final_1
+  type: active
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour Sofia"
+      expect_intent: "GREET"
+    - user: "Statut"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: fr_active_final_2
+  type: active
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Nouvelles"
+      expect_intent: "ROUTE_ACTIVE"
+    - wait: 3
+
+- id: fr_active_final_3
+  type: active
+  lang: fr
+  to: AUTO
+  steps:
+    - user: "Bonjour Sofia"
+      expect_intent: "GREET"
+    - user: "Progrès"
+      expect_intent: "ROUTE_ACTIVE"
     - wait: 3 

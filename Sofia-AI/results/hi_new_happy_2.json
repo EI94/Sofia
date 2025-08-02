@@ -1,0 +1,14 @@
+{
+  "scenario_id": "hi_new_happy_2",
+  "type": "new",
+  "lang": "hi",
+  "journey_pass": false,
+  "fail_reason": "Twilio SMS API error",
+  "fail_loop": false,
+  "response_times": [
+    0.3338308334350586
+  ],
+  "messages": [],
+  "start_time": "2025-08-02T12:58:11.085423",
+  "end_time": "2025-08-02T12:58:11.419284"
+}

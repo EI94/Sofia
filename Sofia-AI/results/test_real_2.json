@@ -1,0 +1,14 @@
+{
+  "scenario_id": "test_real_2",
+  "type": "new",
+  "lang": "en",
+  "journey_pass": false,
+  "fail_reason": "Twilio WhatsApp API error",
+  "fail_loop": false,
+  "response_times": [
+    0.2374870777130127
+  ],
+  "messages": [],
+  "start_time": "2025-08-02T14:58:16.986636",
+  "end_time": "2025-08-02T14:58:17.224129"
+}

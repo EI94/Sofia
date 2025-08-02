@@ -1,0 +1,84 @@
+{
+  "scenario_id": "ar_new_happy_1",
+  "type": "new",
+  "lang": "ar",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    0.5348241329193115,
+    0.48418593406677246,
+    0.3199138641357422,
+    0.3376328945159912,
+    0.30521297454833984
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": {
+        "user": "مرحبا",
+        "expect_intent": "GREET"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.5348241329193115,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": {
+        "user": "اسمي محمد",
+        "expect_intent": "ASK_NAME"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.48418593406677246,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": {
+        "user": "أحتاج إلى تصريح إقامة",
+        "expect_intent": "REQUEST_SERVICE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.3199138641357422,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": {
+        "user": "كم يكلف؟",
+        "expect_intent": "ASK_COST"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.3376328945159912,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": {
+        "user": "عبر الإنترنت",
+        "expect_intent": "ASK_CHANNEL"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.30521297454833984,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-02T12:57:03.914031",
+  "end_time": "2025-08-02T12:57:18.908765"
+}

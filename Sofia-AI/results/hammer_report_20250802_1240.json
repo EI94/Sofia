@@ -1,0 +1,813 @@
+{
+  "timestamp": "2025-08-02T12:40:01.806761",
+  "total_scenarios": 100,
+  "passed": 0,
+  "failed": 101,
+  "success_rate": 0.0,
+  "avg_response_time": 0.28278717279434207,
+  "fail_reasons": {
+    "Twilio API error": 100
+  },
+  "results": [
+    {
+      "id": "it_new_happy_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_service_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_name_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_clarify_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_cost_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_happy_1",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_service_1",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_new_happy_1",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "es_new_happy_1",
+      "type": "new",
+      "lang": "es",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ar_new_happy_1",
+      "type": "new",
+      "lang": "ar",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "hi_new_happy_1",
+      "type": "new",
+      "lang": "hi",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ur_new_happy_1",
+      "type": "new",
+      "lang": "ur",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_status_1",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_new_service_1",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_clarify_1",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_status_1",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_new_service_1",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_active_status_1",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "es_active_status_1",
+      "type": "active",
+      "lang": "es",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ar_active_status_1",
+      "type": "active",
+      "lang": "ar",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "hi_active_status_1",
+      "type": "active",
+      "lang": "hi",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ur_active_status_1",
+      "type": "active",
+      "lang": "ur",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_loop_test_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "mixed_lang_test_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "rapid_fire_test_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_happy_2",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_happy_3",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_happy_4",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_happy_5",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_happy_2",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_happy_3",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_new_happy_2",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "es_new_happy_2",
+      "type": "new",
+      "lang": "es",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ar_new_happy_2",
+      "type": "new",
+      "lang": "ar",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "hi_new_happy_2",
+      "type": "new",
+      "lang": "hi",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ur_new_happy_2",
+      "type": "new",
+      "lang": "ur",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_status_2",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_status_3",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_status_4",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_status_2",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_status_3",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_active_status_2",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "es_active_status_2",
+      "type": "active",
+      "lang": "es",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ar_active_status_2",
+      "type": "active",
+      "lang": "ar",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "hi_active_status_2",
+      "type": "active",
+      "lang": "hi",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "ur_active_status_2",
+      "type": "active",
+      "lang": "ur",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_rapid_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_rapid_2",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_rapid_3",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_rapid_4",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_rapid_5",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_rapid_1",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_rapid_2",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_rapid_3",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_new_rapid_1",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_new_rapid_2",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "es_new_rapid_1",
+      "type": "new",
+      "lang": "es",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_rapid_1",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_rapid_2",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_rapid_3",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_rapid_4",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_rapid_5",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_rapid_1",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_rapid_2",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_rapid_3",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_active_rapid_1",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_active_rapid_2",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "es_active_rapid_1",
+      "type": "active",
+      "lang": "es",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_2",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_3",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_4",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_5",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_6",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_7",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_new_final_8",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_final_1",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_final_2",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_final_3",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_final_4",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_new_final_5",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_new_final_1",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_new_final_2",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_new_final_3",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_1",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_2",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_3",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_4",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_5",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_6",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_7",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "it_active_final_8",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_final_1",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_final_2",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_final_3",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_final_4",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "en_active_final_5",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_active_final_1",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_active_final_2",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    },
+    {
+      "id": "fr_active_final_3",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio API error",
+      "fail_loop": false
+    }
+  ]
+}

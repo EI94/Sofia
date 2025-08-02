@@ -1,0 +1,42 @@
+{
+  "scenario_id": "fr_new_final_3",
+  "type": "new",
+  "lang": "fr",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    0.30241990089416504,
+    0.3063380718231201
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": {
+        "user": "Bonjour",
+        "expect_intent": "GREET"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.30241990089416504,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": {
+        "user": "Je m'appelle Final16",
+        "expect_intent": "ASK_NAME"
+      },
+      "sofia_response": "Piacere di conoscerti! Ora dimmi, di quale servizio di immigrazione hai bisogno?",
+      "response_time": 0.3063380718231201,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "name_request"
+      }
+    }
+  ],
+  "start_time": "2025-08-02T12:58:56.118444",
+  "end_time": "2025-08-02T12:59:03.736612"
+}

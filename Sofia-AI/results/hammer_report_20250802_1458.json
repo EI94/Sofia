@@ -1,0 +1,53 @@
+{
+  "timestamp": "2025-08-02T14:58:17.933220",
+  "total_scenarios": 5,
+  "passed": 0,
+  "failed": 5,
+  "success_rate": 0.0,
+  "avg_response_time": 0.317383337020874,
+  "fail_reasons": {
+    "Twilio WhatsApp API error": 5
+  },
+  "results": [
+    {
+      "id": "test_real_1",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_2",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_3",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_4",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_5",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    }
+  ]
+}

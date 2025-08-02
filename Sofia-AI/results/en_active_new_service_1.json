@@ -1,0 +1,14 @@
+{
+  "scenario_id": "en_active_new_service_1",
+  "type": "active",
+  "lang": "en",
+  "journey_pass": false,
+  "fail_reason": "Twilio SMS API error",
+  "fail_loop": false,
+  "response_times": [
+    0.2577378749847412
+  ],
+  "messages": [],
+  "start_time": "2025-08-02T12:57:30.583096",
+  "end_time": "2025-08-02T12:57:30.840846"
+}

@@ -1,0 +1,56 @@
+{
+  "scenario_id": "ar_active_status_2",
+  "type": "active",
+  "lang": "ar",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    0.28629493713378906,
+    0.37251877784729004,
+    0.3534719944000244
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": {
+        "user": "مرحبا صوفيا",
+        "expect_intent": "GREET"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.28629493713378906,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": {
+        "user": "كيف يتقدم ملفي؟",
+        "expect_intent": "ROUTE_ACTIVE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.37251877784729004,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": {
+        "user": "أي أخبار؟",
+        "expect_intent": "ROUTE_ACTIVE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.3534719944000244,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-02T12:58:25.860404",
+  "end_time": "2025-08-02T12:58:35.891443"
+}

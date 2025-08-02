@@ -44,7 +44,7 @@ User: "asdfghjkl" → Intent: CLARIFY
 
 def classify_intent(text: str, lang: str) -> Tuple[str, float]:
     """
-    Classifica l'intent del testo usando LLM + similarity fallback.
+    Classifica l'intent del testo usando nuova pipeline.
     
     Args:
         text: Testo da analizzare
@@ -53,36 +53,82 @@ def classify_intent(text: str, lang: str) -> Tuple[str, float]:
     Returns:
         Tuple (intent, confidence)
     """
-    # In test mode, usa solo similarity
-    if os.getenv("TEST_MODE") == "true":
-        try:
-            intent, confidence = _classify_with_similarity(text)
-            log.info(f"🔍 Test mode: similarity classified '{text}' as {intent} (conf: {confidence:.2f})")
-            return intent, confidence
-        except Exception as e:
-            log.error(f"❌ Test mode similarity failed: {e}")
-            return "CLARIFY", 0.1
+    # Step 1: Language detection
+    from ..middleware.language import detect_lang
+    detected_lang = detect_lang(text)
+    log.info(f"🌍 Language detected: {detected_lang} for text: '{text[:20]}...'")
     
-    # Primo tentativo: OpenAI
+    # Step 2: Try GPT-4o-mini few-shot (timeout 3s, 1 retry)
     try:
-        intent, confidence = _classify_with_openai(text, lang)
+        intent, confidence = _classify_with_openai_fast(text, detected_lang)
         log.info(f"🤖 OpenAI classified '{text}' as {intent} (conf: {confidence:.2f})")
+        
+        # Step 3: Apply confidence threshold
+        if confidence < 0.35:
+            log.warning(f"⚠️ Low confidence ({confidence:.2f}), falling back to CLARIFY")
+            return "CLARIFY", confidence
+            
         return intent, confidence
+        
     except Exception as e:
         log.warning(f"⚠️ OpenAI classification failed: {e}, trying similarity fallback")
         
-        # Fallback: similarity
+        # Step 4: Similarity fallback
         try:
             intent, confidence = _classify_with_similarity(text)
             log.info(f"🔍 Similarity classified '{text}' as {intent} (conf: {confidence:.2f})")
+            
+            # Apply confidence threshold
+            if confidence < 0.35:
+                return "CLARIFY", confidence
+                
             return intent, confidence
+            
         except Exception as e2:
             log.error(f"❌ Both OpenAI and similarity failed: {e2}")
             return "CLARIFY", 0.1
 
+@retry(stop=stop_after_attempt(1), wait=wait_exponential(multiplier=1, min=1, max=2))
+def _classify_with_openai_fast(text: str, lang: str) -> Tuple[str, float]:
+    """Classifica intent usando OpenAI con timeout 3s e 1 retry"""
+    try:
+        import openai
+        import httpx
+        cfg = get_config()
+        
+        # Configure client with timeout
+        client = openai.OpenAI(
+            api_key=cfg["OPENAI_API_KEY"],
+            http_client=httpx.Client(timeout=3.0)  # 3 second timeout
+        )
+        
+        prompt = f"""{FEW_SHOT_EXAMPLES}
+
+Classify the intent of this user message. Respond with JSON only:
+{{"intent": "INTENT_NAME", "confidence": 0.95}}
+
+User message: "{text}"
+Language: {lang}
+
+JSON response:"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0,
+            max_tokens=50
+        )
+        
+        result = json.loads(response.choices[0].message.content.strip())
+        return result["intent"], result["confidence"]
+        
+    except Exception as e:
+        log.error(f"❌ OpenAI fast classification error: {e}")
+        raise
+
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def _classify_with_openai(text: str, lang: str) -> Tuple[str, float]:
-    """Classifica intent usando OpenAI con few-shot examples"""
+    """Classifica intent usando OpenAI con few-shot examples (legacy)"""
     try:
         import openai
         cfg = get_config()
@@ -177,21 +223,22 @@ def next_state(current_state: State, intent: str) -> State:
     Returns:
         Next state to transition to
     """
-    # Intent to state mapping
+    # Intent to state mapping (YAML quick-ref)
     intent_to_state = {
-        "GREET": State.ASK_NAME,
+        "GREET": State.GREETING,
+        "ASK_NAME": State.ASK_NAME,
+        "ASK_SERVICE": State.ASK_SERVICE,
+        "PROPOSE_CONSULT": State.PROPOSE_CONSULT,
+        "ASK_CHANNEL": State.ASK_CHANNEL,
+        "ASK_SLOT": State.ASK_SLOT,
+        "ASK_PAYMENT": State.ASK_PAYMENT,
+        "CONFIRM_BOOKING": State.CONFIRMED,
+        "ROUTE_ACTIVE": State.ROUTE_ACTIVE,
+        "CLARIFY": State.ASK_CLARIFICATION,
         "WHO_ARE_YOU": State.GREETING,  # Rimane in GREETING per presentarsi
-        "ASK_NAME": State.ASK_SERVICE,
-        "ASK_SERVICE": State.PROPOSE_CONSULT,
         "REQUEST_SERVICE": State.ASK_SERVICE,  # Mappa a ASK_SERVICE
         "ASK_COST": State.PROPOSE_CONSULT,     # Mappa a PROPOSE_CONSULT
-        "PROPOSE_CONSULT": State.WAIT_SLOT,
-        "ASK_CHANNEL": State.WAIT_SLOT,
-        "ASK_SLOT": State.WAIT_PAYMENT,
-        "ASK_PAYMENT": State.CONFIRMED,
         "CONFIRM": State.CONFIRMED,
-        "ROUTE_ACTIVE": State.ASK_SERVICE,
-        "CLARIFY": State.ASK_CLARIFICATION,
         "UNKNOWN": State.ASK_CLARIFICATION,
     }
     

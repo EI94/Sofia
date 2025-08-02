@@ -1,0 +1,70 @@
+{
+  "scenario_id": "en_active_status_3",
+  "type": "active",
+  "lang": "en",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    0.2837498188018799,
+    0.27941393852233887,
+    0.3012669086456299,
+    0.4484851360321045
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": {
+        "user": "Hello Sofia",
+        "expect_intent": "GREET"
+      },
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 0.2837498188018799,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "greeting"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": {
+        "user": "Status of my case",
+        "expect_intent": "ROUTE_ACTIVE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.27941393852233887,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": {
+        "user": "When can I expect an answer?",
+        "expect_intent": "ROUTE_ACTIVE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.3012669086456299,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": {
+        "user": "Perfect",
+        "expect_intent": "CONFIRM"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.4484851360321045,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-02T12:58:13.003712",
+  "end_time": "2025-08-02T12:58:25.340175"
+}

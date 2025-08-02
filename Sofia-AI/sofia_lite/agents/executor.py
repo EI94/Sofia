@@ -30,6 +30,17 @@ def dispatch(intent, ctx, text):
             save_context(ctx)
             return warning_reply(ctx.lang)
     
+    # Guard: if client is active and intent is not ROUTE_ACTIVE, force ROUTE_ACTIVE
+    if ctx.client_type == "active" and intent not in ["ROUTE_ACTIVE"]:
+        intent = "ROUTE_ACTIVE"
+        import logging
+        log = logging.getLogger("sofia.executor")
+        log.info(f"🔄 Active client guard: forcing intent to ROUTE_ACTIVE")
+    
+    # Reset clarify_count when intent is not CLARIFY
+    if intent != "CLARIFY":
+        ctx.clarify_count = 0
+    
     # Special case: if validator forced ASK_NAME but we're in GREETING state,
     # we should call greet_user first to set the state, then ask_name
     if intent == "ASK_NAME" and ctx.state == "GREETING":
@@ -47,9 +58,46 @@ def dispatch(intent, ctx, text):
     
     try:
         mod = import_module(f"sofia_lite.skills.{_ROUTE[intent]}")
-        return mod.run(ctx, text)
+        response = mod.run(ctx, text)
+        
+        # Update ctx.state and ctx.stage after skill execution
+        _update_context_state(ctx, intent)
+        
+        return response
+        
     except Exception as e:
         import logging
         log = logging.getLogger("sofia.executor")
         log.error(f"❌ Error importing skill {_ROUTE[intent]}: {e}")
-        return f"Mi dispiace, c'è stato un errore nel processare la tua richiesta: {str(e)}" 
+        return f"Mi dispiace, c'è stato un errore nel processare la tua richiesta: {str(e)}"
+
+def _update_context_state(ctx, intent):
+    """Update context state and stage based on intent"""
+    from .planner import next_state
+    from .state import State, Stage
+    
+    # Update state
+    try:
+        current_state = State[ctx.state]
+        new_state = next_state(current_state, intent)
+        ctx.state = new_state.name
+    except Exception as e:
+        import logging
+        log = logging.getLogger("sofia.executor")
+        log.warning(f"⚠️ Error updating state: {e}")
+    
+    # Update stage based on intent
+    stage_mapping = {
+        "GREET": "DISCOVERY",
+        "ASK_NAME": "DISCOVERY", 
+        "ASK_SERVICE": "SERVICE_SELECTION",
+        "PROPOSE_CONSULT": "SERVICE_SELECTION",
+        "ASK_CHANNEL": "CONSULTATION_SCHEDULED",
+        "ASK_SLOT": "CONSULTATION_SCHEDULED",
+        "ASK_PAYMENT": "PAYMENT_PENDING",
+        "CONFIRM_BOOKING": "COMPLETED",
+        "ROUTE_ACTIVE": "SERVICE_SELECTION",
+    }
+    
+    if intent in stage_mapping:
+        ctx.stage = stage_mapping[intent] 

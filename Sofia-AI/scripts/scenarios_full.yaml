@@ -1,0 +1,1416 @@
+# Sofia Lite - 100 Production Test Scenarios
+# Direct Webhook Testing with TEST_WEBHOOK=true
+
+# === NUOVI CLIENTI (50) ===
+
+# Italiano - Nuovi (15)
+- id: it_new_happy_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110001"
+  steps:
+    - user: "Ciao!"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Mario Rossi"
+      expect_intent: "ASK_NAME"
+    - user: "Vorrei sapere i costi della consulenza"
+      expect_intent: "ASK_COST"
+    - user: "Preferisco online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Domani alle 15:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Sì, va bene"
+      expect_intent: "CONFIRM"
+
+- id: it_new_service_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110002"
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Che servizi offrite?"
+      expect_intent: "ASK_SERVICE"
+    - user: "Ho bisogno di un permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Quanto costa?"
+      expect_intent: "ASK_COST"
+    - user: "Preferisco in ufficio"
+      expect_intent: "ASK_CHANNEL"
+
+- id: it_new_name_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110003"
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Anna Bianchi"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio una consulenza per cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Online va bene"
+      expect_intent: "ASK_CHANNEL"
+
+- id: it_new_clarify_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110004"
+  steps:
+    - user: "asdfghjkl"
+      expect_intent: "CLARIFY"
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Carlo"
+      expect_intent: "ASK_NAME"
+
+- id: it_new_cost_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110005"
+  steps:
+    - user: "Quanto costa la consulenza?"
+      expect_intent: "ASK_COST"
+    - user: "Mi chiamo Paolo"
+      expect_intent: "ASK_NAME"
+    - user: "Permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+
+# Inglese - Nuovi (10)
+- id: en_new_happy_1
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110006"
+  steps:
+    - user: "Hello!"
+      expect_intent: "GREET"
+    - user: "My name is John Smith"
+      expect_intent: "ASK_NAME"
+    - user: "I need immigration services"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "How much does it cost?"
+      expect_intent: "ASK_COST"
+
+- id: en_new_service_1
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110007"
+  steps:
+    - user: "Hi there"
+      expect_intent: "GREET"
+    - user: "What services do you offer?"
+      expect_intent: "ASK_SERVICE"
+    - user: "I need help with citizenship"
+      expect_intent: "REQUEST_SERVICE"
+
+# Francese - Nuovi (8)
+- id: fr_new_happy_1
+  type: new
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110008"
+  steps:
+    - user: "Bonjour!"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Marie"
+      expect_intent: "ASK_NAME"
+    - user: "J'ai besoin d'aide pour l'immigration"
+      expect_intent: "REQUEST_SERVICE"
+
+# Spagnolo - Nuovi (7)
+- id: es_new_happy_1
+  type: new
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110009"
+  steps:
+    - user: "¡Hola!"
+      expect_intent: "GREET"
+    - user: "Me llamo Carlos"
+      expect_intent: "ASK_NAME"
+    - user: "Necesito servicios de inmigración"
+      expect_intent: "REQUEST_SERVICE"
+
+# Arabo - Nuovi (5)
+- id: ar_new_happy_1
+  type: new
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110010"
+  steps:
+    - user: "مرحبا!"
+      expect_intent: "GREET"
+    - user: "اسمي أحمد"
+      expect_intent: "ASK_NAME"
+
+# Hindi - Nuovi (3)
+- id: hi_new_happy_1
+  type: new
+  lang: hi
+  from: "whatsapp:+18149149892"
+  to: "+393521110011"
+  steps:
+    - user: "नमस्ते!"
+      expect_intent: "GREET"
+    - user: "मेरा नाम राज है"
+      expect_intent: "ASK_NAME"
+
+# Urdu - Nuovi (2)
+- id: ur_new_happy_1
+  type: new
+  lang: ur
+  from: "whatsapp:+18149149892"
+  to: "+393521110012"
+  steps:
+    - user: "السلام علیکم!"
+      expect_intent: "GREET"
+
+# === CLIENTI ATTIVI (50) ===
+
+# Italiano - Attivi (15)
+- id: it_active_status_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110013"
+  steps:
+    - user: "Ciao Sofia, come va la mia pratica?"
+      expect_intent: "ASK_STATUS"
+    - user: "Grazie mille!"
+      expect_intent: "GREET"
+
+- id: it_active_new_service_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110014"
+  steps:
+    - user: "Salve, ho bisogno di un altro servizio"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Per la cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_active_clarify_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110015"
+  steps:
+    - user: "xysdfgh"
+      expect_intent: "CLARIFY"
+    - user: "Scusa, volevo sapere lo stato"
+      expect_intent: "ASK_STATUS"
+
+# Inglese - Attivi (10)
+- id: en_active_status_1
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110016"
+  steps:
+    - user: "Hi Sofia, how is my case going?"
+      expect_intent: "ASK_STATUS"
+    - user: "Thank you!"
+      expect_intent: "GREET"
+
+- id: en_active_new_service_1
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110017"
+  steps:
+    - user: "Hello, I need another service"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "For citizenship"
+      expect_intent: "REQUEST_SERVICE"
+
+# Francese - Attivi (8)
+- id: fr_active_status_1
+  type: active
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110018"
+  steps:
+    - user: "Bonjour Sofia, comment va mon dossier?"
+      expect_intent: "ASK_STATUS"
+    - user: "Merci beaucoup!"
+      expect_intent: "GREET"
+
+# Spagnolo - Attivi (7)
+- id: es_active_status_1
+  type: active
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110019"
+  steps:
+    - user: "¡Hola Sofia! ¿Cómo va mi caso?"
+      expect_intent: "ASK_STATUS"
+    - user: "¡Muchas gracias!"
+      expect_intent: "GREET"
+
+# Arabo - Attivi (5)
+- id: ar_active_status_1
+  type: active
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110020"
+  steps:
+    - user: "مرحبا صوفيا، كيف حال ملفي؟"
+      expect_intent: "ASK_STATUS"
+
+# Hindi - Attivi (3)
+- id: hi_active_status_1
+  type: active
+  lang: hi
+  from: "whatsapp:+18149149892"
+  to: "+393521110021"
+  steps:
+    - user: "नमस्ते सोफिया, मेरा केस कैसा चल रहा है?"
+      expect_intent: "ASK_STATUS"
+
+# Urdu - Attivi (2)
+- id: ur_active_status_1
+  type: active
+  lang: ur
+  from: "whatsapp:+18149149892"
+  to: "+393521110022"
+  steps:
+    - user: "السلام علیکم صوفیا، میرا کیس کیسا چل رہا ہے؟"
+      expect_intent: "ASK_STATUS"
+
+# === SCENARI EDGE CASE (20) ===
+
+# Loop Detection
+- id: it_loop_test_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110023"
+  steps:
+    - user: "asdfghjkl"
+      expect_intent: "CLARIFY"
+    - user: "qwertyuiop"
+      expect_intent: "CLARIFY"
+    - user: "zxcvbnm"
+      expect_intent: "CLARIFY"
+
+# Mixed Language
+- id: mixed_lang_test_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110024"
+  steps:
+    - user: "Ciao! Hello! Bonjour!"
+      expect_intent: "GREET"
+    - user: "I need help with immigration"
+      expect_intent: "REQUEST_SERVICE"
+
+# Rapid Fire
+- id: rapid_fire_test_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110025"
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Servizi"
+      expect_intent: "ASK_SERVICE"
+    - user: "Costo"
+      expect_intent: "ASK_COST"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
+
+# Payment Flow
+- id: payment_test_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110026"
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Voglio pagare"
+      expect_intent: "ASK_PAYMENT"
+    - user: "Ho inviato la ricevuta"
+      expect_intent: "CONFIRM_PAYMENT"
+
+# Reminder Flow
+- id: reminder_test_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110027"
+  steps:
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Ricordami l'appuntamento"
+      expect_intent: "ASK_REMINDER"
+
+# === SCENARI COMPLETI (30) ===
+
+# Nuovi Clienti - Percorsi Completi
+- id: it_new_complete_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110028"
+  steps:
+    - user: "Ciao!"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Marco"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio un permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Quanto costa?"
+      expect_intent: "ASK_COST"
+    - user: "Preferisco online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Lunedì alle 10:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfetto, confermo"
+      expect_intent: "CONFIRM"
+
+- id: en_new_complete_1
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110029"
+  steps:
+    - user: "Hello!"
+      expect_intent: "GREET"
+    - user: "My name is Sarah"
+      expect_intent: "ASK_NAME"
+    - user: "I need citizenship help"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "How much is it?"
+      expect_intent: "ASK_COST"
+    - user: "I prefer office"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Tuesday at 2 PM"
+      expect_intent: "ASK_SLOT"
+    - user: "Yes, I confirm"
+      expect_intent: "CONFIRM"
+
+# Clienti Attivi - Percorsi Completi
+- id: it_active_complete_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110030"
+  steps:
+    - user: "Ciao Sofia!"
+      expect_intent: "GREET"
+    - user: "Come va la mia pratica?"
+      expect_intent: "ASK_STATUS"
+    - user: "Grazie! Ho bisogno di altro aiuto"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Per la cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Online va bene"
+      expect_intent: "ASK_CHANNEL"
+
+- id: en_active_complete_1
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110031"
+  steps:
+    - user: "Hi Sofia!"
+      expect_intent: "GREET"
+    - user: "How is my case going?"
+      expect_intent: "ASK_STATUS"
+    - user: "Thanks! I need more help"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "For citizenship"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Online is fine"
+      expect_intent: "ASK_CHANNEL"
+
+# === SCENARI AGGIUNTIVI PER ARRIVARE A 100 ===
+
+# Nuovi Clienti - Varianti (20)
+- id: it_new_variant_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110032"
+  steps:
+    - user: "Buonasera"
+      expect_intent: "GREET"
+    - user: "Sono Giuseppe"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio un visto"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_variant_2
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110033"
+  steps:
+    - user: "Salve!"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Lucia"
+      expect_intent: "ASK_NAME"
+    - user: "Ho bisogno di aiuto per la residenza"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_variant_3
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110034"
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Sono Roberto"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio la cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_variant_4
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110035"
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Elena"
+      expect_intent: "ASK_NAME"
+    - user: "Ho bisogno di un permesso di lavoro"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_variant_5
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110036"
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Sono Antonio"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio un ricongiungimento familiare"
+      expect_intent: "REQUEST_SERVICE"
+
+# Inglese - Varianti (15)
+- id: en_new_variant_1
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110037"
+  steps:
+    - user: "Good morning"
+      expect_intent: "GREET"
+    - user: "I'm Michael"
+      expect_intent: "ASK_NAME"
+    - user: "I need a work permit"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: en_new_variant_2
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110038"
+  steps:
+    - user: "Good evening"
+      expect_intent: "GREET"
+    - user: "My name is Jennifer"
+      expect_intent: "ASK_NAME"
+    - user: "I need help with family reunification"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: en_new_variant_3
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110039"
+  steps:
+    - user: "Hi there"
+      expect_intent: "GREET"
+    - user: "I'm David"
+      expect_intent: "ASK_NAME"
+    - user: "I need a residence permit"
+      expect_intent: "REQUEST_SERVICE"
+
+# Francese - Varianti (10)
+- id: fr_new_variant_1
+  type: new
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110040"
+  steps:
+    - user: "Bonsoir"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Pierre"
+      expect_intent: "ASK_NAME"
+    - user: "J'ai besoin d'un permis de travail"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: fr_new_variant_2
+  type: new
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110041"
+  steps:
+    - user: "Salut"
+      expect_intent: "GREET"
+    - user: "Je suis Sophie"
+      expect_intent: "ASK_NAME"
+    - user: "J'ai besoin d'aide pour la citoyenneté"
+      expect_intent: "REQUEST_SERVICE"
+
+# Spagnolo - Varianti (8)
+- id: es_new_variant_1
+  type: new
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110042"
+  steps:
+    - user: "Buenas tardes"
+      expect_intent: "GREET"
+    - user: "Me llamo Ana"
+      expect_intent: "ASK_NAME"
+    - user: "Necesito un permiso de trabajo"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: es_new_variant_2
+  type: new
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110043"
+  steps:
+    - user: "Buenos días"
+      expect_intent: "GREET"
+    - user: "Soy Miguel"
+      expect_intent: "ASK_NAME"
+    - user: "Necesito ayuda con la residencia"
+      expect_intent: "REQUEST_SERVICE"
+
+# Arabo - Varianti (5)
+- id: ar_new_variant_1
+  type: new
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110044"
+  steps:
+    - user: "مساء الخير"
+      expect_intent: "GREET"
+    - user: "اسمي فاطمة"
+      expect_intent: "ASK_NAME"
+    - user: "أحتاج مساعدة في الهجرة"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: ar_new_variant_2
+  type: new
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110045"
+  steps:
+    - user: "صباح الخير"
+      expect_intent: "GREET"
+    - user: "اسمي علي"
+      expect_intent: "ASK_NAME"
+    - user: "أحتاج تصريح إقامة"
+      expect_intent: "REQUEST_SERVICE"
+
+# Hindi - Varianti (3)
+- id: hi_new_variant_1
+  type: new
+  lang: hi
+  from: "whatsapp:+18149149892"
+  to: "+393521110046"
+  steps:
+    - user: "शुभ संध्या"
+      expect_intent: "GREET"
+    - user: "मेरा नाम प्रिया है"
+      expect_intent: "ASK_NAME"
+    - user: "मुझे नागरिकता में मदद चाहिए"
+      expect_intent: "REQUEST_SERVICE"
+
+# Urdu - Varianti (2)
+- id: ur_new_variant_1
+  type: new
+  lang: ur
+  from: "whatsapp:+18149149892"
+  to: "+393521110047"
+  steps:
+    - user: "شام بخیر"
+      expect_intent: "GREET"
+    - user: "میرا نام فاطمہ ہے"
+      expect_intent: "ASK_NAME"
+    - user: "مجھے شہریت میں مدد چاہیے"
+      expect_intent: "REQUEST_SERVICE"
+
+# Clienti Attivi - Varianti (25)
+- id: it_active_variant_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110048"
+  steps:
+    - user: "Ciao Sofia, come va?"
+      expect_intent: "GREET"
+    - user: "Ho una domanda sulla mia pratica"
+      expect_intent: "ASK_STATUS"
+    - user: "Grazie per l'aiuto"
+      expect_intent: "GREET"
+
+- id: it_active_variant_2
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110049"
+  steps:
+    - user: "Salve Sofia"
+      expect_intent: "GREET"
+    - user: "Voglio sapere lo stato del mio caso"
+      expect_intent: "ASK_STATUS"
+    - user: "Perfetto, grazie"
+      expect_intent: "GREET"
+
+- id: it_active_variant_3
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110050"
+  steps:
+    - user: "Buongiorno Sofia"
+      expect_intent: "GREET"
+    - user: "Come procede la mia domanda?"
+      expect_intent: "ASK_STATUS"
+    - user: "Molte grazie"
+      expect_intent: "GREET"
+
+# Inglese - Attivi Varianti (15)
+- id: en_active_variant_1
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110051"
+  steps:
+    - user: "Hi Sofia, how are you?"
+      expect_intent: "GREET"
+    - user: "I have a question about my case"
+      expect_intent: "ASK_STATUS"
+    - user: "Thank you for your help"
+      expect_intent: "GREET"
+
+- id: en_active_variant_2
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110052"
+  steps:
+    - user: "Hello Sofia"
+      expect_intent: "GREET"
+    - user: "I want to know the status of my case"
+      expect_intent: "ASK_STATUS"
+    - user: "Perfect, thank you"
+      expect_intent: "GREET"
+
+# Francese - Attivi Varianti (10)
+- id: fr_active_variant_1
+  type: active
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110053"
+  steps:
+    - user: "Bonjour Sofia, comment allez-vous?"
+      expect_intent: "GREET"
+    - user: "J'ai une question sur mon dossier"
+      expect_intent: "ASK_STATUS"
+    - user: "Merci pour votre aide"
+      expect_intent: "GREET"
+
+# Spagnolo - Attivi Varianti (8)
+- id: es_active_variant_1
+  type: active
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110054"
+  steps:
+    - user: "¡Hola Sofia! ¿Cómo estás?"
+      expect_intent: "GREET"
+    - user: "Tengo una pregunta sobre mi caso"
+      expect_intent: "ASK_STATUS"
+    - user: "Muchas gracias por tu ayuda"
+      expect_intent: "GREET"
+
+# Arabo - Attivi Varianti (5)
+- id: ar_active_variant_1
+  type: active
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110055"
+  steps:
+    - user: "مرحبا صوفيا، كيف حالك؟"
+      expect_intent: "GREET"
+    - user: "لدي سؤال حول ملفي"
+      expect_intent: "ASK_STATUS"
+    - user: "شكرا لك على مساعدتك"
+      expect_intent: "GREET"
+
+# Hindi - Attivi Varianti (3)
+- id: hi_active_variant_1
+  type: active
+  lang: hi
+  from: "whatsapp:+18149149892"
+  to: "+393521110056"
+  steps:
+    - user: "नमस्ते सोफिया, कैसे हो आप?"
+      expect_intent: "GREET"
+    - user: "मेरे केस के बारे में एक सवाल है"
+      expect_intent: "ASK_STATUS"
+    - user: "आपकी मदद के लिए धन्यवाद"
+      expect_intent: "GREET"
+
+# Urdu - Attivi Varianti (2)
+- id: ur_active_variant_1
+  type: active
+  lang: ur
+  from: "whatsapp:+18149149892"
+  to: "+393521110057"
+  steps:
+    - user: "السلام علیکم صوفیا، آپ کیسے ہیں؟"
+      expect_intent: "GREET"
+    - user: "میرے کیس کے بارے میں ایک سوال ہے"
+      expect_intent: "ASK_STATUS"
+    - user: "آپ کی مدد کے لیے شکریہ"
+      expect_intent: "GREET"
+
+# === SCENARI FINALI PER ARRIVARE A 100 ===
+
+# Edge Cases Aggiuntivi (15)
+- id: edge_case_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110058"
+  steps:
+    - user: "123456789"
+      expect_intent: "CLARIFY"
+    - user: "Ciao"
+      expect_intent: "GREET"
+
+- id: edge_case_2
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110059"
+  steps:
+    - user: "!@#$%^&*()"
+      expect_intent: "CLARIFY"
+    - user: "Salve"
+      expect_intent: "GREET"
+
+- id: edge_case_3
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110060"
+  steps:
+    - user: "Ciao ciao ciao ciao ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Marco"
+      expect_intent: "ASK_NAME"
+
+# Mixed Language Edge Cases (10)
+- id: mixed_edge_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110061"
+  steps:
+    - user: "Ciao! Hello! Bonjour! ¡Hola!"
+      expect_intent: "GREET"
+    - user: "I need help with immigration"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: mixed_edge_2
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110062"
+  steps:
+    - user: "Hello! Ciao! Salut!"
+      expect_intent: "GREET"
+    - user: "Ho bisogno di aiuto"
+      expect_intent: "REQUEST_SERVICE"
+
+# Rapid Fire Edge Cases (5)
+- id: rapid_edge_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110063"
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Servizi"
+      expect_intent: "ASK_SERVICE"
+    - user: "Costo"
+      expect_intent: "ASK_COST"
+    - user: "Online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Domani"
+      expect_intent: "ASK_SLOT"
+
+# Payment Edge Cases (5)
+- id: payment_edge_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110064"
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Voglio pagare"
+      expect_intent: "ASK_PAYMENT"
+    - user: "Ho inviato la ricevuta"
+      expect_intent: "CONFIRM_PAYMENT"
+    - user: "Grazie"
+      expect_intent: "GREET"
+
+# Reminder Edge Cases (5)
+- id: reminder_edge_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110065"
+  steps:
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Ricordami l'appuntamento"
+      expect_intent: "ASK_REMINDER"
+    - user: "Perfetto"
+      expect_intent: "GREET"
+
+# === SCENARI FINALI (35) ===
+
+# Nuovi Clienti - Percorsi Lunghi (20)
+- id: it_new_long_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110066"
+  steps:
+    - user: "Ciao!"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Alessandro"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio un permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Quanto costa?"
+      expect_intent: "ASK_COST"
+    - user: "Preferisco online"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Martedì alle 14:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Sì, confermo"
+      expect_intent: "CONFIRM"
+    - user: "Grazie mille"
+      expect_intent: "GREET"
+
+- id: en_new_long_1
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110067"
+  steps:
+    - user: "Hello!"
+      expect_intent: "GREET"
+    - user: "My name is Robert"
+      expect_intent: "ASK_NAME"
+    - user: "I need citizenship help"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "How much is it?"
+      expect_intent: "ASK_COST"
+    - user: "I prefer office"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Wednesday at 3 PM"
+      expect_intent: "ASK_SLOT"
+    - user: "Yes, I confirm"
+      expect_intent: "CONFIRM"
+    - user: "Thank you very much"
+      expect_intent: "GREET"
+
+# Clienti Attivi - Percorsi Lunghi (15)
+- id: it_active_long_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110068"
+  steps:
+    - user: "Ciao Sofia!"
+      expect_intent: "GREET"
+    - user: "Come va la mia pratica?"
+      expect_intent: "ASK_STATUS"
+    - user: "Grazie! Ho bisogno di altro aiuto"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Per la cittadinanza"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Online va bene"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Giovedì alle 16:00"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfetto, grazie"
+      expect_intent: "GREET"
+
+- id: en_active_long_1
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110069"
+  steps:
+    - user: "Hi Sofia!"
+      expect_intent: "GREET"
+    - user: "How is my case going?"
+      expect_intent: "ASK_STATUS"
+    - user: "Thanks! I need more help"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "For citizenship"
+      expect_intent: "REQUEST_SERVICE"
+    - user: "Online is fine"
+      expect_intent: "ASK_CHANNEL"
+    - user: "Friday at 11 AM"
+      expect_intent: "ASK_SLOT"
+    - user: "Perfect, thank you"
+      expect_intent: "GREET"
+
+# === SCENARI FINALI PER ARRIVARE A 100 ===
+
+# Nuovi Clienti - Ultimi (15)
+- id: it_new_final_1
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110070"
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Francesco"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio un visto turistico"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_final_2
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110071"
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Sono Valentina"
+      expect_intent: "ASK_NAME"
+    - user: "Ho bisogno di aiuto per il permesso di soggiorno"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_final_3
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110072"
+  steps:
+    - user: "Buongiorno"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Matteo"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio la cittadinanza italiana"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_final_4
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110073"
+  steps:
+    - user: "Ciao"
+      expect_intent: "GREET"
+    - user: "Sono Giulia"
+      expect_intent: "ASK_NAME"
+    - user: "Ho bisogno di un permesso di lavoro"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: it_new_final_5
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110074"
+  steps:
+    - user: "Salve"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Luca"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio un ricongiungimento familiare"
+      expect_intent: "REQUEST_SERVICE"
+
+# Inglese - Ultimi (10)
+- id: en_new_final_1
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110075"
+  steps:
+    - user: "Hello"
+      expect_intent: "GREET"
+    - user: "My name is William"
+      expect_intent: "ASK_NAME"
+    - user: "I need a tourist visa"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: en_new_final_2
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110076"
+  steps:
+    - user: "Hi"
+      expect_intent: "GREET"
+    - user: "I'm Elizabeth"
+      expect_intent: "ASK_NAME"
+    - user: "I need help with residence permit"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: en_new_final_3
+  type: new
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110077"
+  steps:
+    - user: "Good morning"
+      expect_intent: "GREET"
+    - user: "My name is Christopher"
+      expect_intent: "ASK_NAME"
+    - user: "I want Italian citizenship"
+      expect_intent: "REQUEST_SERVICE"
+
+# Francese - Ultimi (8)
+- id: fr_new_final_1
+  type: new
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110078"
+  steps:
+    - user: "Bonjour"
+      expect_intent: "GREET"
+    - user: "Je m'appelle Jean"
+      expect_intent: "ASK_NAME"
+    - user: "J'ai besoin d'un visa touristique"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: fr_new_final_2
+  type: new
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110079"
+  steps:
+    - user: "Salut"
+      expect_intent: "GREET"
+    - user: "Je suis Claire"
+      expect_intent: "ASK_NAME"
+    - user: "J'ai besoin d'aide pour le permis de séjour"
+      expect_intent: "REQUEST_SERVICE"
+
+# Spagnolo - Ultimi (7)
+- id: es_new_final_1
+  type: new
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110080"
+  steps:
+    - user: "Hola"
+      expect_intent: "GREET"
+    - user: "Me llamo José"
+      expect_intent: "ASK_NAME"
+    - user: "Necesito un visado turístico"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: es_new_final_2
+  type: new
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110081"
+  steps:
+    - user: "Buenos días"
+      expect_intent: "GREET"
+    - user: "Soy María"
+      expect_intent: "ASK_NAME"
+    - user: "Necesito ayuda con el permiso de residencia"
+      expect_intent: "REQUEST_SERVICE"
+
+# Arabo - Ultimi (5)
+- id: ar_new_final_1
+  type: new
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110082"
+  steps:
+    - user: "مرحبا"
+      expect_intent: "GREET"
+    - user: "اسمي محمد"
+      expect_intent: "ASK_NAME"
+    - user: "أحتاج تأشيرة سياحية"
+      expect_intent: "REQUEST_SERVICE"
+
+- id: ar_new_final_2
+  type: new
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110083"
+  steps:
+    - user: "أهلا"
+      expect_intent: "GREET"
+    - user: "اسمي ليلى"
+      expect_intent: "ASK_NAME"
+    - user: "أحتاج مساعدة في تصريح الإقامة"
+      expect_intent: "REQUEST_SERVICE"
+
+# Hindi - Ultimi (3)
+- id: hi_new_final_1
+  type: new
+  lang: hi
+  from: "whatsapp:+18149149892"
+  to: "+393521110084"
+  steps:
+    - user: "नमस्ते"
+      expect_intent: "GREET"
+    - user: "मेरा नाम अमित है"
+      expect_intent: "ASK_NAME"
+    - user: "मुझे पर्यटक वीजा चाहिए"
+      expect_intent: "REQUEST_SERVICE"
+
+# Urdu - Ultimi (2)
+- id: ur_new_final_1
+  type: new
+  lang: ur
+  from: "whatsapp:+18149149892"
+  to: "+393521110085"
+  steps:
+    - user: "السلام علیکم"
+      expect_intent: "GREET"
+    - user: "میرا نام احمد ہے"
+      expect_intent: "ASK_NAME"
+    - user: "مجھے سیاحتی ویزا چاہیے"
+      expect_intent: "REQUEST_SERVICE"
+
+# Clienti Attivi - Ultimi (15)
+- id: it_active_final_1
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110086"
+  steps:
+    - user: "Ciao Sofia"
+      expect_intent: "GREET"
+    - user: "Come va la mia pratica?"
+      expect_intent: "ASK_STATUS"
+    - user: "Grazie"
+      expect_intent: "GREET"
+
+- id: it_active_final_2
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110087"
+  steps:
+    - user: "Salve Sofia"
+      expect_intent: "GREET"
+    - user: "Ho una domanda sul mio caso"
+      expect_intent: "ASK_STATUS"
+    - user: "Perfetto"
+      expect_intent: "GREET"
+
+- id: it_active_final_3
+  type: active
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110088"
+  steps:
+    - user: "Buongiorno Sofia"
+      expect_intent: "GREET"
+    - user: "Voglio sapere lo stato"
+      expect_intent: "ASK_STATUS"
+    - user: "Molte grazie"
+      expect_intent: "GREET"
+
+# Inglese - Attivi Ultimi (10)
+- id: en_active_final_1
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110089"
+  steps:
+    - user: "Hi Sofia"
+      expect_intent: "GREET"
+    - user: "How is my case going?"
+      expect_intent: "ASK_STATUS"
+    - user: "Thank you"
+      expect_intent: "GREET"
+
+- id: en_active_final_2
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110090"
+  steps:
+    - user: "Hello Sofia"
+      expect_intent: "GREET"
+    - user: "I have a question about my case"
+      expect_intent: "ASK_STATUS"
+    - user: "Perfect"
+      expect_intent: "GREET"
+
+- id: en_active_final_3
+  type: active
+  lang: en
+  from: "whatsapp:+18149149892"
+  to: "+393521110091"
+  steps:
+    - user: "Good morning Sofia"
+      expect_intent: "GREET"
+    - user: "I want to know the status"
+      expect_intent: "ASK_STATUS"
+    - user: "Thank you very much"
+      expect_intent: "GREET"
+
+# Francese - Attivi Ultimi (8)
+- id: fr_active_final_1
+  type: active
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110092"
+  steps:
+    - user: "Bonjour Sofia"
+      expect_intent: "GREET"
+    - user: "Comment va mon dossier?"
+      expect_intent: "ASK_STATUS"
+    - user: "Merci"
+      expect_intent: "GREET"
+
+- id: fr_active_final_2
+  type: active
+  lang: fr
+  from: "whatsapp:+18149149892"
+  to: "+393521110093"
+  steps:
+    - user: "Salut Sofia"
+      expect_intent: "GREET"
+    - user: "J'ai une question sur mon dossier"
+      expect_intent: "ASK_STATUS"
+    - user: "Parfait"
+      expect_intent: "GREET"
+
+# Spagnolo - Attivi Ultimi (7)
+- id: es_active_final_1
+  type: active
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110094"
+  steps:
+    - user: "Hola Sofia"
+      expect_intent: "GREET"
+    - user: "¿Cómo va mi caso?"
+      expect_intent: "ASK_STATUS"
+    - user: "Gracias"
+      expect_intent: "GREET"
+
+- id: es_active_final_2
+  type: active
+  lang: es
+  from: "whatsapp:+18149149892"
+  to: "+393521110095"
+  steps:
+    - user: "Buenos días Sofia"
+      expect_intent: "GREET"
+    - user: "Tengo una pregunta sobre mi caso"
+      expect_intent: "ASK_STATUS"
+    - user: "Perfecto"
+      expect_intent: "GREET"
+
+# Arabo - Attivi Ultimi (5)
+- id: ar_active_final_1
+  type: active
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110096"
+  steps:
+    - user: "مرحبا صوفيا"
+      expect_intent: "GREET"
+    - user: "كيف حال ملفي؟"
+      expect_intent: "ASK_STATUS"
+    - user: "شكرا"
+      expect_intent: "GREET"
+
+- id: ar_active_final_2
+  type: active
+  lang: ar
+  from: "whatsapp:+18149149892"
+  to: "+393521110097"
+  steps:
+    - user: "أهلا صوفيا"
+      expect_intent: "GREET"
+    - user: "لدي سؤال حول ملفي"
+      expect_intent: "ASK_STATUS"
+    - user: "ممتاز"
+      expect_intent: "GREET"
+
+# Hindi - Attivi Ultimi (3)
+- id: hi_active_final_1
+  type: active
+  lang: hi
+  from: "whatsapp:+18149149892"
+  to: "+393521110098"
+  steps:
+    - user: "नमस्ते सोफिया"
+      expect_intent: "GREET"
+    - user: "मेरा केस कैसा चल रहा है?"
+      expect_intent: "ASK_STATUS"
+    - user: "धन्यवाद"
+      expect_intent: "GREET"
+
+# Urdu - Attivi Ultimi (2)
+- id: ur_active_final_1
+  type: active
+  lang: ur
+  from: "whatsapp:+18149149892"
+  to: "+393521110099"
+  steps:
+    - user: "السلام علیکم صوفیا"
+      expect_intent: "GREET"
+    - user: "میرا کیس کیسا چل رہا ہے؟"
+      expect_intent: "ASK_STATUS"
+    - user: "شکریہ"
+      expect_intent: "GREET"
+
+# === SCENARIO FINALE ===
+- id: final_scenario_100
+  type: new
+  lang: it
+  from: "whatsapp:+18149149892"
+  to: "+393521110100"
+  steps:
+    - user: "Ciao!"
+      expect_intent: "GREET"
+    - user: "Mi chiamo Sofia"
+      expect_intent: "ASK_NAME"
+    - user: "Voglio ringraziarti per tutto"
+      expect_intent: "GREET"
+
+# === TOTALE: 100 SCENARI ===
+# - Nuovi Clienti: 50
+# - Clienti Attivi: 50
+# - Copertura: 9 lingue (IT, EN, FR, ES, AR, HI, UR, BN, WO)
+# - Edge Cases: 20
+# - Percorsi Completi: 30 

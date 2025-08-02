@@ -12,21 +12,33 @@ class State(Enum):
     ASK_NAME = auto()
     ASK_SERVICE = auto()
     PROPOSE_CONSULT = auto()
-    WAIT_SLOT = auto()
-    WAIT_PAYMENT = auto()
+    ASK_CHANNEL = auto()
+    ASK_SLOT = auto()
+    ASK_PAYMENT = auto()
     CONFIRMED = auto()
+    ROUTE_ACTIVE = auto()
     ASK_CLARIFICATION = auto()
+
+class Stage(Enum):
+    """Conversation stages for tracking progress"""
+    DISCOVERY = auto()
+    SERVICE_SELECTION = auto()
+    CONSULTATION_SCHEDULED = auto()
+    PAYMENT_PENDING = auto()
+    COMPLETED = auto()
 
 # Valid state transitions
 TRANSITIONS: Dict[State, List[State]] = {
-    State.GREETING:        [State.ASK_NAME, State.ASK_SERVICE],
+    State.GREETING:        [State.ASK_NAME, State.ASK_SERVICE, State.ROUTE_ACTIVE],
     State.ASK_NAME:        [State.ASK_SERVICE],
     State.ASK_SERVICE:     [State.PROPOSE_CONSULT],
-    State.PROPOSE_CONSULT: [State.WAIT_SLOT, State.WAIT_PAYMENT],
-    State.WAIT_SLOT:       [State.CONFIRMED],
-    State.WAIT_PAYMENT:    [State.CONFIRMED],
-    State.CONFIRMED:       [State.ASK_SERVICE],
-    State.ASK_CLARIFICATION: [State.ASK_NAME, State.ASK_SERVICE, State.PROPOSE_CONSULT],
+    State.PROPOSE_CONSULT: [State.ASK_CHANNEL, State.ASK_SLOT],
+    State.ASK_CHANNEL:     [State.ASK_SLOT],
+    State.ASK_SLOT:        [State.ASK_PAYMENT],
+    State.ASK_PAYMENT:     [State.CONFIRMED],
+    State.CONFIRMED:       [State.ASK_SERVICE, State.ROUTE_ACTIVE],
+    State.ROUTE_ACTIVE:    [State.ASK_SERVICE, State.CONFIRMED],
+    State.ASK_CLARIFICATION: [State.ASK_NAME, State.ASK_SERVICE, State.PROPOSE_CONSULT, State.ROUTE_ACTIVE],
 }
 
 def can_transition(from_state: State, to_state: State) -> bool:

@@ -40,9 +40,10 @@ class HammerTestRunner:
     def __init__(self):
         self.twilio_account_sid = os.getenv("TWILIO_ACCOUNT_SID")
         self.twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-        self.from_phone = "+393279467308"  # Numero di test
+        self.from_phone = os.getenv("TWILIO_FROM_WHATSAPP", "+393279467308")  # Il tuo numero
         self.to_phone = "+18149149892"     # Sofia WhatsApp
         self.sofia_url = "https://sofia-lite-1075574333382.us-central1.run.app"
+        self.used_phones = set()  # Per tracciare numeri già usati
         
         # Verifica credenziali
         if not self.twilio_account_sid or not self.twilio_auth_token:
@@ -56,20 +57,68 @@ class HammerTestRunner:
         # Carica scenari
         self.scenarios = self._load_scenarios()
         log.info(f"✅ Caricati {len(self.scenarios)} scenari di test")
+        
+        # Prepara scenari con numeri AUTO
+        self._prepare_scenarios()
+        log.info(f"✅ Preparati {len(self.scenarios)} scenari con numeri unici")
     
     def _load_scenarios(self) -> List[Dict]:
         """Carica scenari da YAML"""
-        scenarios_path = Path(__file__).parent / "scenarios.yaml"
+        scenarios_path = Path(__file__).parent / "test_real_scenarios.yaml"
         with open(scenarios_path, 'r', encoding='utf-8') as f:
             return yaml.safe_load(f)
     
-    def _send_whatsapp_message(self, message: str) -> Dict:
+    def _generate_e164_number(self) -> str:
+        """Genera un numero E.164 mai usato prima"""
+        import random
+        # Usa il tuo numero come sender per test reali
+        number = "+393279467308"  # Il tuo numero come sender
+        if number not in self.used_phones:
+            self.used_phones.add(number)
+            return number
+        # Se già usato, genera un numero diverso
+        while True:
+            number = f"+39352{random.randint(1000000, 9999999)}"
+            if number not in self.used_phones:
+                self.used_phones.add(number)
+                return number
+    
+    def _prepare_scenarios(self):
+        """Prepara scenari sostituendo AUTO con numeri E.164 unici"""
+        for scenario in self.scenarios:
+            if scenario.get('to') == 'AUTO':
+                scenario['to'] = self._generate_e164_number()
+                log.info(f"📞 Scenario {scenario['id']}: assegnato numero {scenario['to']}")
+    
+    def _clean_firestore_user(self, phone: str):
+        """Pulisce il documento Firestore per evitare test 'attivo'"""
+        try:
+            from google.cloud import firestore
+            import json
+            
+            # Parse credentials
+            creds_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+            if creds_json:
+                creds_info = json.loads(creds_json)
+                db = firestore.Client.from_service_account_info(creds_info)
+                
+                # Elimina documento utente
+                doc_ref = db.collection('users').document(phone)
+                doc_ref.delete()
+                log.info(f"🧹 Pulito documento Firestore per {phone}")
+        except Exception as e:
+            log.warning(f"⚠️ Errore pulizia Firestore {phone}: {e}")
+    
+    def _send_whatsapp_message(self, message: str, to_phone: str = None) -> Dict:
         """Invia messaggio WhatsApp via Twilio"""
         url = f"https://api.twilio.com/2010-04-01/Accounts/{self.twilio_account_sid}/Messages.json"
         
+        # Usa il numero specificato o quello di default
+        target_phone = to_phone or self.to_phone
+        
         data = {
             "From": f"whatsapp:{self.from_phone}",
-            "To": f"whatsapp:{self.to_phone}",
+            "To": f"whatsapp:{target_phone}",
             "Body": message
         }
         
@@ -81,9 +130,12 @@ class HammerTestRunner:
             log.error(f"❌ Errore invio WhatsApp: {response.status_code} - {response.text}")
             return None
     
-    def _make_voice_call(self, message: str) -> Dict:
+    def _make_voice_call(self, message: str, to_phone: str = None) -> Dict:
         """Effettua chiamata vocale via Twilio"""
         url = f"https://api.twilio.com/2010-04-01/Accounts/{self.twilio_account_sid}/Calls.json"
+        
+        # Usa il numero specificato o quello di default
+        target_phone = to_phone or self.to_phone
         
         # TwiML per la chiamata
         twiml = f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -93,7 +145,7 @@ class HammerTestRunner:
         
         data = {
             "From": self.from_phone,
-            "To": self.to_phone,
+            "To": target_phone,
             "Twiml": twiml
         }
         
@@ -160,8 +212,12 @@ class HammerTestRunner:
         scenario_type = scenario["type"]
         scenario_lang = scenario["lang"]
         steps = scenario["steps"]
+        to_phone = scenario.get('to', self.to_phone)
         
-        log.info(f"🚀 Avvio scenario: {scenario_id} ({scenario_type}, {scenario_lang})")
+        log.info(f"🚀 Avvio scenario: {scenario_id} ({scenario_type}, {scenario_lang}) -> {to_phone}")
+        
+        # Pulisci Firestore prima del test
+        self._clean_firestore_user(to_phone)
         
         result = TestResult(
             scenario_id=scenario_id,
@@ -184,28 +240,36 @@ class HammerTestRunner:
                 time.sleep(step["wait"])
                 continue
             
+            # Estrai il messaggio se è in formato dict
+            if isinstance(step, dict) and "user" in step:
+                message = step["user"]
+                expected_intent = step.get("expect_intent", "UNKNOWN")
+            else:
+                message = step
+                expected_intent = "UNKNOWN"
+            
             # Invia messaggio
             start_time = time.time()
             
             if scenario.get("voice", False):
-                twilio_response = self._make_voice_call(step)
+                twilio_response = self._make_voice_call(message, to_phone)
             else:
-                twilio_response = self._send_whatsapp_message(step)
+                twilio_response = self._send_whatsapp_message(message, to_phone)
             
             response_time = time.time() - start_time
             result.response_times.append(response_time)
             
             if not twilio_response:
                 result.journey_pass = False
-                result.fail_reason = "Twilio API error"
+                result.fail_reason = "Twilio WhatsApp API error"
                 break
             
             # Simula risposta di Sofia (in produzione questo verrebbe dal webhook)
             # Per ora usiamo una risposta simulata basata sul step
-            sofia_response = self._simulate_sofia_response(step, i, scenario_lang)
+            sofia_response = self._simulate_sofia_response(message, i, scenario_lang)
             
             # Analizza risposta
-            analysis = self._analyze_sofia_response(sofia_response, step, i)
+            analysis = self._analyze_sofia_response(sofia_response, message, i)
             
             # Controlla loop di clarify
             if "non capisco" in sofia_response.lower() or "clarify" in sofia_response.lower():

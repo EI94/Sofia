@@ -1,0 +1,54 @@
+# Test Real Scenarios - 5 scenari con numero reale
+# Per dimostrare che Sofia Lite funziona al 100%
+
+- id: test_real_1
+  type: new
+  lang: it
+  to: "+18149149892"
+  steps:
+    - user: "Ciao!"
+      expect_intent: "GREET"
+    - user: "Vorrei sapere i costi della consulenza"
+      expect_intent: "ASK_COST"
+    - user: "Perfetto, prenoto online"
+      expect_intent: "PROPOSE_CONSULT"
+
+- id: test_real_2
+  type: new
+  lang: en
+  to: "+18149149892"
+  steps:
+    - user: "Hello!"
+      expect_intent: "GREET"
+    - user: "What services do you offer?"
+      expect_intent: "ASK_SERVICE"
+
+- id: test_real_3
+  type: active
+  lang: it
+  to: "+18149149892"
+  steps:
+    - user: "Come va la mia pratica?"
+      expect_intent: "ASK_STATUS"
+    - user: "Grazie mille!"
+      expect_intent: "GREET"
+
+- id: test_real_4
+  type: new
+  lang: fr
+  to: "+18149149892"
+  steps:
+    - user: "Bonjour!"
+      expect_intent: "GREET"
+    - user: "Je voudrais un rendez-vous"
+      expect_intent: "PROPOSE_CONSULT"
+
+- id: test_real_5
+  type: active
+  lang: en
+  to: "+18149149892"
+  steps:
+    - user: "Hi Sofia, how are you?"
+      expect_intent: "GREET"
+    - user: "Can you help me with my case?"
+      expect_intent: "ASK_SERVICE" 

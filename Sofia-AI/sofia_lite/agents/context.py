@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from .state import Stage
 
 SUPPORTED_LANGS = ["it","en","fr","es","ar","hi","ur","bn","wo"]
 
@@ -10,6 +11,7 @@ class Context:
     client_type:str="new"   # "new" | "active"
     intent:str|None=None
     state:str="GREETING"
+    stage:str="DISCOVERY"   # Stage tracking
     asked_name:bool=False   # ← default
     slots:dict[str,str]=field(default_factory=dict)   # generic slot bag
     history:list[dict]=field(default_factory=list)    # last N messages

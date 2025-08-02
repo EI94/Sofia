@@ -1,0 +1,112 @@
+{
+  "scenario_id": "it_new_happy_4",
+  "type": "new",
+  "lang": "it",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    0.28975415229797363,
+    0.3102281093597412,
+    0.2985820770263672,
+    0.33309388160705566,
+    0.4752829074859619,
+    0.29561495780944824,
+    0.3533139228820801
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": {
+        "user": "Ciao!",
+        "expect_intent": "GREET"
+      },
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 0.28975415229797363,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "greeting"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": {
+        "user": "Mi chiamo Roberto Neri",
+        "expect_intent": "ASK_NAME"
+      },
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 0.3102281093597412,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "name_request"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": {
+        "user": "Cerco assistenza per ricongiungimento familiare",
+        "expect_intent": "REQUEST_SERVICE"
+      },
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 0.2985820770263672,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": {
+        "user": "Quanto costa la consulenza?",
+        "expect_intent": "ASK_COST"
+      },
+      "sofia_response": "La consulenza costa 60 €. Preferisci online o in ufficio?",
+      "response_time": 0.33309388160705566,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "service_info"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": {
+        "user": "Preferisco online",
+        "expect_intent": "ASK_CHANNEL"
+      },
+      "sofia_response": "Perfetto! Quando hai disponibilità? Puoi dirmi giorno e ora?",
+      "response_time": 0.4752829074859619,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": {
+        "user": "Martedì alle 16:30",
+        "expect_intent": "ASK_SLOT"
+      },
+      "sofia_response": "Perfetto! Ti confermo l'appuntamento. Per il pagamento, ecco l'IBAN: IT60X0306234210000002350",
+      "response_time": 0.29561495780944824,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 6,
+      "user_message": {
+        "user": "Va bene",
+        "expect_intent": "CONFIRM"
+      },
+      "sofia_response": "Grazie! Il tuo appuntamento è confermato. Ti invieremo un promemoria.",
+      "response_time": 0.3533139228820801,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "confirmation"
+      }
+    }
+  ],
+  "start_time": "2025-08-02T12:57:33.598137",
+  "end_time": "2025-08-02T12:57:52.981577"
+}

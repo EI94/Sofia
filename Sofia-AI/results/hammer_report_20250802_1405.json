@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-08-02T14:05:12.684363",
+  "total_scenarios": 5,
+  "passed": 5,
+  "failed": 0,
+  "success_rate": 1.0,
+  "avg_response_time": 0.3310898650776256,
+  "fail_reasons": {},
+  "results": [
+    {
+      "id": "test_real_1",
+      "type": "new",
+      "lang": "it",
+      "pass": true,
+      "fail_reason": null,
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_2",
+      "type": "new",
+      "lang": "en",
+      "pass": true,
+      "fail_reason": null,
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_3",
+      "type": "active",
+      "lang": "it",
+      "pass": true,
+      "fail_reason": null,
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_4",
+      "type": "new",
+      "lang": "fr",
+      "pass": true,
+      "fail_reason": null,
+      "fail_loop": false
+    },
+    {
+      "id": "test_real_5",
+      "type": "active",
+      "lang": "en",
+      "pass": true,
+      "fail_reason": null,
+      "fail_loop": false
+    }
+  ]
+}

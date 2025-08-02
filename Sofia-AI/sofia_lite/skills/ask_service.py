@@ -22,6 +22,16 @@ def run(ctx, text):
         user = f"Il cliente {ctx.name or ''} ha scelto il servizio: {ctx.slots['service']}. Proponi una consulenza specifica per questo servizio."
         return chat(sys, user)
     
+    # Se lang non è italiano, traduci la lista servizi
+    if ctx.lang != "it":
+        try:
+            from ..policy.language_support import get_service_list
+            services_text = get_service_list(ctx.lang)
+        except ImportError:
+            services_text = "permesso di soggiorno, cittadinanza, ricongiungimento familiare"
+    else:
+        services_text = "permesso di soggiorno, cittadinanza, ricongiungimento familiare"
+    
     sys = build_system_prompt(ctx)
-    user = "Il cliente non ha ancora specificato quale servizio desidera. Presenta i servizi disponibili: permesso di soggiorno, cittadinanza, ricongiungimento familiare."
+    user = f"Il cliente non ha ancora specificato quale servizio desidera. Presenta i servizi disponibili: {services_text}"
     return chat(sys, user) 
