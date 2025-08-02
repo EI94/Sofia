@@ -26,4 +26,4 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 8000
 
 # Comando per avviare l'applicazione
-CMD ["python", "-m", "sofia_lite.whatsapp"] 
+CMD ["python", "-m", "sofia_lite.main"] 

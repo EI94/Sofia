@@ -11,7 +11,7 @@ from .executor import dispatch
 from .validator import validate
 from .prompt_builder import build_system_prompt
 from ..middleware.llm import chat
-from ..middleware.memory import load_context, save_context
+from ..middleware.memory import load_context, save_context, search_similar
 
 log = logging.getLogger("sofia.orchestrator")
 
@@ -36,6 +36,12 @@ class Orchestrator:
             ctx.lang = detect(message)
             log.info(f"🌍 Language detected: {ctx.lang} for {phone}")
         
+        # RAG: Search for similar context
+        relevant_chunks = search_similar(message, k=3)
+        ctx.rag_chunks = [r["text"] for r in relevant_chunks]
+        if ctx.rag_chunks:
+            log.info(f"🔍 RAG found {len(ctx.rag_chunks)} relevant chunks")
+        
         # Build system prompt
         system_prompt = build_system_prompt(ctx)
         
@@ -49,7 +55,28 @@ class Orchestrator:
         
         # Execute intent
         response = dispatch(intent, ctx, message)
-        log.info(f"💬 Response generated for {phone}: {response[:50]}...")
+        
+        # Ensure response is a string and handle any issues
+        try:
+            if not isinstance(response, str):
+                response = str(response) if response is not None else "Mi dispiace, c'è stato un errore nella generazione della risposta."
+            
+            # Clean the response
+            response = response.strip()
+            if not response:
+                response = "Mi dispiace, non ho capito. Puoi ripetere?"
+                
+        except Exception as e:
+            log.error(f"❌ Error processing response: {e}")
+            response = "Mi dispiace, c'è stato un errore nella generazione della risposta."
+        
+        # Safe logging
+        try:
+            # Clean response for logging
+            safe_response = response.replace('\n', ' ').replace('\r', ' ').strip()
+            log.info(f"💬 Response generated for {phone}: {safe_response[:50]}...")
+        except Exception as e:
+            log.error(f"❌ Error logging response: {e}")
         
         # Update context
         ctx.history.append({"role": "user", "content": message})

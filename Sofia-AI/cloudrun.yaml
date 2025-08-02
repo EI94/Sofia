@@ -12,33 +12,47 @@ spec:
         run.googleapis.com/execution-environment: gen2
         run.googleapis.com/cpu-throttling: "false"
         run.googleapis.com/startup-cpu-boost: "true"
-        autoscaling.knative.dev/minScale: "1"
-        autoscaling.knative.dev/maxScale: "100"
     spec:
       containerConcurrency: 80
       timeoutSeconds: 300
       containers:
-      - image: gcr.io/${PROJECT_ID}/sofia-lite:${SHORT_SHA}
-        name: sofia-lite
+      - image: gcr.io/sofia-ai-464215/sofia-lite:latest
         ports:
         - containerPort: 8000
-        env:
-        - name: GOOGLE_CLOUD_PROJECT
-          value: ${PROJECT_ID}
-        - name: REVISION
-          value: ${SHORT_SHA}
         resources:
           limits:
             cpu: "2"
-            memory: 4Gi
-          requests:
-            cpu: "1"
             memory: 2Gi
-  traffic:
-  - percent: 99
-    tag: stable
-    revisionName: sofia-lite-stable
-  - percent: 1
-    tag: canary
-    revisionName: sofia-lite-${SHORT_SHA}
-    latestRevision: true
+        env:
+        - name: GOOGLE_PROJECT_ID
+          value: "sofia-ai-464215"
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: OPENAI_API_KEY
+              key: latest
+        - name: TWILIO_ACCOUNT_SID
+          valueFrom:
+            secretKeyRef:
+              name: TWILIO_ACCOUNT_SID
+              key: latest
+        - name: TWILIO_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: TWILIO_AUTH_TOKEN
+              key: latest
+        - name: ELEVENLABS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ELEVENLABS_API_KEY
+              key: latest
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/app/credentials.json"
+        volumeMounts:
+        - name: google-service-account
+          mountPath: "/app"
+          readOnly: true
+      volumes:
+      - name: google-service-account
+        secret:
+          secretName: GOOGLE_SERVICE_ACCOUNT_KEY

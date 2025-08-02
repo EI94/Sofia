@@ -5,6 +5,7 @@ from ..middleware.memory import save_context
 from ..policy.guardrails import is_inappropriate, abuse_reply, warning_reply
 _ROUTE = {          # intent → skill module
     "GREET":"greet_user",
+    "WHO_ARE_YOU":"who_are_you",
     "ASK_NAME":"ask_name",
     "ASK_SERVICE":"ask_service",
     "PROPOSE_CONSULT":"propose_consult",
@@ -44,5 +45,11 @@ def dispatch(intent, ctx, text):
             ctx.name = name
             save_context(ctx)
     
-    mod = import_module(f"sofia_lite.skills.{_ROUTE[intent]}")
-    return mod.run(ctx, text) 
+    try:
+        mod = import_module(f"sofia_lite.skills.{_ROUTE[intent]}")
+        return mod.run(ctx, text)
+    except Exception as e:
+        import logging
+        log = logging.getLogger("sofia.executor")
+        log.error(f"❌ Error importing skill {_ROUTE[intent]}: {e}")
+        return f"Mi dispiace, c'è stato un errore nel processare la tua richiesta: {str(e)}" 

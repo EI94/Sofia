@@ -12,4 +12,5 @@ class Context:
     state:str="GREETING"
     asked_name:bool=False   # ← default
     slots:dict[str,str]=field(default_factory=dict)   # generic slot bag
-    history:list[dict]=field(default_factory=list)    # last N messages 
+    history:list[dict]=field(default_factory=list)    # last N messages
+    rag_chunks:list[str]=field(default_factory=list)  # RAG retrieved chunks 

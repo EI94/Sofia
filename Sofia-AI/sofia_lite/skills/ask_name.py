@@ -1,10 +1,10 @@
-from sofia_lite.agents.prompt_builder import build_system_prompt
-from sofia_lite.middleware.llm import chat
-from ..utils.name_extract import extract
+from ..agents.prompt_builder import build_system_prompt
+from ..middleware.llm import chat
+from ..utils.name_extract import extract_name
 
 def run(ctx, user_msg:str):
     # 1) proviamo ad estrarre il nome sempre
-    name = extract(user_msg)
+    name = extract_name(user_msg, ctx)
     if name:
         ctx.name = name
         ctx.asked_name = True      # segnala che la domanda è già passata

@@ -35,6 +35,7 @@ def validate_config():
             missing_keys.append(key)
     
     if missing_keys:
-        raise RuntimeError(f"Missing required configuration: {", ".join(missing_keys)}")
+        missing_str = ", ".join(missing_keys)
+        raise RuntimeError(f"Missing required configuration: {missing_str}")
     
     return config

@@ -144,4 +144,14 @@ def build_system_prompt(ctx: Context) -> str:
     Returns the full system prompt for the LLM, composed of the ParaHelp
     template plus runtime metadata (current language).
     """
-    return f"{PARAHELP_TEMPLATE}\n\nCURRENT_LANG: {ctx.lang}" 
+    # Add RAG context if available
+    rag_section = ""
+    if hasattr(ctx, 'rag_chunks') and ctx.rag_chunks:
+        rag_section = f"""
+────────────────────────────────────────────────────────────────
+[ C ]  CONTEXT  (retrieved)
+────────────────────────────────────────────────────────────────
+{chr(10).join(ctx.rag_chunks)}
+"""
+    
+    return f"{PARAHELP_TEMPLATE}{rag_section}\n\nCURRENT_LANG: {ctx.lang}" 

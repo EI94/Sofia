@@ -26,4 +26,16 @@ def is_abusive(text: str) -> bool:
 
 def close_message(lang: str) -> str:
     """Return abuse close message in specified language"""
-    return T("abuse_close", lang) 
+    return T("abuse_close", lang)
+
+def is_inappropriate(text: str) -> bool:
+    """Alias for is_abusive for backward compatibility"""
+    return is_abusive(text)
+
+def abuse_reply(lang: str) -> str:
+    """Return abuse reply message in specified language"""
+    return T("abuse_reply", lang)
+
+def warning_reply(lang: str) -> str:
+    """Return warning reply message in specified language"""
+    return T("warning_reply", lang) 

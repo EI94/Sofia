@@ -1,0 +1,35 @@
+# Sofia Lite Production Requirements
+
+# Core dependencies
+fastapi>=0.104.0
+uvicorn>=0.24.0
+python-dotenv>=1.0.0
+
+# Google Cloud
+google-cloud-firestore>=2.0.0
+google-cloud-secret-manager>=2.0.0
+google-cloud-storage>=2.0.0
+
+# Twilio
+twilio>=9.0.0
+
+# OpenAI
+openai>=1.0.0
+
+# Language detection
+langdetect>=1.0.9
+
+# HTTP client
+httpx>=0.24.0
+
+# Logging
+loguru>=0.7.0
+structlog>=23.0.0
+
+# Utilities
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
+# RAG dependencies
+faiss-cpu~=1.7
+tenacity>=8.0.0

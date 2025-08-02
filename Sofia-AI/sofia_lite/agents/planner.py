@@ -15,6 +15,9 @@ INTENT_PATTERNS = {
     "GREET": [
         r"\b(ciao|hello|hi|hola|bonjour|salve|buongiorno|buonasera)\b",
         r"\b(salve|ciao|hello|hi)\b",
+        r"^ciao$",  # Solo "ciao"
+        r"^hello$",  # Solo "hello"
+        r"^hi$",     # Solo "hi"
     ],
     "REQUEST_SERVICE": [
         r"\b(permesso|soggiorno|cittadinanza|ricongiungimento|familiare)\b",
@@ -44,6 +47,12 @@ INTENT_PATTERNS = {
     "CLARIFY": [
         r"\b(non capisco|non ho capito|ripeti|spiega)\b",
         r"\b(cosa|come|quando|dove|perché)\b",
+    ],
+    "WHO_ARE_YOU": [
+        r"\b(chi sei|who are you|chi ti sei|what are you)\b",
+        r"\b(sei|are you|what is your name)\b",
+        r"^chi sei\?*$",  # Solo "chi sei?"
+        r"^who are you\?*$",  # Solo "who are you?"
     ]
 }
 
@@ -62,6 +71,7 @@ def classify_intents(text: str) -> List[str]:
     
     # Ordine di priorità degli intent (più alta = più importante)
     priority_order = [
+        "WHO_ARE_YOU",      # Priorità alta - domanda su chi è Sofia
         "REQUEST_SERVICE",  # Priorità massima - richiesta servizio
         "ASK_COST",         # Informazioni sui costi
         "ASK_SLOT",         # Richiesta appuntamento
@@ -143,6 +153,7 @@ def next_state(current_state: State, intent: str) -> State:
     # Intent to state mapping
     intent_to_state = {
         "GREET": State.ASK_NAME,
+        "WHO_ARE_YOU": State.GREETING,  # Rimane in GREETING per presentarsi
         "ASK_NAME": State.ASK_SERVICE,
         "ASK_SERVICE": State.PROPOSE_CONSULT,
         "REQUEST_SERVICE": State.ASK_SERVICE,  # Mappa a ASK_SERVICE
