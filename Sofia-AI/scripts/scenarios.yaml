@@ -1,0 +1,301 @@
+# Hammer Test Scenarios - 100 conversazioni reali
+# 50 nuovi clienti + 50 clienti attivi, lingue miste
+
+# === NUOVI CLIENTI (50) ===
+
+# Italiano - Nuovi (15)
+- id: it_new_happy_1
+  type: new
+  lang: it
+  steps:
+    - "Ciao!"
+    - "Mi chiamo Mario Rossi"
+    - "Vorrei sapere i costi della consulenza"
+    - "Preferisco online"
+    - "Domani alle 15:00"
+    - "Sì, va bene"
+    - wait: 3
+
+- id: it_new_service_1
+  type: new
+  lang: it
+  steps:
+    - "Salve"
+    - "Che servizi offrite?"
+    - "Ho bisogno di un permesso di soggiorno"
+    - "Quanto costa?"
+    - "Preferisco in ufficio"
+    - "Lunedì alle 10:00"
+    - "Perfetto"
+    - wait: 3
+
+- id: it_new_name_1
+  type: new
+  lang: it
+  steps:
+    - "Buongiorno"
+    - "Mi chiamo Anna Bianchi"
+    - "Voglio una consulenza per cittadinanza"
+    - "Online va bene"
+    - "Martedì alle 14:30"
+    - "Confermo"
+    - wait: 3
+
+- id: it_new_clarify_1
+  type: new
+  lang: it
+  steps:
+    - "asdfghjkl"
+    - "Ciao"
+    - "Mi chiamo Carlo"
+    - "Servizi immigrazione"
+    - wait: 3
+
+- id: it_new_cost_1
+  type: new
+  lang: it
+  steps:
+    - "Quanto costa la consulenza?"
+    - "Mi chiamo Paolo"
+    - "Permesso di soggiorno"
+    - "Online"
+    - "Giovedì alle 16:00"
+    - wait: 3
+
+# Inglese - Nuovi (10)
+- id: en_new_happy_1
+  type: new
+  lang: en
+  steps:
+    - "Hello"
+    - "My name is John Smith"
+    - "I need help with immigration"
+    - "What services do you offer?"
+    - "How much does it cost?"
+    - "Online consultation"
+    - "Tomorrow at 3 PM"
+    - "Yes, that's fine"
+    - wait: 3
+
+- id: en_new_service_1
+  type: new
+  lang: en
+  steps:
+    - "Hi"
+    - "I need a residence permit"
+    - "My name is Sarah"
+    - "Office consultation"
+    - "Monday at 10 AM"
+    - "Perfect"
+    - wait: 3
+
+# Francese - Nuovi (8)
+- id: fr_new_happy_1
+  type: new
+  lang: fr
+  steps:
+    - "Bonjour"
+    - "Je m'appelle Pierre"
+    - "J'ai besoin d'un permis de séjour"
+    - "Combien ça coûte?"
+    - "En ligne"
+    - "Mardi à 14h"
+    - "D'accord"
+    - wait: 3
+
+# Spagnolo - Nuovi (7)
+- id: es_new_happy_1
+  type: new
+  lang: es
+  steps:
+    - "Hola"
+    - "Me llamo Carlos"
+    - "Necesito un permiso de residencia"
+    - "¿Cuánto cuesta?"
+    - "En línea"
+    - "Mañana a las 15:00"
+    - "Sí, está bien"
+    - wait: 3
+
+# Arabo - Nuovi (5)
+- id: ar_new_happy_1
+  type: new
+  lang: ar
+  steps:
+    - "مرحبا"
+    - "اسمي محمد"
+    - "أحتاج إلى تصريح إقامة"
+    - "كم يكلف؟"
+    - "عبر الإنترنت"
+    - wait: 3
+
+# Hindi - Nuovi (3)
+- id: hi_new_happy_1
+  type: new
+  lang: hi
+  steps:
+    - "नमस्ते"
+    - "मेरा नाम राजेश है"
+    - "मुझे निवास परमिट की आवश्यकता है"
+    - wait: 3
+
+# Urdu - Nuovi (2)
+- id: ur_new_happy_1
+  type: new
+  lang: ur
+  steps:
+    - "السلام علیکم"
+    - "میرا نام احمد ہے"
+    - "مجھے رہائشی اجازت کی ضرورت ہے"
+    - wait: 3
+
+# === CLIENTI ATTIVI (50) ===
+
+# Italiano - Attivi (15)
+- id: it_active_status_1
+  type: active
+  lang: it
+  steps:
+    - "Ciao Sofia"
+    - "Come va il mio caso?"
+    - "Quando avrò notizie?"
+    - "Grazie"
+    - wait: 3
+
+- id: it_active_new_service_1
+  type: active
+  lang: it
+  steps:
+    - "Salve"
+    - "Voglio una nuova consulenza"
+    - "Per cittadinanza"
+    - "Mi chiamo Mario Rossi"
+    - "Online"
+    - "Domani alle 16:00"
+    - wait: 3
+
+- id: it_active_clarify_1
+  type: active
+  lang: it
+  steps:
+    - "qwertyuiop"
+    - "Ciao"
+    - "Stato del mio caso"
+    - wait: 3
+
+# Inglese - Attivi (10)
+- id: en_active_status_1
+  type: active
+  lang: en
+  steps:
+    - "Hello Sofia"
+    - "How is my case going?"
+    - "Any updates?"
+    - "Thank you"
+    - wait: 3
+
+- id: en_active_new_service_1
+  type: active
+  lang: en
+  steps:
+    - "Hi"
+    - "I need another consultation"
+    - "For citizenship"
+    - "My name is John Smith"
+    - "Online"
+    - "Tuesday at 2 PM"
+    - wait: 3
+
+# Francese - Attivi (8)
+- id: fr_active_status_1
+  type: active
+  lang: fr
+  steps:
+    - "Bonjour Sofia"
+    - "Comment va mon dossier?"
+    - "Des nouvelles?"
+    - "Merci"
+    - wait: 3
+
+# Spagnolo - Attivi (7)
+- id: es_active_status_1
+  type: active
+  lang: es
+  steps:
+    - "Hola Sofia"
+    - "¿Cómo va mi caso?"
+    - "¿Hay novedades?"
+    - "Gracias"
+    - wait: 3
+
+# Arabo - Attivi (5)
+- id: ar_active_status_1
+  type: active
+  lang: ar
+  steps:
+    - "مرحبا صوفيا"
+    - "كيف يسير ملفي؟"
+    - "أي أخبار؟"
+    - wait: 3
+
+# Hindi - Attivi (3)
+- id: hi_active_status_1
+  type: active
+  lang: hi
+  steps:
+    - "नमस्ते सोफिया"
+    - "मेरा केस कैसा चल रहा है?"
+    - "कोई अपडेट?"
+    - wait: 3
+
+# Urdu - Attivi (2)
+- id: ur_active_status_1
+  type: active
+  lang: ur
+  steps:
+    - "السلام علیکم صوفیا"
+    - "میرا کیس کیسا چل رہا ہے؟"
+    - "کوئی اپڈیٹ؟"
+    - wait: 3
+
+# === SCENARI SPECIALI ===
+
+# Test loop detection
+- id: it_loop_test_1
+  type: new
+  lang: it
+  steps:
+    - "asdfghjkl"
+    - "qwertyuiop"
+    - "zxcvbnm"
+    - wait: 3
+
+# Test multilingual confusion
+- id: mixed_lang_test_1
+  type: new
+  lang: it
+  steps:
+    - "Hello"
+    - "Ciao"
+    - "Bonjour"
+    - "Hola"
+    - "مرحبا"
+    - wait: 3
+
+# Test rapid fire
+- id: rapid_fire_test_1
+  type: new
+  lang: it
+  steps:
+    - "Ciao"
+    - wait: 1
+    - "Mi chiamo Test"
+    - wait: 1
+    - "Servizi"
+    - wait: 1
+    - "Costo"
+    - wait: 1
+    - "Online"
+    - wait: 1
+    - "Domani"
+    - wait: 3 
