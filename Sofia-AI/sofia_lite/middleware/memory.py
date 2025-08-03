@@ -222,8 +222,8 @@ def _get_memory_gateway():
         _memory_gateway = FirestoreMemoryGateway()
     return _memory_gateway
 
-def load_context(phone: str) -> Context | None:
-    """Load context for phone number"""
+def get_or_create_context(phone: str) -> Context:
+    """Get or create context for phone number"""
     try:
         gateway = _get_memory_gateway()
         user_data = gateway.get_user_context(phone)
@@ -238,9 +238,35 @@ def load_context(phone: str) -> Context | None:
                 slots=user_data.get('slots', {}),
                 history=user_data.get('history', [])
             )
-    except Exception:
-        pass
-    return None
+        else:
+            # Create new context with GREETING state
+            return Context(
+                phone=phone,
+                lang='it',
+                name=None,
+                client_type='new',
+                state='GREETING',
+                asked_name=False,
+                slots={},
+                history=[]
+            )
+    except Exception as e:
+        log.error(f"❌ Context creation error: {e}")
+        # Fallback: create new context
+        return Context(
+            phone=phone,
+            lang='it',
+            name=None,
+            client_type='new',
+            state='GREETING',
+            asked_name=False,
+            slots={},
+            history=[]
+        )
+
+def load_context(phone: str) -> Context | None:
+    """Load context for phone number (legacy function)"""
+    return get_or_create_context(phone)
 
 def save_context(ctx: Context):
     """Save context to memory"""

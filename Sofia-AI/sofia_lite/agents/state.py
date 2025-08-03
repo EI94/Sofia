@@ -55,6 +55,10 @@ def can_transition(from_state: State, to_state: State) -> bool:
     if from_state not in TRANSITIONS:
         return False
     
+    # Permetti self-transition
+    if from_state == to_state:
+        return True
+    
     return to_state in TRANSITIONS[from_state]
 
 def get_valid_transitions(state: State) -> List[State]:
@@ -81,23 +85,24 @@ def is_terminal_state(state: State) -> bool:
     """
     return len(get_valid_transitions(state)) == 0
 
-def auto_advance(ctx, intent: str) -> bool:
+def auto_advance(current_state: str, intent: str) -> str:
     """
     Auto-advance state machine to prevent stuck states.
     
     Args:
-        ctx: Conversation context
+        current_state: Current state name
         intent: Detected user intent
         
     Returns:
-        True if state was advanced, False otherwise
+        New state name after auto-advance
     """
-    from .context import Context
+    # Mapping per auto-advance
+    mapping = {
+        ("GREETING", "ASK_SERVICE"): "ASK_SERVICE",
+        ("GREETING", "ASK_NAME"): "ASK_NAME"
+    }
     
-    # Auto-advance from GREETING if user asks for services or name
-    if ctx.state == "GREETING" and intent in {"ASK_SERVICE", "ASK_NAME"}:
-        ctx.state = intent
-        return True
+    return mapping.get((current_state, intent), current_state)
     
     # Auto-advance from ASK_NAME if user provides name but asks for services
     if ctx.state == "ASK_NAME" and intent == "ASK_SERVICE" and ctx.name:

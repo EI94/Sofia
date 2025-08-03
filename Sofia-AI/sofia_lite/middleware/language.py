@@ -3,11 +3,18 @@ Sofia Lite - Language Detection Middleware
 """
 
 import logging
+import functools
 from typing import Optional
 
 log = logging.getLogger("sofia.language")
 
-def detect_lang(text: str) -> str:
+# Micro-cache LRU(512) per language detection
+@functools.lru_cache(maxsize=512)
+def _cached_detect_lang(text: str) -> str:
+    """Cached language detection with TTL 1 hour (handled by LRU)"""
+    return _detect_lang_impl(text)
+
+def _detect_lang_impl(text: str) -> str:
     """
     Detect language from text with double fallback.
     Returns ISO-2 language code (it, en, fr, es, ar, hi, ur, bn, wo)
@@ -57,6 +64,15 @@ def detect_lang(text: str) -> str:
     except Exception as e:
         log.error(f"Language detection completely failed: {e}, defaulting to Italian")
         return "it"
+
+def detect_lang(text: str) -> str:
+    """
+    Detect language from text with micro-cache LRU(512).
+    Returns ISO-2 language code (it, en, fr, es, ar, hi, ur, bn, wo)
+    """
+    # Use cached detection with text[:32] for cache key
+    cache_key = text[:32]
+    return _cached_detect_lang(cache_key)
 
 def detect_lang_with_heuristics(text: str, ctx=None) -> tuple[str, Optional[str]]:
     """

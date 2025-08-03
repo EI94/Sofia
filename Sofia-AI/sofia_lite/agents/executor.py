@@ -77,8 +77,10 @@ def dispatch(intent, ctx, text):
         
         # Auto-advance state machine to prevent stuck states
         from .state import auto_advance
-        if auto_advance(ctx, intent):
-            log.info(f"🚀 Auto-advanced state from {ctx.state} to {intent}")
+        new_state = auto_advance(ctx.state, intent)
+        if new_state != ctx.state:
+            ctx.state = new_state
+            log.info(f"🚀 Auto-advanced state from {ctx.state} to {new_state}")
         
         return response
         

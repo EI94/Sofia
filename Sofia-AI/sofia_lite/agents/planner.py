@@ -68,6 +68,8 @@ def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
     Returns:
         Tuple (intent, confidence)
     """
+    import asyncio
+    
     # Step 1: Language detection with heuristics
     from ..middleware.language import detect_lang_with_heuristics
     detected_lang, extra_tag = detect_lang_with_heuristics(text, ctx)
@@ -78,12 +80,37 @@ def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
         log.info(f"🚀 Quick greeting heuristic: '{text}' -> GREET")
         return "GREET", 0.99
     
-    # Step 3: Try GPT-4o-mini few-shot (timeout 4s, 1 retry)
+    # Step 3: Execute OpenAI + similarity in parallel
     try:
-        intent, confidence = _classify_with_openai_fast(text, detected_lang)
-        log.info(f"🤖 OpenAI classified '{text}' as {intent} (conf: {confidence:.2f})")
+        # Run both classification methods in parallel
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         
-        # Step 4: Apply confidence threshold (lowered from 0.35 to 0.25)
+        async def parallel_classify():
+            tasks = [
+                asyncio.create_task(_classify_with_openai_fast_async(text, detected_lang)),
+                asyncio.create_task(_classify_with_similarity_async(text))
+            ]
+            
+            # Wait for first result or timeout
+            done, pending = await asyncio.wait(tasks, timeout=3.0, return_when=asyncio.FIRST_COMPLETED)
+            
+            # Cancel pending tasks
+            for task in pending:
+                task.cancel()
+            
+            if done:
+                result = done.pop().result()
+                return result
+            else:
+                raise TimeoutError("Both classification methods timed out")
+        
+        intent, confidence = loop.run_until_complete(parallel_classify())
+        loop.close()
+        
+        log.info(f"🚀 Parallel classified '{text}' as {intent} (conf: {confidence:.2f})")
+        
+        # Step 4: Apply confidence threshold
         if confidence < 0.25:
             log.warning(f"⚠️ Low confidence ({confidence:.2f}), falling back to CLARIFY")
             return "CLARIFY", confidence
@@ -91,26 +118,37 @@ def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
         return intent, confidence
         
     except Exception as e:
-        log.warning(f"⚠️ OpenAI classification failed: {e}, trying similarity fallback")
+        log.warning(f"⚠️ Parallel classification failed: {e}, trying sequential fallback")
         
-        # Step 5: Similarity fallback
+        # Fallback to sequential execution
         try:
-            intent, confidence = _classify_with_similarity(text)
-            log.info(f"🔍 Similarity classified '{text}' as {intent} (conf: {confidence:.2f})")
+            intent, confidence = _classify_with_openai_fast(text, detected_lang)
+            log.info(f"🤖 OpenAI classified '{text}' as {intent} (conf: {confidence:.2f})")
             
-            # Apply confidence threshold (lowered from 0.35 to 0.25)
             if confidence < 0.25:
                 return "CLARIFY", confidence
                 
             return intent, confidence
             
         except Exception as e2:
-            log.error(f"❌ Both OpenAI and similarity failed: {e2}")
-            return "CLARIFY", 0.1
+            log.warning(f"⚠️ OpenAI failed: {e2}, trying similarity")
+            
+            try:
+                intent, confidence = _classify_with_similarity(text)
+                log.info(f"🔍 Similarity classified '{text}' as {intent} (conf: {confidence:.2f})")
+                
+                if confidence < 0.25:
+                    return "CLARIFY", confidence
+                    
+                return intent, confidence
+                
+            except Exception as e3:
+                log.error(f"❌ All classification methods failed: {e3}")
+                return "CLARIFY", 0.1
 
 @retry(stop=stop_after_attempt(1), wait=wait_exponential(multiplier=1, min=1, max=2))
 def _classify_with_openai_fast(text: str, lang: str) -> Tuple[str, float]:
-    """Classifica intent usando OpenAI con timeout 4s e 1 retry"""
+    """Classifica intent usando OpenAI con timeout 3s e 1 retry"""
     try:
         import openai
         import httpx
@@ -119,7 +157,7 @@ def _classify_with_openai_fast(text: str, lang: str) -> Tuple[str, float]:
         # Configure client with timeout
         client = openai.OpenAI(
             api_key=cfg["OPENAI_API_KEY"],
-            http_client=httpx.Client(timeout=4.0)  # 4 second timeout
+            http_client=httpx.Client(timeout=3.0)  # 3 second timeout
         )
         
         prompt = f"""{FEW_SHOT_EXAMPLES}
@@ -136,7 +174,7 @@ JSON response:"""
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0,
-            max_tokens=64  # Reduced from 50 to 64
+            max_tokens=48  # Reduced for faster response
         )
         
         result = json.loads(response.choices[0].message.content.strip())
@@ -145,6 +183,14 @@ JSON response:"""
     except Exception as e:
         log.error(f"❌ OpenAI fast classification error: {e}")
         raise
+
+async def _classify_with_openai_fast_async(text: str, lang: str) -> Tuple[str, float]:
+    """Async version of OpenAI classification"""
+    return _classify_with_openai_fast(text, lang)
+
+async def _classify_with_similarity_async(text: str) -> Tuple[str, float]:
+    """Async version of similarity classification"""
+    return _classify_with_similarity(text)
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def _classify_with_openai(text: str, lang: str) -> Tuple[str, float]:
@@ -243,13 +289,9 @@ def next_state(current_state: State, intent: str) -> State:
     Returns:
         Next state to transition to
     """
-    # Special case: if we're in GREETING and intent is GREET, stay in GREETING
-    if current_state == State.GREETING and intent == "GREET":
-        return State.GREETING
-    
     # Intent to state mapping (YAML quick-ref)
     intent_to_state = {
-        "GREET": State.ASK_NAME,  # GREET should lead to ASK_NAME
+        "GREET": State.GREETING,  # GREET leads to GREETING (self-transition allowed)
         "ASK_NAME": State.ASK_NAME,
         "ASK_SERVICE": State.ASK_SERVICE,
         "PROPOSE_CONSULT": State.PROPOSE_CONSULT,
@@ -267,12 +309,16 @@ def next_state(current_state: State, intent: str) -> State:
     }
     
     # Get target state from intent
-    target_state = intent_to_state.get(intent, State.ASK_CLARIFICATION)
+    to_state = intent_to_state.get(intent, State.ASK_CLARIFICATION)
+    
+    # Apply auto-advance logic
+    from .state import auto_advance
+    to_state = auto_advance(current_state.name, intent)
     
     # Validate transition
     from .state import can_transition
-    if can_transition(current_state, target_state):
-        return target_state
+    if can_transition(current_state, to_state):
+        return to_state
     else:
         # Fallback to clarification if transition is invalid
         return State.ASK_CLARIFICATION 

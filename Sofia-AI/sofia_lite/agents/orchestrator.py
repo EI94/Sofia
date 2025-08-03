@@ -11,7 +11,7 @@ from .executor import dispatch
 from .validator import validate
 from .prompt_builder import build_system_prompt
 from ..middleware.llm import chat
-from ..middleware.memory import load_context, save_context, search_similar
+from ..middleware.memory import get_or_create_context, save_context, search_similar
 
 log = logging.getLogger("sofia.orchestrator")
 
@@ -24,11 +24,9 @@ class Orchestrator:
     def process_message(self, phone: str, message: str, channel: str = "whatsapp") -> Dict[str, Any]:
         """Process incoming message and return response"""
         
-        # Load context
-        ctx = load_context(phone)
-        if not ctx:
-            ctx = Context(phone=phone, lang="it", state="GREETING")
-            log.info(f"🆕 New user context created: {phone}")
+        # Load or create context
+        ctx = get_or_create_context(phone)
+        log.info(f"📱 Context loaded/created for: {phone} (state: {ctx.state})")
         
         # Detect language if not set
         if not ctx.lang or ctx.lang == "unknown":
@@ -59,7 +57,10 @@ class Orchestrator:
                 confidence = 1.0
         
         # Validate intent and state transition
-        intent = validate(ctx, intent, confidence)
+        validated_intent, validated_state, warning = validate(ctx, intent, confidence)
+        if warning:
+            log.warning(f"⚠️ Validation warning: {warning}")
+        intent = validated_intent
         log.info(f"✅ Intent validated: {intent} (conf: {confidence:.2f})")
         
         # Execute intent

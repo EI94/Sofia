@@ -63,8 +63,8 @@ def classify(msg: str, lang="it") -> Tuple[str, float]:
             model="gpt-4o-mini",
             temperature=0,
             messages=[{"role":"user","content":f"{_SYS}\nUser({lang}): {msg}"}],
-            timeout=4.0,  # 4 second timeout
-            max_tokens=64  # Reduced for faster response
+            timeout=3.0,  # 3 second timeout (reduced)
+            max_tokens=48  # Reduced for faster response
         )
         data = json.loads(chat.choices[0].message.content)
         result = (data["intent"], float(data["confidence"]))
