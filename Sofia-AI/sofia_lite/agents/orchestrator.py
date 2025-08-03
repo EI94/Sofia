@@ -63,9 +63,19 @@ class Orchestrator:
         intent = validated_intent
         log.info(f"✅ Intent validated: {intent} (conf: {confidence:.2f})")
         
-        # Execute intent
-        log.info(f"🚀 Dispatching intent: {intent} to skill")
-        response = dispatch(intent, ctx, message)
+        # Short-circuit for predictable responses in GREETING state
+        from . import state
+        if intent in {"GREET", "ASK_NAME", "ASK_SERVICE"} and ctx.state == "GREETING":
+            log.info(f"⚡ Short-circuit for {intent} in GREETING state")
+            from .executor import _ROUTE
+            from importlib import import_module
+            skill_module = _ROUTE.get(intent, "clarify")
+            mod = import_module(f"sofia_lite.skills.{skill_module}")
+            response = mod.run(ctx, message)
+        else:
+            # Execute intent normally
+            log.info(f"🚀 Dispatching intent: {intent} to skill")
+            response = dispatch(intent, ctx, message)
         
         # Ensure response is a string and handle any issues
         try:
@@ -89,11 +99,15 @@ class Orchestrator:
         except Exception as e:
             log.error(f"❌ Error logging response: {e}")
         
+        # Optimistic save - save context before LLM call
+        old_state = ctx.state
+        save_context(ctx)
+        
         # Update context
         ctx.history.append({"role": "user", "content": message})
         ctx.history.append({"role": "assistant", "content": response})
         
-        # Save context
+        # Save context again with updated history
         save_context(ctx)
         
         return {

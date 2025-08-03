@@ -302,6 +302,18 @@ def save_context(ctx: Context):
         log.error(f"❌ Save context error: {e}")
         pass
 
+def patch_context(phone: str, old_state: str):
+    """Patch context state if flow fails"""
+    try:
+        gateway = _get_memory_gateway()
+        user_data = gateway.get_user_context(phone)
+        if user_data:
+            user_data['state'] = old_state
+            gateway.save_user_context(phone, user_data)
+            log.info(f"🔄 Patched context state back to {old_state} for {phone}")
+    except Exception as e:
+        log.error(f"❌ Patch context error: {e}")
+
 def search_similar(query: str, k: int = 3) -> List[Dict[str, Any]]:
     """Search for similar texts in vector store"""
     try:

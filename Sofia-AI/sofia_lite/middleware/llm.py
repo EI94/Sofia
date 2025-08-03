@@ -1,4 +1,4 @@
-import openai, json, functools, asyncio, logging
+import openai, json, functools, asyncio, logging, tenacity
 from typing import Tuple
 from .. import get_config
 
@@ -8,6 +8,10 @@ log = logging.getLogger("sofia.llm")
 _CLIENT = None
 _SEMAPHORE = asyncio.Semaphore(5)  # Max 5 concurrent calls
 _CACHE = {}  # Simple in-memory cache
+
+# Circuit breaker state
+_CIRCUIT = {"fail": 0, "open_until": 0}  # naïve CB
+_CB_TIMEOUT = 60  # sec
 
 def _get_client():
     global _CLIENT
@@ -76,7 +80,7 @@ def classify(msg: str, lang="it") -> Tuple[str, float]:
     except Exception as e:
         raise RuntimeError(f"LLM classification failed: {e}")
 
-def chat(sys_prompt: str, user_prompt: str) -> str:
+def _raw_chat(sys_prompt: str, user_prompt: str) -> str:
     """For skill replies (slow path, full ParaHelp)."""
     log.info(f"🤖 LLM CHAT: Starting with user_prompt='{user_prompt[:100]}...'")
     log.info(f"📋 System prompt preview: {sys_prompt[:200]}...")
@@ -108,4 +112,43 @@ def chat(sys_prompt: str, user_prompt: str) -> str:
         return result
         
     except Exception as e:
-        raise RuntimeError(f"LLM chat failed: {e}") 
+        raise RuntimeError(f"LLM chat failed: {e}")
+
+def _fallback(messages) -> str:
+    """Fallback response when LLM fails"""
+    # Simple fallback based on intent detection
+    try:
+        from ..agents.planner import _classify_with_similarity
+        user_msg = messages[-1]["content"] if messages else "Ciao"
+        intent, confidence = _classify_with_similarity(user_msg)
+        
+        if intent == "GREET":
+            return "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?"
+        elif intent == "ASK_NAME":
+            return "Per favore, dimmi il tuo nome."
+        elif intent == "ASK_SERVICE":
+            return "Di che servizio hai bisogno? Posso aiutarti con pratiche immigrazione."
+        else:
+            return "Mi dispiace, non ho capito. Puoi ripetere?"
+    except Exception as e:
+        log.error(f"❌ Fallback failed: {e}")
+        return "Mi dispiace, c'è stato un errore. Riprova tra qualche minuto."
+
+def chat(sys_prompt: str, user_prompt: str) -> str:
+    """Circuit breaker wrapper for LLM chat (synchronous for compatibility)"""
+    import time
+    now = time.time()
+    if _CIRCUIT["open_until"] > now:
+        log.warning("LLM CB OPEN – serving fallback")
+        return _fallback([{"role": "system", "content": sys_prompt}, {"role": "user", "content": user_prompt}])
+
+    try:
+        rsp = _raw_chat(sys_prompt, user_prompt)
+        _CIRCUIT["fail"] = 0
+        return rsp
+    except Exception as e:
+        _CIRCUIT["fail"] += 1
+        if _CIRCUIT["fail"] >= 3:
+            _CIRCUIT["open_until"] = now + _CB_TIMEOUT
+        log.error("LLM failure %s – using fallback", e)
+        return _fallback([{"role": "system", "content": sys_prompt}, {"role": "user", "content": user_prompt}]) 
