@@ -72,30 +72,26 @@ def dispatch(intent, ctx, text):
         
         log.info(f"✅ Skill {_ROUTE[intent]} executed, response: {response[:100]}...")
         
+        # Update state using planner.next_state
+        old_state = ctx.state
+        log.info(f"🔄 Updating state from {old_state} with intent {intent}")
+        from .planner import next_state
+        from .state import State
+        current_state = State[ctx.state]
+        new_state = next_state(current_state, intent, ctx)
+        log.info(f"🔄 next_state returned: {new_state.name}")
+        
+        if new_state.name != old_state:
+            log.info(f"🔄 State transition {old_state} ➜ {new_state.name}")
+            ctx.state = new_state.name
+        else:
+            log.info(f"🔄 State unchanged ({ctx.state})")
+        
         return response
         
     except Exception as e:
         log.error(f"❌ Error importing skill {_ROUTE[intent]}: {e}")
         return f"Mi dispiace, c'è stato un errore nel processare la tua richiesta: {str(e)}"
-    
-    finally:
-        # Update state using planner.next_state (always executed)
-        try:
-            old_state = ctx.state
-            log.info(f"🔄 Updating state from {old_state} with intent {intent}")
-            from .planner import next_state
-            from .state import State
-            current_state = State[ctx.state]
-            new_state = next_state(current_state, intent, ctx)
-            log.info(f"🔄 next_state returned: {new_state.name}")
-            
-            if new_state.name != old_state:
-                log.info(f"🔄 State transition {old_state} ➜ {new_state.name}")
-                ctx.state = new_state.name
-            else:
-                log.info(f"🔄 State unchanged ({ctx.state})")
-        except Exception as e:
-            log.error(f"❌ Error updating state: {e}")
 
 def _update_context_state(ctx, intent):
     """Update context state and stage based on intent"""
