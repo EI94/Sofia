@@ -40,4 +40,4 @@ def validate(ctx: Context, intent: str, confidence: float = 1.0) -> tuple[str, s
     else:
         # NON forzare clarifica, ma ritorna warning
         log.warning("Invalid transition %s→%s", ctx.state, intent)
-        return (ctx.state, intent, "WARN_INVALID_TRANS") 
+        return (intent, ctx.state, "WARN_INVALID_TRANS") 
