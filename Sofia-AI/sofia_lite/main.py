@@ -72,13 +72,17 @@ async def whatsapp_webhook(request: Request):
         # Try to get JSON data first
         try:
             json_data = await request.json()
+            logger.info(f"📋 JSON data received: {json_data}")
             phone = json_data.get("From", "").replace("whatsapp:", "")
             message = json_data.get("Body", "")
-        except:
+            logger.info(f"📱 Extracted from JSON - phone: '{phone}', message: '{message}'")
+        except Exception as e:
+            logger.warning(f"⚠️ JSON parsing failed: {e}, trying form data")
             # Fallback to form data
             form_data = await request.form()
             phone = form_data.get("From", "").replace("whatsapp:", "")
             message = form_data.get("Body", "")
+            logger.info(f"📱 Extracted from form - phone: '{phone}', message: '{message}'")
         
         logger.info(f"WhatsApp message from {phone}: {message[:50]}...")
         
