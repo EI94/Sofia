@@ -1,4 +1,4 @@
-from sofia_lite.agents.prompt_builder import build_system_prompt
+from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
 from sofia_lite.middleware.llm import chat
 from ..middleware.calendar import book, create_calendar_event, send_reminder
 import re
@@ -10,7 +10,7 @@ def run(ctx, text):
     selected_slot = extract_slot_choice(text, ctx.slots.get("candidates", []))
     
     if not selected_slot:
-        sys = build_system_prompt(ctx)
+        sys = build_intent_specific_prompt(ctx, "CONFIRM")
         user = "Il cliente non ha specificato chiaramente lo slot orario. Chiedi gentilmente di scegliere tra le opzioni disponibili."
         return chat(sys, user)
     
@@ -18,7 +18,7 @@ def run(ctx, text):
     booking_success = book(ctx.phone, ctx.name, selected_slot)
     
     if not booking_success:
-        sys = build_system_prompt(ctx)
+        sys = build_intent_specific_prompt(ctx, "CONFIRM")
         user = "La prenotazione non è riuscita. Chiedi gentilmente di riprovare o di contattare direttamente l'ufficio."
         return chat(sys, user)
     
@@ -40,14 +40,14 @@ def run(ctx, text):
         ctx.slots["booking_confirmed"] = True
         ctx.slots["calendar_event_url"] = event_url
         
-        sys = build_system_prompt(ctx)
+        sys = build_intent_specific_prompt(ctx, "CONFIRM")
         user = f"La prenotazione è stata confermata per {ctx.name} alle {selected_slot}. Ringrazia il cliente e conferma i dettagli."
         return chat(sys, user)
         
     except Exception as e:
         # Booking succeeded but calendar failed
         ctx.state = "CONFIRMED"
-        sys = build_system_prompt(ctx)
+        sys = build_intent_specific_prompt(ctx, "CONFIRM")
         user = f"La prenotazione è stata confermata per {ctx.name} alle {selected_slot}, ma c'è stato un problema con il calendario. Ringrazia comunque il cliente."
         return chat(sys, user)
 

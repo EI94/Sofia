@@ -32,8 +32,8 @@ class Orchestrator:
         
         # Detect language if not set
         if not ctx.lang or ctx.lang == "unknown":
-            from ..middleware.language import detect
-            ctx.lang = detect(message)
+            from ..middleware.language import detect_lang_with_heuristics
+            ctx.lang, _ = detect_lang_with_heuristics(message, ctx)
             log.info(f"🌍 Language detected: {ctx.lang} for {phone}")
         
         # RAG: Search for similar context
@@ -42,12 +42,13 @@ class Orchestrator:
         if ctx.rag_chunks:
             log.info(f"🔍 RAG found {len(ctx.rag_chunks)} relevant chunks")
         
-        # Build system prompt
-        system_prompt = build_system_prompt(ctx)
+        # Build system prompt (will be updated by each skill with intent-specific prompt)
+        # system_prompt = build_system_prompt(ctx)  # REMOVED - each skill will use intent-specific prompt
         
         # Plan intent
         intent, reason = plan(ctx, message, chat)
         log.info(f"🎯 Intent detected: {intent} for {phone}")
+        log.info(f"📝 Intent reason: {reason}")
         
         # Extract confidence from reason if available
         confidence = 1.0
@@ -62,6 +63,7 @@ class Orchestrator:
         log.info(f"✅ Intent validated: {intent} (conf: {confidence:.2f})")
         
         # Execute intent
+        log.info(f"🚀 Dispatching intent: {intent} to skill")
         response = dispatch(intent, ctx, message)
         
         # Ensure response is a string and handle any issues

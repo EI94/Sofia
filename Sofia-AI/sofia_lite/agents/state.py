@@ -80,3 +80,28 @@ def is_terminal_state(state: State) -> bool:
         True if state is terminal, False otherwise
     """
     return len(get_valid_transitions(state)) == 0
+
+def auto_advance(ctx, intent: str) -> bool:
+    """
+    Auto-advance state machine to prevent stuck states.
+    
+    Args:
+        ctx: Conversation context
+        intent: Detected user intent
+        
+    Returns:
+        True if state was advanced, False otherwise
+    """
+    from .context import Context
+    
+    # Auto-advance from GREETING if user asks for services or name
+    if ctx.state == "GREETING" and intent in {"ASK_SERVICE", "ASK_NAME"}:
+        ctx.state = intent
+        return True
+    
+    # Auto-advance from ASK_NAME if user provides name but asks for services
+    if ctx.state == "ASK_NAME" and intent == "ASK_SERVICE" and ctx.name:
+        ctx.state = "ASK_SERVICE"
+        return True
+    
+    return False

@@ -1,6 +1,7 @@
 import json
 import os
 import logging
+import functools
 from typing import Tuple
 from tenacity import retry, stop_after_attempt, wait_exponential
 from .prompt_builder import build_system_prompt
@@ -10,10 +11,14 @@ from .. import get_config
 
 log = logging.getLogger("sofia.planner")
 
+# Tiny cache for intent classification (LRU 1024)
+_intent_cache = {}
+_MAX_CACHE_SIZE = 1024
+
 # Definizione degli intent con priorità (più alta = più importante)
 INTENTS = ["GREET","ASK_NAME","ASK_SERVICE","PROPOSE_CONSULT",
            "ASK_CHANNEL","ASK_SLOT","ASK_PAYMENT","CONFIRM",
-           "ROUTE_ACTIVE","CLARIFY","UNKNOWN"]
+           "ROUTE_ACTIVE","CLARIFY","WHO_ARE_YOU","REQUEST_SERVICE","ASK_COST","UNKNOWN"]
 
 # Few-shot examples per OpenAI
 FEW_SHOT_EXAMPLES = """
@@ -21,6 +26,15 @@ Examples:
 User: "Ciao!" → Intent: GREET
 User: "Hello" → Intent: GREET  
 User: "Salve" → Intent: GREET
+User: "Buongiorno" → Intent: GREET
+User: "Good morning" → Intent: GREET
+User: "Buonasera" → Intent: GREET
+User: "Good evening" → Intent: GREET
+User: "Bonjour" → Intent: GREET
+User: "¡Hola!" → Intent: GREET
+User: "مرحبا" → Intent: GREET
+User: "नमस्ते" → Intent: GREET
+User: "السلام علیکم" → Intent: GREET
 User: "Chi sei?" → Intent: WHO_ARE_YOU
 User: "Who are you?" → Intent: WHO_ARE_YOU
 User: "Che servizi offrite?" → Intent: ASK_SERVICE
@@ -42,29 +56,35 @@ User: "I don't understand" → Intent: CLARIFY
 User: "asdfghjkl" → Intent: CLARIFY
 """
 
-def classify_intent(text: str, lang: str) -> Tuple[str, float]:
+def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
     """
-    Classifica l'intent del testo usando nuova pipeline.
+    Classifica l'intent del testo usando nuova pipeline con cache.
     
     Args:
         text: Testo da analizzare
         lang: Lingua del testo
+        ctx: Conversation context (optional, for language caching)
         
     Returns:
         Tuple (intent, confidence)
     """
-    # Step 1: Language detection
-    from ..middleware.language import detect_lang
-    detected_lang = detect_lang(text)
+    # Step 1: Language detection with heuristics
+    from ..middleware.language import detect_lang_with_heuristics
+    detected_lang, extra_tag = detect_lang_with_heuristics(text, ctx)
     log.info(f"🌍 Language detected: {detected_lang} for text: '{text[:20]}...'")
     
-    # Step 2: Try GPT-4o-mini few-shot (timeout 3s, 1 retry)
+    # Step 2: Quick greeting heuristic
+    if extra_tag == "GREETING_QUICK":
+        log.info(f"🚀 Quick greeting heuristic: '{text}' -> GREET")
+        return "GREET", 0.99
+    
+    # Step 3: Try GPT-4o-mini few-shot (timeout 4s, 1 retry)
     try:
         intent, confidence = _classify_with_openai_fast(text, detected_lang)
         log.info(f"🤖 OpenAI classified '{text}' as {intent} (conf: {confidence:.2f})")
         
-        # Step 3: Apply confidence threshold
-        if confidence < 0.35:
+        # Step 4: Apply confidence threshold (lowered from 0.35 to 0.25)
+        if confidence < 0.25:
             log.warning(f"⚠️ Low confidence ({confidence:.2f}), falling back to CLARIFY")
             return "CLARIFY", confidence
             
@@ -73,13 +93,13 @@ def classify_intent(text: str, lang: str) -> Tuple[str, float]:
     except Exception as e:
         log.warning(f"⚠️ OpenAI classification failed: {e}, trying similarity fallback")
         
-        # Step 4: Similarity fallback
+        # Step 5: Similarity fallback
         try:
             intent, confidence = _classify_with_similarity(text)
             log.info(f"🔍 Similarity classified '{text}' as {intent} (conf: {confidence:.2f})")
             
-            # Apply confidence threshold
-            if confidence < 0.35:
+            # Apply confidence threshold (lowered from 0.35 to 0.25)
+            if confidence < 0.25:
                 return "CLARIFY", confidence
                 
             return intent, confidence
@@ -90,7 +110,7 @@ def classify_intent(text: str, lang: str) -> Tuple[str, float]:
 
 @retry(stop=stop_after_attempt(1), wait=wait_exponential(multiplier=1, min=1, max=2))
 def _classify_with_openai_fast(text: str, lang: str) -> Tuple[str, float]:
-    """Classifica intent usando OpenAI con timeout 3s e 1 retry"""
+    """Classifica intent usando OpenAI con timeout 4s e 1 retry"""
     try:
         import openai
         import httpx
@@ -99,7 +119,7 @@ def _classify_with_openai_fast(text: str, lang: str) -> Tuple[str, float]:
         # Configure client with timeout
         client = openai.OpenAI(
             api_key=cfg["OPENAI_API_KEY"],
-            http_client=httpx.Client(timeout=3.0)  # 3 second timeout
+            http_client=httpx.Client(timeout=4.0)  # 4 second timeout
         )
         
         prompt = f"""{FEW_SHOT_EXAMPLES}
@@ -116,7 +136,7 @@ JSON response:"""
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0,
-            max_tokens=50
+            max_tokens=64  # Reduced from 50 to 64
         )
         
         result = json.loads(response.choices[0].message.content.strip())
@@ -191,8 +211,8 @@ def _classify_with_similarity(text: str) -> Tuple[str, float]:
                     best_similarity = max_similarity
                     best_intent = intent
         
-        # Se similarity < 0.55, ritorna CLARIFY
-        if best_similarity < 0.55:
+        # Se similarity < 0.25, ritorna CLARIFY (abbassato da 0.55)
+        if best_similarity < 0.25:
             return "CLARIFY", best_similarity
         
         return best_intent, best_similarity
@@ -205,8 +225,8 @@ def plan(ctx: Context, user_msg: str, llm) -> tuple[str, str]:
     """
     Returns (intent:str, rationale:str) usando Intent Engine 2.0
     """
-    # Classifica intent con confidence
-    intent, confidence = classify_intent(user_msg, ctx.lang)
+    # Classifica intent con confidence (pass context for language caching)
+    intent, confidence = classify_intent(user_msg, ctx.lang, ctx)
     
     log.info(f"🎯 Intent Engine 2.0: '{user_msg}' → {intent} (conf: {confidence:.2f})")
     

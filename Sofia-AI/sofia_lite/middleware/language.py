@@ -58,6 +58,40 @@ def detect_lang(text: str) -> str:
         log.error(f"Language detection completely failed: {e}, defaulting to Italian")
         return "it"
 
+def detect_lang_with_heuristics(text: str, ctx=None) -> tuple[str, Optional[str]]:
+    """
+    Detect language with post-detect heuristics and 1-shot cache.
+    Returns (lang, extra_tag) where extra_tag can be "GREETING_QUICK"
+    """
+    # Check 1-shot cache first
+    if ctx and ctx.slots.get("lang_confirmed"):
+        cached_lang = ctx.slots["lang_confirmed"]
+        log.info(f"🔄 Using cached language: {cached_lang}")
+        return cached_lang, None
+    
+    # Quick greeting whitelist for ≤3 tokens
+    greeting_whitelist = {
+        "ciao", "hi", "hola", "bonjour", "هلا", "नमस्ते", "ہیلو", "হাই", "nanga"
+    }
+    
+    # Check if text is a quick greeting (≤3 tokens)
+    tokens = text.strip().split()
+    if len(tokens) <= 3 and text.strip().lower() in greeting_whitelist:
+        # Force language detection for quick greetings
+        lang = detect_lang(text)
+        log.info(f"🚀 Quick greeting detected: '{text}' -> {lang}")
+        return lang, "GREETING_QUICK"
+    
+    # Normal detection
+    lang = detect_lang(text)
+    
+    # Cache the result for future turns
+    if ctx:
+        ctx.slots["lang_confirmed"] = lang
+        log.info(f"💾 Cached language: {lang}")
+    
+    return lang, None
+
 def detect_by_keywords(text: str) -> str:
     """
     Keyword-based language detection for 9 languages.

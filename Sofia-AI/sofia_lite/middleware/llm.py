@@ -1,6 +1,8 @@
-import openai, json, functools, asyncio
+import openai, json, functools, asyncio, logging
 from typing import Tuple
 from .. import get_config
+
+log = logging.getLogger("sofia.llm")
 
 # Initialize OpenAI client with error handling
 _CLIENT = None
@@ -61,7 +63,8 @@ def classify(msg: str, lang="it") -> Tuple[str, float]:
             model="gpt-4o-mini",
             temperature=0,
             messages=[{"role":"user","content":f"{_SYS}\nUser({lang}): {msg}"}],
-            timeout=5.0  # 5 second timeout
+            timeout=4.0,  # 4 second timeout
+            max_tokens=64  # Reduced for faster response
         )
         data = json.loads(chat.choices[0].message.content)
         result = (data["intent"], float(data["confidence"]))
@@ -75,23 +78,30 @@ def classify(msg: str, lang="it") -> Tuple[str, float]:
 
 def chat(sys_prompt: str, user_prompt: str) -> str:
     """For skill replies (slow path, full ParaHelp)."""
+    log.info(f"🤖 LLM CHAT: Starting with user_prompt='{user_prompt[:100]}...'")
+    log.info(f"📋 System prompt preview: {sys_prompt[:200]}...")
+    
     # Check cache first
     cache_key = _cache_key("chat", sys_prompt, user_prompt)
     cached_result = _get_cached(cache_key, ttl=30)
     if cached_result:
+        log.info(f"💾 Using cached result: {cached_result[:100]}...")
         return cached_result
     
     client = _get_client()
     
     try:
+        log.info(f"🚀 Making OpenAI API call...")
         rsp = client.chat.completions.create(
             model="gpt-4o-mini",
             temperature=0.3,
             messages=[{"role":"system","content":sys_prompt},
                       {"role":"user","content":user_prompt}],
-            timeout=5.0  # 5 second timeout
+            timeout=4.0  # 4 second timeout
         )
         result = rsp.choices[0].message.content.strip()
+        
+        log.info(f"✅ LLM Response: {result[:100]}...")
         
         # Cache the result
         _set_cached(cache_key, result)

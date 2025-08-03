@@ -21,8 +21,9 @@ def validate(ctx: Context, intent: str, confidence: float = 1.0) -> str:
         return "CLARIFY"
     
     # Smart name handling: force ASK_NAME if no name and not already asking
-    if not ctx.name and intent not in ("ASK_NAME","CLARIFY"):
-        return "ASK_NAME"
+    # BUT only if we're in GREETING state and intent is GREET
+    if not ctx.name and ctx.state == "GREETING" and intent == "GREET":
+        return "GREET"  # Allow GREET to proceed to greet_user
     
     # If ASK_NAME but name already present, go to ASK_SERVICE
     if intent == "ASK_NAME" and ctx.name:
