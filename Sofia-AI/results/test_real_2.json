@@ -6,9 +6,9 @@
   "fail_reason": "Twilio WhatsApp API error",
   "fail_loop": false,
   "response_times": [
-    0.4428887367248535
+    0.23407793045043945
   ],
   "messages": [],
-  "start_time": "2025-08-03T16:42:20.556749",
-  "end_time": "2025-08-03T16:42:20.999654"
+  "start_time": "2025-08-03T17:10:08.489927",
+  "end_time": "2025-08-03T17:10:08.724015"
 }

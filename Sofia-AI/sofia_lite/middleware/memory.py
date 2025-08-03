@@ -271,6 +271,10 @@ def load_context(phone: str) -> Context | None:
 def save_context(ctx: Context):
     """Save context to memory"""
     try:
+        if not ctx.phone:
+            log.error("Missing phone in context, skip save")
+            return
+            
         gateway = _get_memory_gateway()
         user_data = {
             'lang': ctx.lang,

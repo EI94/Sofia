@@ -72,15 +72,18 @@ def dispatch(intent, ctx, text):
         
         log.info(f"✅ Skill {_ROUTE[intent]} executed, response: {response[:100]}...")
         
-        # Update ctx.state and ctx.stage after skill execution
-        _update_context_state(ctx, intent)
+        # Update state using planner.next_state
+        old_state = ctx.state
+        from .planner import next_state
+        from .state import State
+        current_state = State[ctx.state]
+        new_state = next_state(current_state, intent, ctx)
         
-        # Auto-advance state machine to prevent stuck states
-        from .state import auto_advance
-        new_state = auto_advance(ctx.state, intent)
-        if new_state != ctx.state:
-            ctx.state = new_state
-            log.info(f"🚀 Auto-advanced state from {ctx.state} to {new_state}")
+        if new_state.name != old_state:
+            log.info(f"🔄 State transition {old_state} ➜ {new_state.name}")
+            ctx.state = new_state.name
+        else:
+            log.info(f"🔄 State unchanged ({ctx.state})")
         
         return response
         
