@@ -278,17 +278,25 @@ def plan(ctx: Context, user_msg: str, llm) -> tuple[str, str]:
     
     return intent, f"Intent Engine 2.0: {intent} (confidence: {confidence:.2f})"
 
-def next_state(current_state: State, intent: str) -> State:
+def next_state(current_state: State, intent: str, ctx=None) -> State:
     """
     Determine the next state based on current state and intent.
     
     Args:
         current_state: Current conversation state
         intent: Detected user intent
+        ctx: Conversation context (optional)
         
     Returns:
         Next state to transition to
     """
+    # Check auto-advance from GREETING first
+    if ctx:
+        from .state import advance_from_greeting
+        auto = advance_from_greeting(ctx, intent)
+        if auto:
+            return auto
+    
     # Intent to state mapping (YAML quick-ref)
     intent_to_state = {
         "GREET": State.GREETING,  # GREET leads to GREETING (self-transition allowed)

@@ -85,6 +85,22 @@ def is_terminal_state(state: State) -> bool:
     """
     return len(get_valid_transitions(state)) == 0
 
+def advance_from_greeting(ctx, intent):
+    """
+    Auto-advance from GREETING state based on intent and context.
+    
+    Args:
+        ctx: Conversation context
+        intent: Detected user intent
+        
+    Returns:
+        New state or None if no auto-advance needed
+    """
+    if ctx.state == "GREETING":
+        if intent == "GREET":
+            return State.ASK_NAME if ctx.name is None else State.ASK_SERVICE
+    return None
+
 def auto_advance(current_state: str, intent: str) -> str:
     """
     Auto-advance state machine to prevent stuck states.
@@ -103,10 +119,3 @@ def auto_advance(current_state: str, intent: str) -> str:
     }
     
     return mapping.get((current_state, intent), current_state)
-    
-    # Auto-advance from ASK_NAME if user provides name but asks for services
-    if ctx.state == "ASK_NAME" and intent == "ASK_SERVICE" and ctx.name:
-        ctx.state = "ASK_SERVICE"
-        return True
-    
-    return False

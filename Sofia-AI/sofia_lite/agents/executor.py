@@ -96,7 +96,7 @@ def _update_context_state(ctx, intent):
     # Update state
     try:
         current_state = State[ctx.state]
-        new_state = next_state(current_state, intent)
+        new_state = next_state(current_state, intent, ctx)
         ctx.state = new_state.name
     except Exception as e:
         import logging

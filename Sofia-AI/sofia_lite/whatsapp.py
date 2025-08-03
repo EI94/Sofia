@@ -36,31 +36,9 @@ except Exception as e:
 def handle_incoming(phone: str, text: str, channel: str = "text"):
     """Unified handler for incoming messages using Sofia Lite core"""
     
-    # Load or create context
-    ctx = load_context(phone) or Context(phone=phone, lang="it", state="GREETING")
-    
-    # 1 - Classify intent
-    intent, confidence = classify(text, ctx.lang)
-    logger.info(f"🎯 Intent: {intent} (confidence: {confidence})")
-    
-    # 2 - Get next stage from orchestrator
-    next_stage = orchestrator.next_stage(ctx, intent)
-    logger.info(f"🔄 Stage transition: {ctx.state} → {next_stage}")
-    
-    # 3 - Execute skill
-    reply = dispatch(next_stage, ctx, text)
-    logger.info(f"💬 Skill response: {reply[:50]}...")
-    
-    # 4 - Check for loops (simplified)
-    # loop_check = loop_guard.check_loop(ctx, intent, reply)  # Removed - not implemented
-    # if loop_check["escalate"]:
-    #     logger.warning(f"🔄 Loop detected: {loop_check['reason']}")
-    #     reply = loop_check["message"]
-    
-    # 5 - Persist context
-    save_context(ctx)
-    
-    return reply
+    # Use new orchestrator
+    result = orchestrator.process_message(phone, text, channel)
+    return result["reply"]
 
 @router.post("/webhook")
 async def whatsapp_webhook(

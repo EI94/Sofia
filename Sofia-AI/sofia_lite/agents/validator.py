@@ -1,4 +1,7 @@
+import logging
 from .context import Context
+
+log = logging.getLogger("sofia.validator")
 
 # State → Intent validation matrix
 VALID_TRANSITIONS = {
@@ -36,4 +39,5 @@ def validate(ctx: Context, intent: str, confidence: float = 1.0) -> tuple[str, s
         return (intent, ctx.state, "")
     else:
         # NON forzare clarifica, ma ritorna warning
+        log.warning("Invalid transition %s→%s", ctx.state, intent)
         return (ctx.state, intent, "WARN_INVALID_TRANS") 

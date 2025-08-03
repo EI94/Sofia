@@ -4,9 +4,10 @@ Test per i hotfix della state machine
 """
 
 import pytest
-from sofia_lite.agents.state import State, can_transition, auto_advance
+from sofia_lite.agents.state import State, can_transition, auto_advance, advance_from_greeting
 from sofia_lite.agents.validator import validate
 from sofia_lite.agents.context import Context
+from sofia_lite.agents.planner import next_state
 
 def test_self_transition_allowed():
     """Test che self-transition sia permessa"""
@@ -87,6 +88,28 @@ def test_validator_valid_transition():
     intent, state, warning = validate(ctx, "GREET", 0.8)
     assert intent == "GREET"
     assert warning == ""
+
+def test_greeting_auto_advance():
+    """Test auto-advance da GREETING con context"""
+    ctx = Context(
+        phone="+100",
+        lang="it",
+        name=None,
+        client_type="new",
+        state="GREETING",
+        asked_name=False,
+        slots={},
+        history=[]
+    )
+    
+    # Test GREETING + GREET → ASK_NAME (quando name è None)
+    new_state = next_state(State.GREETING, "GREET", ctx)
+    assert new_state == State.ASK_NAME
+    
+    # Test GREETING + GREET → ASK_SERVICE (quando name è presente)
+    ctx.name = "Mario"
+    new_state = next_state(State.GREETING, "GREET", ctx)
+    assert new_state == State.ASK_SERVICE
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"]) 
