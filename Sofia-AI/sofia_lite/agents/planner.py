@@ -243,9 +243,13 @@ def next_state(current_state: State, intent: str) -> State:
     Returns:
         Next state to transition to
     """
+    # Special case: if we're in GREETING and intent is GREET, stay in GREETING
+    if current_state == State.GREETING and intent == "GREET":
+        return State.GREETING
+    
     # Intent to state mapping (YAML quick-ref)
     intent_to_state = {
-        "GREET": State.GREETING,
+        "GREET": State.ASK_NAME,  # GREET should lead to ASK_NAME
         "ASK_NAME": State.ASK_NAME,
         "ASK_SERVICE": State.ASK_SERVICE,
         "PROPOSE_CONSULT": State.PROPOSE_CONSULT,
