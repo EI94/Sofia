@@ -69,9 +69,16 @@ async def health_check():
 async def whatsapp_webhook(request: Request):
     """WhatsApp webhook endpoint."""
     try:
-        form_data = await request.form()
-        phone = form_data.get("From", "").replace("whatsapp:", "")
-        message = form_data.get("Body", "")
+        # Try to get JSON data first
+        try:
+            json_data = await request.json()
+            phone = json_data.get("From", "").replace("whatsapp:", "")
+            message = json_data.get("Body", "")
+        except:
+            # Fallback to form data
+            form_data = await request.form()
+            phone = form_data.get("From", "").replace("whatsapp:", "")
+            message = form_data.get("Body", "")
         
         logger.info(f"WhatsApp message from {phone}: {message[:50]}...")
         
@@ -81,7 +88,8 @@ async def whatsapp_webhook(request: Request):
                     "reply": "Sofia è temporaneamente non disponibile. Riprova tra qualche minuto.",
                     "intent": "ERROR",
                     "state": "INITIAL",
-                    "lang": "it"
+                    "lang": "it",
+                    "phone": phone
                 }
             )
         
@@ -99,7 +107,8 @@ async def whatsapp_webhook(request: Request):
                     "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
                     "intent": "ERROR",
                     "state": "INITIAL",
-                    "lang": "it"
+                    "lang": "it",
+                    "phone": phone
                 }
             )
         
@@ -110,7 +119,8 @@ async def whatsapp_webhook(request: Request):
                 "reply": "Errore interno del server. Riprova più tardi.",
                 "intent": "ERROR",
                 "state": "INITIAL",
-                "lang": "it"
+                "lang": "it",
+                "phone": ""
             },
             status_code=500
         )
