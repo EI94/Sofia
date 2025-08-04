@@ -5,10 +5,11 @@ Sofia Lite - Language Detection Middleware
 import logging
 import functools
 from typing import Optional
+from .latency import track_latency
 
 log = logging.getLogger("sofia.language")
 
-# Micro-cache LRU(512) per language detection
+# Micro-cache LRU(512) per language detection - γ5 optimization
 @functools.lru_cache(maxsize=512)
 def _cached_detect_lang(text: str) -> str:
     """Cached language detection with TTL 1 hour (handled by LRU)"""
@@ -65,6 +66,7 @@ def _detect_lang_impl(text: str) -> str:
         log.error(f"Language detection completely failed: {e}, defaulting to Italian")
         return "it"
 
+@track_latency("LANG")
 def detect_lang(text: str) -> str:
     """
     Detect language from text with micro-cache LRU(512).
@@ -74,7 +76,38 @@ def detect_lang(text: str) -> str:
     cache_key = text[:32]
     return _cached_detect_lang(cache_key)
 
+def heuristic_lang(text: str) -> Optional[str]:
+    """
+    Fast heuristic language detection based on first word.
+    Returns language code or None if no match.
+    """
+    if not text.strip():
+        return None
+    
+    # Get first word
+    first_word = text.strip().split()[0].lower()
+    
+    # Greeting words by language
+    GREET_WORDS = {
+        "it": ["ciao", "salve", "buongiorno", "buonasera"],
+        "en": ["hello", "hi", "good", "hey"],
+        "fr": ["bonjour", "salut", "bonsoir"],
+        "es": ["hola", "buenos", "buenas"],
+        "ar": ["مرحبا", "أهلا", "صباح", "مساء"],
+        "hi": ["नमस्ते", "हैलो", "शुभ"],
+        "ur": ["السلام", "ہیلو", "صبح", "شام"]
+    }
+    
+    # Check if first word matches any greeting
+    for lang, greet_words in GREET_WORDS.items():
+        if any(greet_word in first_word for greet_word in greet_words):
+            log.info(f"🚀 Heuristic lang detection: '{first_word}' -> {lang}")
+            return lang
+    
+    return None
+
 def detect_lang_with_heuristics(text: str, ctx=None) -> tuple[str, Optional[str]]:
+    """Detect language with optimistic guess → verify once - γ5 optimization"""
     """
     Detect language with post-detect heuristics and 1-shot cache.
     Returns (lang, extra_tag) where extra_tag can be "GREETING_QUICK"
@@ -84,6 +117,15 @@ def detect_lang_with_heuristics(text: str, ctx=None) -> tuple[str, Optional[str]
         cached_lang = ctx.slots["lang_confirmed"]
         log.info(f"🔄 Using cached language: {cached_lang}")
         return cached_lang, None
+    
+    # Try heuristic detection first
+    heuristic_result = heuristic_lang(text)
+    if heuristic_result:
+        # Cache the result for future turns
+        if ctx:
+            ctx.slots["lang_confirmed"] = heuristic_result
+            log.info(f"💾 Cached heuristic language: {heuristic_result}")
+        return heuristic_result, "GREETING_QUICK"
     
     # Quick greeting whitelist for ≤3 tokens
     greeting_whitelist = {

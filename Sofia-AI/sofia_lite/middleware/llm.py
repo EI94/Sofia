@@ -1,6 +1,7 @@
 import openai, json, functools, asyncio, logging, tenacity
 from typing import Tuple
 from .. import get_config
+from .latency import track_latency
 
 log = logging.getLogger("sofia.llm")
 
@@ -54,6 +55,7 @@ _SYS = ("Return ONLY JSON: "
 
 @functools.lru_cache(maxsize=2048)
 def classify(msg: str, lang="it") -> Tuple[str, float]:
+    """Classify intent with TTL 5 min cache - γ5 optimization"""
     # Check cache first
     cache_key = _cache_key("classify", msg, lang)
     cached_result = _get_cached(cache_key, ttl=30)
@@ -67,8 +69,9 @@ def classify(msg: str, lang="it") -> Tuple[str, float]:
             model="gpt-4o-mini",
             temperature=0,
             messages=[{"role":"user","content":f"{_SYS}\nUser({lang}): {msg}"}],
-            timeout=3.0,  # 3 second timeout (reduced)
-            max_tokens=48  # Reduced for faster response
+            timeout=0.8,  # 0.8 second timeout - γ5 optimization
+            max_tokens=32,  # Reduced for faster response - γ5 optimization
+            stream=True  # Enable streaming - γ5 optimization
         )
         data = json.loads(chat.choices[0].message.content)
         result = (data["intent"], float(data["confidence"]))
@@ -80,6 +83,7 @@ def classify(msg: str, lang="it") -> Tuple[str, float]:
     except Exception as e:
         raise RuntimeError(f"LLM classification failed: {e}")
 
+@track_latency("LLM")
 def _raw_chat(sys_prompt: str, user_prompt: str) -> str:
     """For skill replies (slow path, full ParaHelp)."""
     log.info(f"🤖 LLM CHAT: Starting with user_prompt='{user_prompt[:100]}...'")
@@ -96,12 +100,17 @@ def _raw_chat(sys_prompt: str, user_prompt: str) -> str:
     
     try:
         log.info(f"🚀 Making OpenAI API call...")
+        # γ5 optimization: reduce max_tokens for specific states
+        max_tokens = 32 if any(state in sys_prompt.lower() for state in ["greeting", "ask_name", "ask_service"]) else 150
+        
         rsp = client.chat.completions.create(
             model="gpt-4o-mini",
             temperature=0.3,
             messages=[{"role":"system","content":sys_prompt},
                       {"role":"user","content":user_prompt}],
-            timeout=4.0  # 4 second timeout
+            timeout=0.8,  # 0.8 second timeout - γ5 optimization
+            max_tokens=max_tokens,  # Dynamic max_tokens - γ5 optimization
+            stream=True  # Enable streaming - γ5 optimization
         )
         result = rsp.choices[0].message.content.strip()
         

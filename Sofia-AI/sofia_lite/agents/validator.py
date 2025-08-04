@@ -5,7 +5,7 @@ log = logging.getLogger("sofia.validator")
 
 # State → Intent validation matrix
 VALID_TRANSITIONS = {
-    "GREETING": ["GREET", "ASK_NAME", "ROUTE_ACTIVE"],
+    "GREETING": ["GREET", "ASK_NAME", "ASK_SERVICE", "ROUTE_ACTIVE"],
     "ASK_NAME": ["ASK_NAME", "ASK_SERVICE", "CLARIFY"],
     "ASK_SERVICE": ["ASK_SERVICE", "PROPOSE_CONSULT", "CLARIFY"],
     "PROPOSE_CONSULT": ["PROPOSE_CONSULT", "ASK_CHANNEL", "CLARIFY"],
@@ -13,7 +13,8 @@ VALID_TRANSITIONS = {
     "ASK_SLOT": ["ASK_SLOT", "ASK_PAYMENT", "CONFIRM", "CLARIFY"],
     "ASK_PAYMENT": ["ASK_PAYMENT", "CONFIRM", "CLARIFY"],
     "CONFIRM": ["CONFIRM", "GREETING", "CLARIFY"],
-    "ROUTE_ACTIVE": ["ROUTE_ACTIVE", "GREETING", "CLARIFY"]
+    "ROUTE_ACTIVE": ["ROUTE_ACTIVE", "GREETING", "CLARIFY"],
+    "ASK_CLARIFICATION": ["GREET", "ASK_NAME", "ASK_SERVICE", "CLARIFY"]
 }
 
 def validate(ctx: Context, intent: str, confidence: float = 1.0) -> tuple[str, str, str]:
@@ -31,6 +32,14 @@ def validate(ctx: Context, intent: str, confidence: float = 1.0) -> tuple[str, s
     # If ASK_NAME but name already present, go to ASK_SERVICE
     if intent == "ASK_NAME" and ctx.name:
         return ("ASK_SERVICE", ctx.state, "")
+    
+    # Special case: if we're in ASK_CLARIFICATION and get GREET, allow it
+    if ctx.state == "ASK_CLARIFICATION" and intent == "GREET":
+        return ("GREET", ctx.state, "")
+    
+    # Special case: if we're in ASK_CLARIFICATION and get ASK_NAME, allow it
+    if ctx.state == "ASK_CLARIFICATION" and intent == "ASK_NAME":
+        return ("ASK_NAME", ctx.state, "")
     
     current_state = ctx.state
     valid_intents = VALID_TRANSITIONS.get(current_state, [])

@@ -1,0 +1,324 @@
+{
+  "summary": {
+    "total_tests": 20,
+    "successful_tests": 0,
+    "failed_tests": 20,
+    "success_rate": 0.0,
+    "avg_response_time": 0
+  },
+  "by_endpoint": {
+    "whatsapp": {
+      "total": 10,
+      "successful": 0,
+      "success_rate": 0.0
+    },
+    "voice": {
+      "total": 10,
+      "successful": 0,
+      "success_rate": 0.0
+    }
+  },
+  "extracted_names": [],
+  "detailed_results": [
+    {
+      "test_name": "WhatsApp - Nome semplice italiano",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.2804570198059082,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "Ciao, mi chiamo Mario Rossi",
+        "from": "+393331234567",
+        "timestamp": "2024-01-01T10:00:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome con caratteri speciali",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.1588420867919922,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "Sono Mario@Rossi, piacere!",
+        "from": "+393331234568",
+        "timestamp": "2024-01-01T10:01:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome con numeri",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.15268468856811523,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "Mi chiamo Mario123Rossi",
+        "from": "+393331234569",
+        "timestamp": "2024-01-01T10:02:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome francese",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.15381193161010742,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "Bonjour, je m'appelle Jean-Pierre Dubois",
+        "from": "+33123456789",
+        "timestamp": "2024-01-01T10:03:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome spagnolo",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.15223193168640137,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "Hola, me llamo María José García",
+        "from": "+34612345678",
+        "timestamp": "2024-01-01T10:04:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome inglese",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.15367865562438965,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "Hi, I'm John Smith",
+        "from": "+1234567890",
+        "timestamp": "2024-01-01T10:05:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome arabo",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.15477895736694336,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "مرحبا، اسمي أحمد محمد",
+        "from": "+966501234567",
+        "timestamp": "2024-01-01T10:06:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome hindi",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.15320301055908203,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "नमस्ते, मेरा नाम राजेश कुमार है",
+        "from": "+919876543210",
+        "timestamp": "2024-01-01T10:07:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome bengalese",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.1545426845550537,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "হ্যালো, আমার নাম রাহুল দাস",
+        "from": "+8801712345678",
+        "timestamp": "2024-01-01T10:08:00Z"
+      }
+    },
+    {
+      "test_name": "WhatsApp - Nome con apostrofo",
+      "endpoint": "whatsapp",
+      "status_code": 404,
+      "response_time": 0.1514420509338379,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "message": "Ciao, sono Maria D'Angelo",
+        "from": "+393331234570",
+        "timestamp": "2024-01-01T10:09:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome semplice italiano",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.16878199577331543,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "Ciao, mi chiamo Mario Rossi",
+        "caller_id": "+393331234567",
+        "timestamp": "2024-01-01T10:00:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome con caratteri speciali",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.15297293663024902,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "Sono Mario@Rossi, piacere!",
+        "caller_id": "+393331234568",
+        "timestamp": "2024-01-01T10:01:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome con numeri",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.18165206909179688,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "Mi chiamo Mario123Rossi",
+        "caller_id": "+393331234569",
+        "timestamp": "2024-01-01T10:02:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome francese",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.15045499801635742,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "Bonjour, je m'appelle Jean-Pierre Dubois",
+        "caller_id": "+33123456789",
+        "timestamp": "2024-01-01T10:03:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome spagnolo",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.1495952606201172,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "Hola, me llamo María José García",
+        "caller_id": "+34612345678",
+        "timestamp": "2024-01-01T10:04:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome inglese",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.14955377578735352,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "Hi, I'm John Smith",
+        "caller_id": "+1234567890",
+        "timestamp": "2024-01-01T10:05:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome arabo",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.15344882011413574,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "مرحبا، اسمي أحمد محمد",
+        "caller_id": "+966501234567",
+        "timestamp": "2024-01-01T10:06:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome hindi",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.1526339054107666,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "नमस्ते, मेरा नाम राजेश कुमार है",
+        "caller_id": "+919876543210",
+        "timestamp": "2024-01-01T10:07:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome bengalese",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.15442299842834473,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "হ্যালো, আমার নাম রাহুল দাস",
+        "caller_id": "+8801712345678",
+        "timestamp": "2024-01-01T10:08:00Z"
+      }
+    },
+    {
+      "test_name": "Voice - Nome con apostrofo",
+      "endpoint": "voice",
+      "status_code": 404,
+      "response_time": 0.1569080352783203,
+      "success": false,
+      "response": {
+        "detail": "Not Found"
+      },
+      "payload": {
+        "speech": "Ciao, sono Maria D'Angelo",
+        "caller_id": "+393331234570",
+        "timestamp": "2024-01-01T10:09:00Z"
+      }
+    }
+  ]
+}

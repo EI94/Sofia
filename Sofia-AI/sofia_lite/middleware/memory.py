@@ -9,17 +9,21 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 from ..agents.context import Context
 from .. import get_config
+from .latency import track_latency
 
 log = logging.getLogger("sofia.memory")
 
 class VectorStore:
-    """Vector store for RAG using FAISS"""
+    """Vector store for RAG using FAISS - γ5 optimization with local cache"""
     
     def __init__(self):
         self.index = None
         self.texts = []
         self.metadata = []
         self._initialized = False
+        # γ5 optimization: Local cache LRU 4096 / TTL 30s
+        self._local_cache = {}
+        self._cache_ttl = 30  # seconds
     
     def _initialize(self):
         """Lazy initialization of FAISS index"""
@@ -173,6 +177,7 @@ class FirestoreMemoryGateway:
             else:
                 raise RuntimeError(f"Firestore initialization failed: {e}")
     
+    @track_latency("RAG")
     def get_user_context(self, phone: str):
         """Get user context from Firestore"""
         if not self._initialized:
@@ -228,18 +233,26 @@ def get_or_create_context(phone: str) -> Context:
         gateway = _get_memory_gateway()
         user_data = gateway.get_user_context(phone)
         if user_data:
+            # Force GREETING state for new users to avoid ASK_CLARIFICATION issues
+            state = user_data.get('state', 'GREETING')
+            client_type = user_data.get('client_type', 'new')
+            if client_type == 'new' and state == 'ASK_CLARIFICATION':
+                log.info(f"🔄 Forcing GREETING state for existing new user {phone}")
+                state = 'GREETING'
+            print(f"[DEBUG] get_or_create_context: phone={phone}, state={state}, client_type={client_type}")
             return Context(
                 phone=phone,
                 lang=user_data.get('lang', 'it'),
                 name=user_data.get('name'),
-                client_type=user_data.get('client_type', 'new'),
-                state=user_data.get('state', 'GREETING'),
+                client_type=client_type,
+                state=state,
                 asked_name=user_data.get('asked_name', False),
                 slots=user_data.get('slots', {}),
                 history=user_data.get('history', [])
             )
         else:
             # Create new context with GREETING state
+            print(f"[DEBUG] get_or_create_context: phone={phone}, state=GREETING, client_type=new (CREATED)")
             return Context(
                 phone=phone,
                 lang='it',
@@ -253,6 +266,7 @@ def get_or_create_context(phone: str) -> Context:
     except Exception as e:
         log.error(f"❌ Context creation error: {e}")
         # Fallback: create new context
+        print(f"[DEBUG] get_or_create_context: phone={phone}, state=GREETING, client_type=new (FALLBACK)")
         return Context(
             phone=phone,
             lang='it',
@@ -274,7 +288,7 @@ def save_context(ctx: Context):
         if not ctx.phone:
             log.error("Missing phone in context, skip save")
             return
-            
+        print(f"[DEBUG] save_context: phone={ctx.phone}, state={ctx.state}, client_type={ctx.client_type}")
         gateway = _get_memory_gateway()
         user_data = {
             'lang': ctx.lang,
@@ -286,7 +300,6 @@ def save_context(ctx: Context):
             'history': ctx.history
         }
         gateway.save_user_context(ctx.phone, user_data)
-        
         # Add recent messages to vector store for RAG
         if ctx.history and len(ctx.history) > 0:
             # Add the last message to vector store

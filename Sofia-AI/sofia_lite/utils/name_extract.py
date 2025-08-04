@@ -15,31 +15,36 @@ NAME_PATTERN = re.compile(r'[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\s\'-]*[a-zA-ZÀ-ÿ]', re.U
 # Language-specific patterns for name extraction
 NAME_PATTERNS: Dict[str, List[str]] = {
     "it": [
-        r"(?:mi chiamo|sono)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
+        r"\b(?:sono|mi chiamo|il mio nome è)\s+([A-ZÀ-ÖØ-Ýa-zà-öø-ý\s\'-]+)",
+        r"\b(?:mi chiamo|sono)\s+([A-ZÀ-ÖØ-Ýa-zà-öø-ý\s\'-]+)",
     ],
     "en": [
-        r"(?:my name is|i'm|i am)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
+        r"\b(?:i'm called)\s+([A-Za-z\s\'-]+)",
+        r"\b(?:my name is|i am)\s+([A-Za-z\s\'-]+)",
+        r"\b(?:i'm)\s+([A-Za-z\s\'-]+)",
     ],
     "fr": [
-        r"(?:je m'appelle|je suis)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
+        r"\b(?:je m'appelle|je suis|mon nom est)\s+([A-ZÂÊÎÔÛÄËÏÖÜŸÇa-zâêîôûäëïöüÿç\s\'-]+)",
+        r"\b(?:je m'appelle|je suis)\s+([A-ZÂÊÎÔÛÄËÏÖÜŸÇa-zâêîôûäëïöüÿç\s\'-]+)",
     ],
     "es": [
-        r"(?:me llamo|soy)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
+        r"\b(?:soy|me llamo|mi nombre es)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ\s\'-]+)",
+        r"\b(?:me llamo|soy)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ\s\'-]+)",
     ],
     "ar": [
-        r"(?:اسمي|أنا)\s+([\u0600-\u06FF\s\'-]{2,})",  # Arabic Unicode range
+        r"\b(?:اسمي|أنا)\s+([\u0600-\u06FF\s\'-]+)",  # Arabic Unicode range
     ],
     "hi": [
-        r"(?:मेरा नाम|मैं)\s+([\u0900-\u097F\s\'-]{2,})",  # Hindi Unicode range
+        r"\b(?:मेरा नाम|मैं)\s+([\u0900-\u097F\s\'-]+)",  # Hindi Unicode range
     ],
     "ur": [
-        r"(?:میرا نام|میں)\s+([\u0600-\u06FF\s\'-]{2,})",  # Urdu uses Arabic script
+        r"\b(?:میرا نام|میں)\s+([\u0600-\u06FF\s\'-]+)",  # Urdu uses Arabic script
     ],
     "bn": [
-        r"(?:আমার নাম|আমি)\s+([\u0980-\u09FF\s\'-]{2,})",  # Bengali Unicode range
+        r"\b(?:আমার নাম|আমি)\s+([\u0980-\u09FF\s\'-]+)",  # Bengali Unicode range
     ],
     "wo": [
-        r"(?:sama bopp ma|man)\s+([a-zA-ZÀ-ÿ\s\'-]{2,})",
+        r"\b(?:sama bopp ma|man)\s+([A-Za-z\s\'-]+)",
     ],
 }
 
@@ -54,9 +59,11 @@ def extract_name_regex(text: str, lang: str = "it") -> Optional[str]:
         match = re.search(pattern, text_lower, re.UNICODE | re.IGNORECASE)
         if match:
             name = match.group(1).strip()
-            if len(name) >= 2 and NAME_PATTERN.match(name):
+            if len(name) >= 2:
+                # Capitalize correctly
+                name = clean_name(name)
                 logger.info(f"✅ Name extracted via regex: {name} (lang: {lang})")
-                return name.title()
+                return name
     
     return None
 
@@ -77,9 +84,15 @@ def clean_name(name: str) -> str:
     if not name:
         return ""
     
+    # Remove numbers first
+    name = re.sub(r'[0-9]', '', name)
+    
+    # Advanced cleaning: replace special characters with spaces to preserve word boundaries
+    # This ensures "Mario@Rossi" becomes "Mario Rossi" instead of "Mariorossi"
+    name = re.sub(r'[^a-zA-ZÀ-ÿ\u0600-\u06FF\u0900-\u097F\u0980-\u09FF\s\'-]', ' ', name, flags=re.UNICODE)
+    
+    # Normalize spaces (multiple spaces become single space)
     name = re.sub(r'\s+', ' ', name.strip())
-    # Support Unicode characters for all languages
-    name = re.sub(r'[^a-zA-ZÀ-ÿ\u0600-\u06FF\u0900-\u097F\u0980-\u09FF\s\'-]', '', name, flags=re.UNICODE)
     name = name.title()
     
     return name

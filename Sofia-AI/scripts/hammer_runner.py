@@ -83,9 +83,13 @@ class HammerRunner:
     def _send_webhook_request(self, scenario: Dict, step: Dict) -> Dict:
         """Send webhook request to Sofia Lite"""
         try:
+            # Generate unique phone number for this scenario
+            scenario_id = scenario["id"]
+            from_phone = f"+39{hash(scenario_id) % 900000000 + 100000000}"
+            
             # Prepare Twilio-like payload
             payload = {
-                "From": scenario["from"],
+                "From": from_phone,
                 "To": scenario["to"],
                 "Body": step["user"],
                 "NumMedia": "0"
@@ -126,14 +130,17 @@ class HammerRunner:
         journey_pass = True
         fail_reason = None
         
-        # Check if all steps got responses
-        if len(responses) != len(scenario["steps"]):
+        # Count actual user steps (excluding wait steps)
+        user_steps = [step for step in scenario["steps"] if "user" in step]
+        
+        # Check if all user steps got responses
+        if len(responses) != len(user_steps):
             journey_pass = False
-            fail_reason = f"Expected {len(scenario['steps'])} responses, got {len(responses)}"
+            fail_reason = f"Expected {len(user_steps)} responses, got {len(responses)}"
             return {"journey_pass": journey_pass, "fail_reason": fail_reason}
         
-        # Check each step
-        for i, (step, response) in enumerate(zip(scenario["steps"], responses)):
+        # Check each user step
+        for i, (step, response) in enumerate(zip(user_steps, responses)):
             if not response["success"]:
                 journey_pass = False
                 fail_reason = f"Step {i+1} failed: {response.get('error', 'Unknown error')}"
@@ -171,15 +178,28 @@ class HammerRunner:
         """Run a single scenario"""
         log.info(f"🚀 Running scenario: {scenario['id']} ({scenario['type']} - {scenario['lang']})")
         
+        # Generate unique phone number for this scenario
+        scenario_id = scenario["id"]
+        from_phone = f"+39{hash(scenario_id) % 900000000 + 100000000}"
+        
         # Clean Firestore for test isolation
-        phone = scenario["to"]
-        self._clean_firestore_user(phone)
+        self._clean_firestore_user(from_phone)
         
         responses = []
         total_latency = 0
         
         # Run each step
         for i, step in enumerate(scenario["steps"]):
+            # Skip wait steps
+            if "wait" in step:
+                log.info(f"  ⏳ Step {i+1}: Wait {step['wait']}s...")
+                time.sleep(step["wait"])
+                continue
+                
+            if "user" not in step:
+                log.warning(f"  ⚠️ Step {i+1}: Unknown step type: {step}")
+                continue
+                
             log.info(f"  📝 Step {i+1}: {step['user'][:30]}...")
             
             response = self._send_webhook_request(scenario, step)
@@ -197,11 +217,14 @@ class HammerRunner:
         success_count = sum(1 for r in responses if r["success"])
         success_rate = success_count / len(responses) if responses else 0
         
+        # Count actual user steps (excluding wait steps)
+        user_steps_count = sum(1 for step in scenario["steps"] if "user" in step)
+        
         result = {
             "scenario_id": scenario["id"],
             "type": scenario["type"],
             "lang": scenario["lang"],
-            "steps_count": len(scenario["steps"]),
+            "steps_count": user_steps_count,
             "success_count": success_count,
             "success_rate": success_rate,
             "avg_latency": avg_latency,
@@ -212,7 +235,7 @@ class HammerRunner:
         }
         
         status = "✅ PASS" if result["journey_pass"] else "❌ FAIL"
-        log.info(f"  {status} - Success: {success_count}/{len(responses)}, Avg Latency: {avg_latency:.0f}ms")
+        log.info(f"  {status} - Success: {success_count}/{user_steps_count}, Avg Latency: {avg_latency:.0f}ms")
         
         return result
     

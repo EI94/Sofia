@@ -92,8 +92,8 @@ def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
                 asyncio.create_task(_classify_with_similarity_async(text))
             ]
             
-            # Wait for first result or timeout
-            done, pending = await asyncio.wait(tasks, timeout=3.0, return_when=asyncio.FIRST_COMPLETED)
+            # Wait for first result or timeout - Ottimizzato per γ4-a
+            done, pending = await asyncio.wait(tasks, timeout=0.8, return_when=asyncio.FIRST_COMPLETED)
             
             # Cancel pending tasks
             for task in pending:
@@ -148,7 +148,7 @@ def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
 
 @retry(stop=stop_after_attempt(1), wait=wait_exponential(multiplier=1, min=1, max=2))
 def _classify_with_openai_fast(text: str, lang: str) -> Tuple[str, float]:
-    """Classifica intent usando OpenAI con timeout 3s e 1 retry"""
+    """Classifica intent usando OpenAI con timeout 0.8s e 1 retry - Ottimizzato γ4-a"""
     try:
         import openai
         import httpx
@@ -157,7 +157,7 @@ def _classify_with_openai_fast(text: str, lang: str) -> Tuple[str, float]:
         # Configure client with timeout
         client = openai.OpenAI(
             api_key=cfg["OPENAI_API_KEY"],
-            http_client=httpx.Client(timeout=3.0)  # 3 second timeout
+            http_client=httpx.Client(timeout=0.8)  # 0.8 second timeout - Ottimizzato γ4-a
         )
         
         prompt = f"""{FEW_SHOT_EXAMPLES}
@@ -257,8 +257,28 @@ def _classify_with_similarity(text: str) -> Tuple[str, float]:
                     best_similarity = max_similarity
                     best_intent = intent
         
-        # Se similarity < 0.25, ritorna CLARIFY (abbassato da 0.55)
-        if best_similarity < 0.25:
+        # Se similarity < 0.22, ritorna CLARIFY (abbassato da 0.25)
+        if best_similarity < 0.22:
+            # Heuristica: se il primo token è una parola di saluto, forza GREET
+            GREET_WORDS = {
+                "it": ["ciao", "salve", "buongiorno", "buonasera"],
+                "en": ["hello", "hi", "good", "hey"],
+                "fr": ["bonjour", "salut", "bonsoir"],
+                "es": ["hola", "buenos", "buenas"],
+                "ar": ["مرحبا", "أهلا", "صباح", "مساء"],
+                "hi": ["नमस्ते", "हैलो", "शुभ"],
+                "ur": ["السلام", "ہیلو", "صبح", "شام"]
+            }
+            
+            # Estrai la prima parola del testo
+            first_word = text.strip().split()[0].lower() if text.strip() else ""
+            
+            # Controlla se la prima parola è un saluto
+            for lang, greet_words in GREET_WORDS.items():
+                if any(greet_word in first_word for greet_word in greet_words):
+                    log.info(f"🚀 Greeting heuristic: '{first_word}' -> GREET")
+                    return "GREET", 0.85
+            
             return "CLARIFY", best_similarity
         
         return best_intent, best_similarity
@@ -296,6 +316,15 @@ def next_state(current_state: State, intent: str, ctx=None) -> State:
         auto = advance_from_greeting(ctx, intent)
         if auto:
             return auto
+        
+        # Special case: if we're in ASK_CLARIFICATION and get GREET, go to ASK_NAME
+        if ctx.state == "ASK_CLARIFICATION" and intent == "GREET":
+            return State.ASK_NAME
+        
+        # Special case: if we're in GREETING and get GREET, force ASK_NAME if no name
+        if ctx.state == "GREETING" and intent == "GREET" and ctx.name is None:
+            log.info(f"🔄 Auto-advance GREETING → ASK_NAME (no name)")
+            return State.ASK_NAME
     
     # Intent to state mapping (YAML quick-ref)
     intent_to_state = {
