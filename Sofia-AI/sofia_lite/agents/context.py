@@ -10,7 +10,7 @@ class Context:
     name:str|None=None
     client_type:str="new"   # "new" | "active"
     intent:str|None=None
-    state:str="GREETING"
+    state:str="INITIAL"
     stage:str="DISCOVERY"   # Stage tracking
     asked_name:bool=False   # ← default
     slots:dict[str,str]=field(default_factory=dict)   # generic slot bag

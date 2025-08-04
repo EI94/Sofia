@@ -6,11 +6,12 @@ import logging
 import functools
 from typing import Optional
 from .latency import track_latency
+from ..utils.memo import ttl_cache
 
 log = logging.getLogger("sofia.language")
 
-# Micro-cache LRU(512) per language detection - γ5 optimization
-@functools.lru_cache(maxsize=512)
+# TTL cache per language detection - Δmini optimization
+@ttl_cache(ttl=30, maxsize=256)
 def _cached_detect_lang(text: str) -> str:
     """Cached language detection with TTL 1 hour (handled by LRU)"""
     return _detect_lang_impl(text)

@@ -8,6 +8,7 @@ from typing import List, Dict
 
 class State(Enum):
     """Essential conversation states for Sofia Lite"""
+    INITIAL = auto()
     GREETING = auto()
     ASK_NAME = auto()
     ASK_SERVICE = auto()
@@ -29,6 +30,7 @@ class Stage(Enum):
 
 # Valid state transitions
 TRANSITIONS: Dict[State, List[State]] = {
+    State.INITIAL:         [State.GREETING, State.ASK_NAME, State.ASK_SERVICE, State.ROUTE_ACTIVE],
     State.GREETING:        [State.ASK_NAME, State.ASK_SERVICE, State.ROUTE_ACTIVE],
     State.ASK_NAME:        [State.ASK_SERVICE],
     State.ASK_SERVICE:     [State.PROPOSE_CONSULT],
@@ -87,7 +89,7 @@ def is_terminal_state(state: State) -> bool:
 
 def advance_from_greeting(ctx, intent):
     """
-    Auto-advance from GREETING state based on intent and context.
+    Auto-advance from INITIAL/GREETING state based on intent and context.
     
     Args:
         ctx: Conversation context
@@ -96,9 +98,19 @@ def advance_from_greeting(ctx, intent):
     Returns:
         New state or None if no auto-advance needed
     """
-    if ctx.state == "GREETING":
-        if intent == "GREET":
-            return State.ASK_NAME if ctx.name is None else State.ASK_SERVICE
+    if ctx.state == "INITIAL":
+        # Always go to GREETING first for sequence control
+        if intent in ["GREET", "ASK_NAME", "ASK_SERVICE"]:
+            return State.GREETING
+    elif ctx.state == "GREETING":
+        # FORCE SEQUENCE: Always go to ASK_NAME for new users, regardless of intent
+        if ctx.client_type == "new":
+            return State.ASK_NAME
+        # For active users, only advance if we have a name
+        elif intent == "GREET" and ctx.name is not None:
+            return State.ASK_SERVICE
+        elif intent == "ASK_NAME":
+            return State.ASK_NAME
     return None
 
 def auto_advance(current_state: str, intent: str) -> str:
@@ -114,6 +126,9 @@ def auto_advance(current_state: str, intent: str) -> str:
     """
     # Mapping per auto-advance
     mapping = {
+        ("INITIAL", "GREET"): "GREETING",
+        ("INITIAL", "ASK_NAME"): "ASK_NAME",
+        ("INITIAL", "ASK_SERVICE"): "ASK_SERVICE",
         ("GREETING", "ASK_SERVICE"): "ASK_SERVICE",
         ("GREETING", "ASK_NAME"): "ASK_NAME"
     }

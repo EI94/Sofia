@@ -12,6 +12,7 @@ from sofia_lite.agents.orchestrator import Orchestrator
 from sofia_lite.skills import dispatch
 from sofia_lite.agents.context import Context
 from sofia_lite.middleware.memory import load_context, save_context
+from sofia_lite.middleware import voice_transcript
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -47,11 +48,12 @@ async def whatsapp_webhook(
     Body: str = Form(None),
     To: str = Form(...),
     MediaUrl0: str = Form(None),
-    NumMedia: str = Form("0")
+    NumMedia: str = Form("0"),
+    MediaContentType0: str = Form(None)
 ):
-    """WhatsApp webhook handler"""
+    """WhatsApp webhook handler - F22 support for voice notes"""
     
-    logger.info(f"📱 WhatsApp webhook - From: {From}, Body: {Body}, Media: {NumMedia}")
+    logger.info(f"📱 WhatsApp webhook - From: {From}, Body: {Body}, Media: {NumMedia}, Type: {MediaContentType0}")
     
     try:
         # Skip Twilio validation if TEST_WEBHOOK is enabled
@@ -62,19 +64,36 @@ async def whatsapp_webhook(
         # Extract phone number
         phone = From.replace("whatsapp:", "")
         
-        # Handle media (payment receipt)
+        # Load context for language hint
+        ctx = load_context(phone) or Context(phone)
+        
+        # Handle media (voice notes or payment receipt)
         if NumMedia and int(NumMedia) > 0 and MediaUrl0:
-            logger.info(f"📸 Processing media: {MediaUrl0}")
-            # Store image URL in context for OCR processing
-            ctx = memory.load_context(phone) or context.Context(phone)
-            ctx.slots["payment_image_url"] = MediaUrl0
-            memory.save_context(ctx)
+            media_type = MediaContentType0
             
-            # Process as payment receipt
-            reply = handle_incoming(phone, "image", "whatsapp")
+            if media_type and media_type.startswith("audio/"):
+                # F22: Handle voice notes
+                logger.info(f"🎤 Processing voice note: {MediaUrl0}")
+                try:
+                    # Usa lingua già stimata, se disponibile
+                    lang_hint = ctx.lang if ctx.lang and ctx.lang != "unknown" else None
+                    user_msg = voice_transcript.transcribe_voice(MediaUrl0, lang_hint)
+                    logger.info(f"✅ Voice transcription: '{user_msg[:50]}...'")
+                except Exception as e:
+                    logger.error(f"❌ Voice transcription failed: {e}")
+                    user_msg = "Mi dispiace, non sono riuscito a trascrivere l'audio. Puoi scrivere il messaggio?"
+            else:
+                # Handle image (payment receipt)
+                logger.info(f"📸 Processing image: {MediaUrl0}")
+                ctx.slots["payment_image_url"] = MediaUrl0
+                save_context(ctx)
+                user_msg = "image"
         else:
             # Handle text message
-            reply = handle_incoming(phone, Body or "", "whatsapp")
+            user_msg = Body or ""
+        
+        # Process message through orchestrator
+        reply = handle_incoming(phone, user_msg, "whatsapp")
         
         # Send response
         response_data = _send_whatsapp_message(phone, reply)

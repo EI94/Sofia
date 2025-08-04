@@ -179,14 +179,29 @@ class FirestoreMemoryGateway:
     
     @track_latency("RAG")
     def get_user_context(self, phone: str):
-        """Get user context from Firestore"""
+        """Get user context from Firestore - Δmini optimization with batched get"""
         if not self._initialized:
             self._initialize()
         if not self.db:
             return None
         try:
-            doc = self.db.collection('users').document(phone).get()
-            return doc.to_dict() if doc.exists else None
+            # Δmini optimization: Batched Firestore GET
+            users_ref = self.db.collection('users').document(phone)
+            hist_ref = self.db.collection('history').document(phone)
+            rag_ref = self.db.collection('rag').document(phone)
+            
+            # Single batch request instead of 3 individual calls
+            user_doc, hist_doc, rag_doc = self.db.get_all([users_ref, hist_ref, rag_ref])
+            
+            user_data = user_doc.to_dict() if user_doc.exists else {}
+            hist_data = hist_doc.to_dict() if hist_doc.exists else {}
+            rag_data = rag_doc.to_dict() if rag_doc.exists else {}
+            
+            return {
+                "user": user_data,
+                "history": hist_data,
+                "rag": rag_data
+            }
         except Exception as e:
             log.error(f"❌ Firestore get error: {e}")
             return None

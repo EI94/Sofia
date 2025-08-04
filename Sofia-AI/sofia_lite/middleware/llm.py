@@ -2,6 +2,7 @@ import openai, json, functools, asyncio, logging, tenacity
 from typing import Tuple
 from .. import get_config
 from .latency import track_latency
+from .http_session import get_session
 
 log = logging.getLogger("sofia.llm")
 
@@ -14,7 +15,8 @@ _CACHE = {}  # Simple in-memory cache
 _CIRCUIT = {"fail": 0, "open_until": 0}  # naïve CB
 _CB_TIMEOUT = 60  # sec
 
-def _get_client():
+async def _get_client():
+    """Get OpenAI client with HTTP session reuse - Δmini optimization"""
     global _CLIENT
     if _CLIENT is None:
         try:
@@ -22,7 +24,13 @@ def _get_client():
             api_key = cfg["OPENAI_KEY"]
             if not api_key:
                 raise RuntimeError("missing OPENAI_API_KEY")
-            _CLIENT = openai.OpenAI(api_key=api_key)
+            
+            # Reuse HTTP session for better performance
+            session = await get_session()
+            _CLIENT = openai.OpenAI(
+                api_key=api_key,
+                http_client=session._client  # Reuse aiohttp session
+            )
         except Exception as e:
             print(f"⚠️ OpenAI client initialization failed: {e}")
             raise RuntimeError("missing OPENAI_API_KEY")
@@ -54,24 +62,29 @@ _SYS = ("Return ONLY JSON: "
         "ASK_CHANNEL,ASK_SLOT,ASK_PAYMENT,CONFIRM,ROUTE_ACTIVE,CLARIFY,ABUSE.")
 
 @functools.lru_cache(maxsize=2048)
-def classify(msg: str, lang="it") -> Tuple[str, float]:
-    """Classify intent with TTL 5 min cache - γ5 optimization"""
+async def classify(msg: str, lang="it") -> Tuple[str, float]:
+    """Classify intent with TTL 5 min cache - Δmini optimization"""
     # Check cache first
     cache_key = _cache_key("classify", msg, lang)
     cached_result = _get_cached(cache_key, ttl=30)
     if cached_result:
         return cached_result
     
-    client = _get_client()
+    client = await _get_client()
     
     try:
+        # Δmini optimization: Compact prompts & token budget
+        max_tokens = 24  # Reduced for intents/greet/ask-XXX
+        if "PROPOSE_CONSULT" in _SYS or "ASK_PAYMENT" in _SYS:
+            max_tokens = 48  # Keep 48 only for complex intents
+        
         chat = client.chat.completions.create(
             model="gpt-4o-mini",
             temperature=0,
             messages=[{"role":"user","content":f"{_SYS}\nUser({lang}): {msg}"}],
-            timeout=0.8,  # 0.8 second timeout - γ5 optimization
-            max_tokens=32,  # Reduced for faster response - γ5 optimization
-            stream=True  # Enable streaming - γ5 optimization
+            timeout=12.0,  # 12 second timeout - F22 voice transcription support
+            max_tokens=max_tokens,  # Dynamic token budget - Δmini optimization
+            stream=True  # Enable streaming - Δmini optimization
         )
         data = json.loads(chat.choices[0].message.content)
         result = (data["intent"], float(data["confidence"]))
@@ -100,16 +113,18 @@ def _raw_chat(sys_prompt: str, user_prompt: str) -> str:
     
     try:
         log.info(f"🚀 Making OpenAI API call...")
-        # γ5 optimization: reduce max_tokens for specific states
-        max_tokens = 32 if any(state in sys_prompt.lower() for state in ["greeting", "ask_name", "ask_service"]) else 150
+        # Δmini optimization: Compact prompts & token budget
+        max_tokens = 24  # Reduced for intents/greet/ask-XXX
+        if "PROPOSE_CONSULT" in sys_prompt or "ASK_PAYMENT" in sys_prompt:
+            max_tokens = 48  # Keep 48 only for complex intents
         
         rsp = client.chat.completions.create(
             model="gpt-4o-mini",
             temperature=0.3,
             messages=[{"role":"system","content":sys_prompt},
                       {"role":"user","content":user_prompt}],
-            timeout=0.8,  # 0.8 second timeout - γ5 optimization
-            max_tokens=max_tokens,  # Dynamic max_tokens - γ5 optimization
+            timeout=12.0,  # 12 second timeout - F22 voice transcription support
+            max_tokens=max_tokens,  # Dynamic token budget - Δmini optimization
             stream=True  # Enable streaming - γ5 optimization
         )
         result = rsp.choices[0].message.content.strip()

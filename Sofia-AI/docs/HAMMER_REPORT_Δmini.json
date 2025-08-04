@@ -1,0 +1,1076 @@
+{
+  "timestamp": "2025-08-04T14:49:18.291324",
+  "analysis": {
+    "summary": {
+      "total_tests": 40,
+      "successful_tests": 38,
+      "failed_tests": 2,
+      "success_rate": 95.0,
+      "avg_latency": 8112.0251040709645,
+      "p50_latency": 8761.025547981262,
+      "p95_latency": 15803.429639339447,
+      "p99_latency": 27707.056624889374
+    },
+    "by_language": {
+      "it": {
+        "total": 25,
+        "successful": 24,
+        "success_rate": 96.0
+      },
+      "fr": {
+        "total": 15,
+        "successful": 14,
+        "success_rate": 93.33333333333333
+      }
+    },
+    "by_type": {
+      "new": {
+        "total": 28,
+        "successful": 26,
+        "success_rate": 92.85714285714286
+      },
+      "active": {
+        "total": 12,
+        "successful": 12,
+        "success_rate": 100.0
+      }
+    },
+    "failure_patterns": [
+      {
+        "message": "Ciao, mi chiamo Mario Rossi",
+        "state": "N/A",
+        "lang": "it",
+        "intent": "GREET",
+        "error": "",
+        "status_code": 0
+      },
+      {
+        "message": "Bonsoir, je m'appelle Pierre Durand",
+        "state": "N/A",
+        "lang": "fr",
+        "intent": "GREET",
+        "error": "",
+        "status_code": 0
+      }
+    ],
+    "detailed_results": [
+      {
+        "test_name": "WhatsApp-it-new-001",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 0,
+        "response_time": 0,
+        "success": false,
+        "error": "",
+        "payload": {
+          "Body": "Ciao, mi chiamo Mario Rossi",
+          "From": "whatsapp:+393330014567"
+        },
+        "timestamp": "2025-08-04T14:43:35.527019",
+        "scenario": {
+          "name": "Ciao, mi chiamo Mario Rossi",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-002",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 23052.433252334595,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330024567"
+        },
+        "payload": {
+          "Body": "Buongiorno, sono Maria D'Angelo",
+          "From": "whatsapp:+393330024567"
+        },
+        "timestamp": "2025-08-04T14:43:58.681316",
+        "scenario": {
+          "name": "Buongiorno, sono Maria D'Angelo",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-003",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 5823.548793792725,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330034567"
+        },
+        "payload": {
+          "Body": "Salve, mi chiamo Giuseppe Bianchi",
+          "From": "whatsapp:+393330034567"
+        },
+        "timestamp": "2025-08-04T14:44:04.605784",
+        "scenario": {
+          "name": "Salve, mi chiamo Giuseppe Bianchi",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-004",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 5479.629039764404,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330044567"
+        },
+        "payload": {
+          "Body": "Ciao Sofia, sono Anna Ferrari",
+          "From": "whatsapp:+393330044567"
+        },
+        "timestamp": "2025-08-04T14:44:10.186284",
+        "scenario": {
+          "name": "Ciao Sofia, sono Anna Ferrari",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-005",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 5253.366947174072,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330054567"
+        },
+        "payload": {
+          "Body": "Buonasera, mi chiamo Roberto Neri",
+          "From": "whatsapp:+393330054567"
+        },
+        "timestamp": "2025-08-04T14:44:15.540988",
+        "scenario": {
+          "name": "Buonasera, mi chiamo Roberto Neri",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-006",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 11143.954753875732,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330064567"
+        },
+        "payload": {
+          "Body": "Sono Pierpaolo Laurito",
+          "From": "whatsapp:+393330064567"
+        },
+        "timestamp": "2025-08-04T14:44:26.785351",
+        "scenario": {
+          "name": "Sono Pierpaolo Laurito",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-007",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 9684.165000915527,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330074567"
+        },
+        "payload": {
+          "Body": "Mi chiamo Luca@Rossi",
+          "From": "whatsapp:+393330074567"
+        },
+        "timestamp": "2025-08-04T14:44:36.570896",
+        "scenario": {
+          "name": "Mi chiamo Luca@Rossi",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-008",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 4879.523038864136,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330084567"
+        },
+        "payload": {
+          "Body": "Ciao, sono Marco123Verdi",
+          "From": "whatsapp:+393330084567"
+        },
+        "timestamp": "2025-08-04T14:44:41.551744",
+        "scenario": {
+          "name": "Ciao, sono Marco123Verdi",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-009",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 5083.200931549072,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330094567"
+        },
+        "payload": {
+          "Body": "Buongiorno, mi chiamo Elena D'Amico",
+          "From": "whatsapp:+393330094567"
+        },
+        "timestamp": "2025-08-04T14:44:46.736693",
+        "scenario": {
+          "name": "Buongiorno, mi chiamo Elena D'Amico",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-010",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 4737.4396324157715,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330104567"
+        },
+        "payload": {
+          "Body": "Salve, sono Francesco De Luca",
+          "From": "whatsapp:+393330104567"
+        },
+        "timestamp": "2025-08-04T14:44:51.574437",
+        "scenario": {
+          "name": "Salve, sono Francesco De Luca",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-011",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 5344.977140426636,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330114567"
+        },
+        "payload": {
+          "Body": "Ciao, mi chiamo Alessandra Romano",
+          "From": "whatsapp:+393330114567"
+        },
+        "timestamp": "2025-08-04T14:44:57.020855",
+        "scenario": {
+          "name": "Ciao, mi chiamo Alessandra Romano",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-012",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 10832.247972488403,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330124567"
+        },
+        "payload": {
+          "Body": "Sono Matteo Esposito",
+          "From": "whatsapp:+393330124567"
+        },
+        "timestamp": "2025-08-04T14:45:07.953716",
+        "scenario": {
+          "name": "Sono Matteo Esposito",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-013",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 5293.068885803223,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330134567"
+        },
+        "payload": {
+          "Body": "Buonasera, mi chiamo Valentina Ricci",
+          "From": "whatsapp:+393330134567"
+        },
+        "timestamp": "2025-08-04T14:45:13.348121",
+        "scenario": {
+          "name": "Buonasera, mi chiamo Valentina Ricci",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-014",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 5177.610874176025,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330144567"
+        },
+        "payload": {
+          "Body": "Ciao Sofia, sono Davide Bruno",
+          "From": "whatsapp:+393330144567"
+        },
+        "timestamp": "2025-08-04T14:45:18.627031",
+        "scenario": {
+          "name": "Ciao Sofia, sono Davide Bruno",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-new-015",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 10177.441120147705,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330154567"
+        },
+        "payload": {
+          "Body": "Mi chiamo Federica Costa",
+          "From": "whatsapp:+393330154567"
+        },
+        "timestamp": "2025-08-04T14:45:28.905825",
+        "scenario": {
+          "name": "Mi chiamo Federica Costa",
+          "expected_intent": "GREET",
+          "expected_lang": "it",
+          "type": "new",
+          "category": "italian_new"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-active-016",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 9738.339900970459,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330164567"
+        },
+        "payload": {
+          "Body": "Permesso di soggiorno",
+          "From": "whatsapp:+393330164567"
+        },
+        "timestamp": "2025-08-04T14:45:38.745645",
+        "scenario": {
+          "name": "Permesso di soggiorno",
+          "expected_intent": "ASK_SERVICE",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-active-017",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 9457.23009109497,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330174567"
+        },
+        "payload": {
+          "Body": "Cittadinanza italiana",
+          "From": "whatsapp:+393330174567"
+        },
+        "timestamp": "2025-08-04T14:45:48.304438",
+        "scenario": {
+          "name": "Cittadinanza italiana",
+          "expected_intent": "ASK_SERVICE",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-active-018",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 9699.957132339478,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330184567"
+        },
+        "payload": {
+          "Body": "Ricongiungimento familiare",
+          "From": "whatsapp:+393330184567"
+        },
+        "timestamp": "2025-08-04T14:45:58.106143",
+        "scenario": {
+          "name": "Ricongiungimento familiare",
+          "expected_intent": "ASK_SERVICE",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-active-019",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 9331.883907318115,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330194567"
+        },
+        "payload": {
+          "Body": "Online",
+          "From": "whatsapp:+393330194567"
+        },
+        "timestamp": "2025-08-04T14:46:07.539832",
+        "scenario": {
+          "name": "Online",
+          "expected_intent": "ASK_CHANNEL",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "WhatsApp-it-active-020",
+        "endpoint": "webhook/whatsapp",
+        "status_code": 200,
+        "response_time": 9240.17310142517,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it",
+          "phone": "+393330204567"
+        },
+        "payload": {
+          "Body": "In ufficio",
+          "From": "whatsapp:+393330204567"
+        },
+        "timestamp": "2025-08-04T14:46:16.881457",
+        "scenario": {
+          "name": "In ufficio",
+          "expected_intent": "ASK_CHANNEL",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "Voice-it-active-001",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 8749.300956726074,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Lunedì alle 10",
+          "From": "+393330014568"
+        },
+        "timestamp": "2025-08-04T14:46:25.733857",
+        "scenario": {
+          "name": "Lunedì alle 10",
+          "expected_intent": "ASK_SLOT",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "Voice-it-active-002",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 8772.75013923645,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Martedì pomeriggio",
+          "From": "+393330024568"
+        },
+        "timestamp": "2025-08-04T14:46:34.608666",
+        "scenario": {
+          "name": "Martedì pomeriggio",
+          "expected_intent": "ASK_SLOT",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "Voice-it-active-003",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5107.710838317871,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Sì, confermo",
+          "From": "+393330034568"
+        },
+        "timestamp": "2025-08-04T14:46:39.817339",
+        "scenario": {
+          "name": "Sì, confermo",
+          "expected_intent": "CONFIRM_BOOKING",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "Voice-it-active-004",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 9729.984998703003,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "No, grazie",
+          "From": "+393330044568"
+        },
+        "timestamp": "2025-08-04T14:46:49.649049",
+        "scenario": {
+          "name": "No, grazie",
+          "expected_intent": "CLARIFY",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "Voice-it-active-005",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 9616.971731185913,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "60 euro",
+          "From": "+393330054568"
+        },
+        "timestamp": "2025-08-04T14:46:59.368364",
+        "scenario": {
+          "name": "60 euro",
+          "expected_intent": "ASK_PAYMENT",
+          "expected_lang": "it",
+          "type": "active",
+          "category": "italian_active"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-006",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5337.284803390503,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Bonjour, je m'appelle Jean-Pierre Dubois",
+          "From": "+393330064568"
+        },
+        "timestamp": "2025-08-04T14:47:04.806975",
+        "scenario": {
+          "name": "Bonjour, je m'appelle Jean-Pierre Dubois",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-007",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5062.428951263428,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Salut, je suis Marie-Claire Martin",
+          "From": "+393330074568"
+        },
+        "timestamp": "2025-08-04T14:47:09.970764",
+        "scenario": {
+          "name": "Salut, je suis Marie-Claire Martin",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-008",
+        "endpoint": "webhook/voice",
+        "status_code": 0,
+        "response_time": 0,
+        "success": false,
+        "error": "",
+        "payload": {
+          "SpeechResult": "Bonsoir, je m'appelle Pierre Durand",
+          "From": "+393330084568"
+        },
+        "timestamp": "2025-08-04T14:47:40.525594",
+        "scenario": {
+          "name": "Bonsoir, je m'appelle Pierre Durand",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-009",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 15421.903133392334,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Je suis Sophie Bernard",
+          "From": "+393330094568"
+        },
+        "timestamp": "2025-08-04T14:47:56.048844",
+        "scenario": {
+          "name": "Je suis Sophie Bernard",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-010",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 4851.3243198394775,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Bonjour, je m'appelle François Moreau",
+          "From": "+393330104568"
+        },
+        "timestamp": "2025-08-04T14:48:01.001168",
+        "scenario": {
+          "name": "Bonjour, je m'appelle François Moreau",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-011",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5709.878206253052,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Salut, je suis Isabelle Petit",
+          "From": "+393330114568"
+        },
+        "timestamp": "2025-08-04T14:48:06.812397",
+        "scenario": {
+          "name": "Salut, je suis Isabelle Petit",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-012",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 9634.484052658081,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Je m'appelle Michel@Dubois",
+          "From": "+393330124568"
+        },
+        "timestamp": "2025-08-04T14:48:16.548158",
+        "scenario": {
+          "name": "Je m'appelle Michel@Dubois",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-013",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5736.857891082764,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Bonjour, je suis Anne-Marie123Leroy",
+          "From": "+393330134568"
+        },
+        "timestamp": "2025-08-04T14:48:22.386280",
+        "scenario": {
+          "name": "Bonjour, je suis Anne-Marie123Leroy",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-014",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 9984.621047973633,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Je m'appelle Jean-François D'Arc",
+          "From": "+393330144568"
+        },
+        "timestamp": "2025-08-04T14:48:32.472253",
+        "scenario": {
+          "name": "Je m'appelle Jean-François D'Arc",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-015",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5195.160150527954,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Salut, je suis Marie-Laure De Gaulle",
+          "From": "+393330154568"
+        },
+        "timestamp": "2025-08-04T14:48:37.768272",
+        "scenario": {
+          "name": "Salut, je suis Marie-Laure De Gaulle",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-016",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5283.698081970215,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Bonjour, je m'appelle Philippe Rousseau",
+          "From": "+393330164568"
+        },
+        "timestamp": "2025-08-04T14:48:43.152730",
+        "scenario": {
+          "name": "Bonjour, je m'appelle Philippe Rousseau",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-017",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 9743.669986724854,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Je suis Nathalie Girard",
+          "From": "+393330174568"
+        },
+        "timestamp": "2025-08-04T14:48:52.997738",
+        "scenario": {
+          "name": "Je suis Nathalie Girard",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-new-018",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 5009.779930114746,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Bonsoir, je m'appelle Laurent Mercier",
+          "From": "+393330184568"
+        },
+        "timestamp": "2025-08-04T14:48:58.108187",
+        "scenario": {
+          "name": "Bonsoir, je m'appelle Laurent Mercier",
+          "expected_intent": "GREET",
+          "expected_lang": "fr",
+          "type": "new",
+          "category": "french_new"
+        }
+      },
+      {
+        "test_name": "Voice-fr-active-019",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 10277.846097946167,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Permis de séjour",
+          "From": "+393330194568"
+        },
+        "timestamp": "2025-08-04T14:49:08.487522",
+        "scenario": {
+          "name": "Permis de séjour",
+          "expected_intent": "ASK_SERVICE",
+          "expected_lang": "fr",
+          "type": "active",
+          "category": "french_active"
+        }
+      },
+      {
+        "test_name": "Voice-fr-active-020",
+        "endpoint": "webhook/voice",
+        "status_code": 200,
+        "response_time": 9601.107120513916,
+        "success": true,
+        "response": {
+          "reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "intent": "ERROR",
+          "state": "INITIAL",
+          "lang": "it"
+        },
+        "payload": {
+          "SpeechResult": "Citoyenneté française",
+          "From": "+393330204568"
+        },
+        "timestamp": "2025-08-04T14:49:18.188947",
+        "scenario": {
+          "name": "Citoyenneté française",
+          "expected_intent": "ASK_SERVICE",
+          "expected_lang": "fr",
+          "type": "active",
+          "category": "french_active"
+        }
+      }
+    ]
+  },
+  "total_time": 372.7867510318756,
+  "requirements": {
+    "success_rate": 95.0,
+    "p95_latency": 15803.429639339447,
+    "success_ok": true,
+    "p95_ok": false,
+    "pass": false
+  }
+}

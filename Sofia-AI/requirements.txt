@@ -36,3 +36,7 @@ tenacity>=8.0.0
 
 # Intent Engine 2.0 dependencies
 sentence-transformers~=2.4
+
+# Voice transcription dependencies - F22
+pydub~=0.25.1
+openai-whisper>=1

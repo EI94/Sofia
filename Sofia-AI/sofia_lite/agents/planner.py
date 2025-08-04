@@ -294,6 +294,12 @@ def plan(ctx: Context, user_msg: str, llm) -> tuple[str, str]:
     # Classifica intent con confidence (pass context for language caching)
     intent, confidence = classify_intent(user_msg, ctx.lang, ctx)
     
+    # FORCE SEQUENCE: If we're in INITIAL or GREETING state, force GREET intent for greeting-like messages
+    if ctx.state in ["INITIAL", "GREETING"] and any(greeting in user_msg.lower() for greeting in ["ciao", "hello", "buongiorno", "salve", "bonjour", "hola"]):
+        log.info(f"🔄 FORCE GREET intent for greeting message in {ctx.state} state")
+        intent = "GREET"
+        confidence = 0.95
+    
     log.info(f"🎯 Intent Engine 2.0: '{user_msg}' → {intent} (conf: {confidence:.2f})")
     
     return intent, f"Intent Engine 2.0: {intent} (confidence: {confidence:.2f})"
@@ -321,10 +327,30 @@ def next_state(current_state: State, intent: str, ctx=None) -> State:
         if ctx.state == "ASK_CLARIFICATION" and intent == "GREET":
             return State.ASK_NAME
         
+        # Special case: if we're in INITIAL and get GREET, go to GREETING
+        if ctx.state == "INITIAL" and intent == "GREET":
+            log.info(f"🔄 Auto-advance INITIAL → GREETING")
+            return State.GREETING
+        
         # Special case: if we're in GREETING and get GREET, force ASK_NAME if no name
         if ctx.state == "GREETING" and intent == "GREET" and ctx.name is None:
             log.info(f"🔄 Auto-advance GREETING → ASK_NAME (no name)")
             return State.ASK_NAME
+        
+        # Special case: if we're in GREETING and get ASK_SERVICE, force ASK_NAME first
+        if ctx.state == "GREETING" and intent == "ASK_SERVICE" and ctx.name is None:
+            log.info(f"🔄 Force GREETING → ASK_NAME (sequence control, no name)")
+            return State.ASK_NAME
+        
+        # Special case: if we're in GREETING and get GREET, always go to ASK_NAME for new users
+        if ctx.state == "GREETING" and intent == "GREET" and ctx.client_type == "new":
+            log.info(f"🔄 Force GREETING → ASK_NAME (sequence control for new user)")
+            return State.ASK_NAME
+        
+        # FORCE SEQUENCE: If we're in GREETING and get ASK_SERVICE, ignore and stay in GREETING
+        if ctx.state == "GREETING" and intent == "ASK_SERVICE":
+            log.info(f"🔄 IGNORE ASK_SERVICE in GREETING state (sequence control)")
+            return State.GREETING
     
     # Intent to state mapping (YAML quick-ref)
     intent_to_state = {
@@ -344,6 +370,12 @@ def next_state(current_state: State, intent: str, ctx=None) -> State:
         "CONFIRM": State.CONFIRMED,
         "UNKNOWN": State.ASK_CLARIFICATION,
     }
+    
+    # Special handling for INITIAL state - FORCE SEQUENCE
+    if current_state == State.INITIAL:
+        # Always go to GREETING first, regardless of intent
+        log.info(f"🔄 Force INITIAL → GREETING (sequence control)")
+        return State.GREETING
     
     # Get target state from intent
     to_state = intent_to_state.get(intent, State.ASK_CLARIFICATION)

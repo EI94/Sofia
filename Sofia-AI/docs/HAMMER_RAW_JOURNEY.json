@@ -1,0 +1,1171 @@
+{
+  "timestamp": "2025-08-04T17:06:24.499203",
+  "total_time": 290.06050992012024,
+  "analysis": {
+    "summary": {
+      "total_scenarios": 19,
+      "successful_scenarios": 0,
+      "failed_scenarios": 19,
+      "success_rate": 0.0
+    },
+    "by_language": {
+      "it": {
+        "total": 10,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "fr": {
+        "total": 2,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "es": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "en": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "ar": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "hi": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "bn": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "tr": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "ru": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      }
+    },
+    "by_step": {
+      "ASK_NAME": {
+        "total": 3,
+        "successful": 0,
+        "success_rate": 0.0
+      }
+    },
+    "by_channel": {
+      "text": {
+        "total": 16,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "voice_note": {
+        "total": 2,
+        "successful": 0,
+        "success_rate": 0.0
+      },
+      "voice_call": {
+        "total": 1,
+        "successful": 0,
+        "success_rate": 0.0
+      }
+    },
+    "top_failures": [
+      {
+        "scenario_id": "it_new_text_001",
+        "language": "it",
+        "channel": "text",
+        "error": "Unknown error",
+        "failed_turn": 1,
+        "expected_state": "INITIAL",
+        "actual_state": "ASK_SERVICE"
+      },
+      {
+        "scenario_id": "it_new_text_002",
+        "language": "it",
+        "channel": "text",
+        "error": "Unknown error",
+        "failed_turn": 1,
+        "expected_state": "INITIAL",
+        "actual_state": "ASK_CLARIFICATION"
+      },
+      {
+        "scenario_id": "it_new_text_003",
+        "language": "it",
+        "channel": "text",
+        "error": "Unknown error",
+        "failed_turn": 1,
+        "expected_state": "INITIAL",
+        "actual_state": "ASK_SERVICE"
+      },
+      {
+        "scenario_id": "it_new_voice_001",
+        "language": "it",
+        "channel": "voice_note",
+        "error": "Unknown error",
+        "failed_turn": 2,
+        "expected_state": "ASK_NAME",
+        "actual_state": "ASK_CLARIFICATION"
+      },
+      {
+        "scenario_id": "it_new_voice_call_001",
+        "language": "it",
+        "channel": "voice_call",
+        "error": "Unknown error",
+        "failed_turn": 2,
+        "expected_state": "ASK_NAME",
+        "actual_state": "ERROR"
+      },
+      {
+        "scenario_id": "it_active_text_001",
+        "language": "it",
+        "channel": "text",
+        "error": "Unknown error",
+        "failed_turn": 1,
+        "expected_state": "INITIAL",
+        "actual_state": "ERROR"
+      },
+      {
+        "scenario_id": "it_active_text_002",
+        "language": "it",
+        "channel": "text",
+        "error": "Unknown error",
+        "failed_turn": 1,
+        "expected_state": "INITIAL",
+        "actual_state": "ASK_CLARIFICATION"
+      },
+      {
+        "scenario_id": "fr_new_text_001",
+        "language": "fr",
+        "channel": "text",
+        "error": "Unknown error",
+        "failed_turn": 1,
+        "expected_state": "INITIAL",
+        "actual_state": "ASK_NAME"
+      },
+      {
+        "scenario_id": "fr_new_voice_001",
+        "language": "fr",
+        "channel": "voice_note",
+        "error": "Unknown error",
+        "failed_turn": 2,
+        "expected_state": "ASK_NAME",
+        "actual_state": "ASK_CLARIFICATION"
+      },
+      {
+        "scenario_id": "es_new_text_001",
+        "language": "es",
+        "channel": "text",
+        "error": "Unknown error",
+        "failed_turn": 1,
+        "expected_state": "INITIAL",
+        "actual_state": "ASK_NAME"
+      }
+    ],
+    "detailed_results": [
+      {
+        "scenario_id": "it_new_text_001",
+        "language": "it",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Ciao, mi chiamo Mario Rossi",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_SERVICE",
+            "sofia_reply": "Perfetto! Possiamo aiutarti con diversi servizi: permesso di soggiorno, cittadinanza o ricongiungimento familiare. Per iniziare, abbiamo bisogno di una consulenza iniziale di 60€. Preferisci online o in ufficio?",
+            "lang_detected": "it",
+            "response_time": 4502.6350021362305,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_SERVICE'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:01:34.438417",
+        "end_time": "2025-08-04T17:01:38.941409",
+        "total_duration": 4.502974033355713
+      },
+      {
+        "scenario_id": "it_new_text_002",
+        "language": "it",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0024567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Buongiorno, sono Maria D'Angelo",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_CLARIFICATION",
+            "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+            "lang_detected": "it",
+            "response_time": 4459.210157394409,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:01:39.942597",
+        "end_time": "2025-08-04T17:01:44.402086",
+        "total_duration": 4.459478139877319
+      },
+      {
+        "scenario_id": "it_new_text_003",
+        "language": "it",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0034567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Salve, mi chiamo Giuseppe Bianchi",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_SERVICE",
+            "sofia_reply": "Perfetto! Possiamo aiutarti con diversi servizi: permesso di soggiorno, cittadinanza o ricongiungimento familiare. Per procedere, abbiamo bisogno di una consulenza iniziale di 60€. Preferisci online o in ufficio?",
+            "lang_detected": "it",
+            "response_time": 7598.143100738525,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_SERVICE'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:01:45.403371",
+        "end_time": "2025-08-04T17:01:53.001716",
+        "total_duration": 7.598326206207275
+      },
+      {
+        "scenario_id": "it_new_voice_001",
+        "language": "it",
+        "channel": "voice_note",
+        "user_type": "new",
+        "phone": "+39333ice0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "<VOICE:url_s3_sample_it_greet_1.ogg>",
+            "expected_state": "INITIAL",
+            "actual_state": "INITIAL",
+            "sofia_reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+            "lang_detected": "it",
+            "response_time": 4803.133010864258,
+            "success": true,
+            "status_code": 200
+          },
+          {
+            "turn": 2,
+            "user_input": "<VOICE:url_s3_sample_it_name_1.ogg>",
+            "expected_state": "ASK_NAME",
+            "actual_state": "ASK_CLARIFICATION",
+            "sofia_reply": "Mi dispiace, non ho capito bene. Puoi specificare di che tipo di servizio hai bisogno?",
+            "lang_detected": "it",
+            "response_time": 5455.015182495117,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'ASK_NAME', got 'ASK_CLARIFICATION'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:01:54.002557",
+        "end_time": "2025-08-04T17:02:04.761638",
+        "total_duration": 10.759001016616821
+      },
+      {
+        "scenario_id": "it_new_voice_call_001",
+        "language": "it",
+        "channel": "voice_call",
+        "user_type": "new",
+        "phone": "+39333all0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Ciao, mi chiamo Anna Ferrari",
+            "expected_state": "INITIAL",
+            "actual_state": "INITIAL",
+            "sofia_reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+            "lang_detected": "it",
+            "response_time": 4625.388860702515,
+            "success": true,
+            "status_code": 200
+          },
+          {
+            "turn": 2,
+            "user_input": "Sono Anna Ferrari",
+            "expected_state": "ASK_NAME",
+            "actual_state": "ERROR",
+            "error": "",
+            "response_time": 0,
+            "success": false,
+            "status_code": 0
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:02:05.763031",
+        "end_time": "2025-08-04T17:02:41.502216",
+        "total_duration": 35.739156007766724
+      },
+      {
+        "scenario_id": "it_active_text_001",
+        "language": "it",
+        "channel": "text",
+        "user_type": "active",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Ciao Sofia, sono di nuovo qui",
+            "expected_state": "INITIAL",
+            "actual_state": "ERROR",
+            "error": "",
+            "response_time": 0,
+            "success": false,
+            "status_code": 0
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:02:42.503550",
+        "end_time": "2025-08-04T17:03:13.496099",
+        "total_duration": 30.99252986907959
+      },
+      {
+        "scenario_id": "it_active_text_002",
+        "language": "it",
+        "channel": "text",
+        "user_type": "active",
+        "phone": "+39333ext0024567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Buongiorno, sono tornato",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_CLARIFICATION",
+            "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+            "lang_detected": "it",
+            "response_time": 5646.100997924805,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:03:14.497517",
+        "end_time": "2025-08-04T17:03:20.144250",
+        "total_duration": 5.64656400680542
+      },
+      {
+        "scenario_id": "fr_new_text_001",
+        "language": "fr",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Bonjour, je m'appelle Pierre Durand",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_NAME",
+            "sofia_reply": "Qual è il tuo nome?",
+            "lang_detected": "it",
+            "response_time": 5641.877174377441,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_NAME'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:03:21.145574",
+        "end_time": "2025-08-04T17:03:26.787658",
+        "total_duration": 5.642063856124878
+      },
+      {
+        "scenario_id": "fr_new_voice_001",
+        "language": "fr",
+        "channel": "voice_note",
+        "user_type": "new",
+        "phone": "+39333ice0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "<VOICE:url_s3_sample_fr_greet_1.ogg>",
+            "expected_state": "INITIAL",
+            "actual_state": "INITIAL",
+            "sofia_reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+            "lang_detected": "it",
+            "response_time": 4380.223035812378,
+            "success": true,
+            "status_code": 200
+          },
+          {
+            "turn": 2,
+            "user_input": "<VOICE:url_s3_sample_fr_name_1.ogg>",
+            "expected_state": "ASK_NAME",
+            "actual_state": "ASK_CLARIFICATION",
+            "sofia_reply": "Mi dispiace, non ho capito bene. Puoi specificare di che tipo di servizio hai bisogno?",
+            "lang_detected": "it",
+            "response_time": 5837.646007537842,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'ASK_NAME', got 'ASK_CLARIFICATION'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:03:27.789016",
+        "end_time": "2025-08-04T17:03:38.508394",
+        "total_duration": 10.71935486793518
+      },
+      {
+        "scenario_id": "es_new_text_001",
+        "language": "es",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Hola, me llamo María García",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_NAME",
+            "sofia_reply": "Qual è il tuo nome?",
+            "lang_detected": "it",
+            "response_time": 12693.697929382324,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_NAME'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:03:39.509274",
+        "end_time": "2025-08-04T17:03:52.203187",
+        "total_duration": 12.693894863128662
+      },
+      {
+        "scenario_id": "en_new_text_001",
+        "language": "en",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Hello, my name is John Smith",
+            "expected_state": "INITIAL",
+            "actual_state": "ERROR",
+            "error": "",
+            "response_time": 0,
+            "success": false,
+            "status_code": 0
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:03:53.204475",
+        "end_time": "2025-08-04T17:04:23.496161",
+        "total_duration": 30.291666984558105
+      },
+      {
+        "scenario_id": "ar_new_text_001",
+        "language": "ar",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "مرحبا، اسمي أحمد محمد",
+            "expected_state": "INITIAL",
+            "actual_state": "ERROR",
+            "error": "",
+            "response_time": 0,
+            "success": false,
+            "status_code": 0
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:04:24.497662",
+        "end_time": "2025-08-04T17:04:55.495898",
+        "total_duration": 30.998215198516846
+      },
+      {
+        "scenario_id": "hi_new_text_001",
+        "language": "hi",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "नमस्ते, मेरा नाम राजेश कुमार है",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_NAME",
+            "sofia_reply": "Qual è il tuo nome?",
+            "lang_detected": "it",
+            "response_time": 6349.903106689453,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_NAME'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:04:56.497509",
+        "end_time": "2025-08-04T17:05:02.847629",
+        "total_duration": 6.350100994110107
+      },
+      {
+        "scenario_id": "bn_new_text_001",
+        "language": "bn",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "হ্যালো, আমার নাম রাহুল দাস",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_CLARIFICATION",
+            "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+            "lang_detected": "it",
+            "response_time": 4085.4341983795166,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:05:03.848955",
+        "end_time": "2025-08-04T17:05:07.934681",
+        "total_duration": 4.08570408821106
+      },
+      {
+        "scenario_id": "tr_new_text_001",
+        "language": "tr",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Merhaba, benim adım Mehmet Yılmaz",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_NAME",
+            "sofia_reply": "Qual è il tuo nome?",
+            "lang_detected": "it",
+            "response_time": 4461.938858032227,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_NAME'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:05:08.936103",
+        "end_time": "2025-08-04T17:05:13.398306",
+        "total_duration": 4.462174892425537
+      },
+      {
+        "scenario_id": "ru_new_text_001",
+        "language": "ru",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ext0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Привет, меня зовут Иван Петров",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_NAME",
+            "sofia_reply": "Qual è il tuo nome?",
+            "lang_detected": "it",
+            "response_time": 4644.181966781616,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_NAME'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:05:14.399403",
+        "end_time": "2025-08-04T17:05:19.043828",
+        "total_duration": 4.644402980804443
+      },
+      {
+        "scenario_id": "it_error_name_001",
+        "language": "it",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ame0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Ciao",
+            "expected_state": "INITIAL",
+            "actual_state": "ASK_CLARIFICATION",
+            "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+            "lang_detected": "it",
+            "response_time": 256.0889720916748,
+            "success": false,
+            "status_code": 200,
+            "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:05:20.045137",
+        "end_time": "2025-08-04T17:05:20.301525",
+        "total_duration": 0.25636792182922363
+      },
+      {
+        "scenario_id": "it_error_slot_001",
+        "language": "it",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333lot0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Ciao, mi chiamo Anna",
+            "expected_state": "INITIAL",
+            "actual_state": "ERROR",
+            "error": "",
+            "response_time": 0,
+            "success": false,
+            "status_code": 0
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:05:21.302886",
+        "end_time": "2025-08-04T17:05:51.498262",
+        "total_duration": 30.19535493850708
+      },
+      {
+        "scenario_id": "it_error_ocr_001",
+        "language": "it",
+        "channel": "text",
+        "user_type": "new",
+        "phone": "+39333ocr0014567",
+        "turns": [
+          {
+            "turn": 1,
+            "user_input": "Ciao, mi chiamo Marco",
+            "expected_state": "INITIAL",
+            "actual_state": "ERROR",
+            "error": "",
+            "response_time": 0,
+            "success": false,
+            "status_code": 0
+          }
+        ],
+        "success": false,
+        "start_time": "2025-08-04T17:05:52.499129",
+        "end_time": "2025-08-04T17:06:23.496468",
+        "total_duration": 30.997318983078003
+      }
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "it_new_text_001",
+      "language": "it",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Ciao, mi chiamo Mario Rossi",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_SERVICE",
+          "sofia_reply": "Perfetto! Possiamo aiutarti con diversi servizi: permesso di soggiorno, cittadinanza o ricongiungimento familiare. Per iniziare, abbiamo bisogno di una consulenza iniziale di 60€. Preferisci online o in ufficio?",
+          "lang_detected": "it",
+          "response_time": 4502.6350021362305,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_SERVICE'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:01:34.438417",
+      "end_time": "2025-08-04T17:01:38.941409",
+      "total_duration": 4.502974033355713
+    },
+    {
+      "scenario_id": "it_new_text_002",
+      "language": "it",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0024567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Buongiorno, sono Maria D'Angelo",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_CLARIFICATION",
+          "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+          "lang_detected": "it",
+          "response_time": 4459.210157394409,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:01:39.942597",
+      "end_time": "2025-08-04T17:01:44.402086",
+      "total_duration": 4.459478139877319
+    },
+    {
+      "scenario_id": "it_new_text_003",
+      "language": "it",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0034567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Salve, mi chiamo Giuseppe Bianchi",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_SERVICE",
+          "sofia_reply": "Perfetto! Possiamo aiutarti con diversi servizi: permesso di soggiorno, cittadinanza o ricongiungimento familiare. Per procedere, abbiamo bisogno di una consulenza iniziale di 60€. Preferisci online o in ufficio?",
+          "lang_detected": "it",
+          "response_time": 7598.143100738525,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_SERVICE'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:01:45.403371",
+      "end_time": "2025-08-04T17:01:53.001716",
+      "total_duration": 7.598326206207275
+    },
+    {
+      "scenario_id": "it_new_voice_001",
+      "language": "it",
+      "channel": "voice_note",
+      "user_type": "new",
+      "phone": "+39333ice0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "<VOICE:url_s3_sample_it_greet_1.ogg>",
+          "expected_state": "INITIAL",
+          "actual_state": "INITIAL",
+          "sofia_reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "lang_detected": "it",
+          "response_time": 4803.133010864258,
+          "success": true,
+          "status_code": 200
+        },
+        {
+          "turn": 2,
+          "user_input": "<VOICE:url_s3_sample_it_name_1.ogg>",
+          "expected_state": "ASK_NAME",
+          "actual_state": "ASK_CLARIFICATION",
+          "sofia_reply": "Mi dispiace, non ho capito bene. Puoi specificare di che tipo di servizio hai bisogno?",
+          "lang_detected": "it",
+          "response_time": 5455.015182495117,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'ASK_NAME', got 'ASK_CLARIFICATION'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:01:54.002557",
+      "end_time": "2025-08-04T17:02:04.761638",
+      "total_duration": 10.759001016616821
+    },
+    {
+      "scenario_id": "it_new_voice_call_001",
+      "language": "it",
+      "channel": "voice_call",
+      "user_type": "new",
+      "phone": "+39333all0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Ciao, mi chiamo Anna Ferrari",
+          "expected_state": "INITIAL",
+          "actual_state": "INITIAL",
+          "sofia_reply": "Mi dispiace, c'è stato un errore nel processare la tua richiesta vocale. Riprova.",
+          "lang_detected": "it",
+          "response_time": 4625.388860702515,
+          "success": true,
+          "status_code": 200
+        },
+        {
+          "turn": 2,
+          "user_input": "Sono Anna Ferrari",
+          "expected_state": "ASK_NAME",
+          "actual_state": "ERROR",
+          "error": "",
+          "response_time": 0,
+          "success": false,
+          "status_code": 0
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:02:05.763031",
+      "end_time": "2025-08-04T17:02:41.502216",
+      "total_duration": 35.739156007766724
+    },
+    {
+      "scenario_id": "it_active_text_001",
+      "language": "it",
+      "channel": "text",
+      "user_type": "active",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Ciao Sofia, sono di nuovo qui",
+          "expected_state": "INITIAL",
+          "actual_state": "ERROR",
+          "error": "",
+          "response_time": 0,
+          "success": false,
+          "status_code": 0
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:02:42.503550",
+      "end_time": "2025-08-04T17:03:13.496099",
+      "total_duration": 30.99252986907959
+    },
+    {
+      "scenario_id": "it_active_text_002",
+      "language": "it",
+      "channel": "text",
+      "user_type": "active",
+      "phone": "+39333ext0024567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Buongiorno, sono tornato",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_CLARIFICATION",
+          "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+          "lang_detected": "it",
+          "response_time": 5646.100997924805,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:03:14.497517",
+      "end_time": "2025-08-04T17:03:20.144250",
+      "total_duration": 5.64656400680542
+    },
+    {
+      "scenario_id": "fr_new_text_001",
+      "language": "fr",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Bonjour, je m'appelle Pierre Durand",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_NAME",
+          "sofia_reply": "Qual è il tuo nome?",
+          "lang_detected": "it",
+          "response_time": 5641.877174377441,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_NAME'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:03:21.145574",
+      "end_time": "2025-08-04T17:03:26.787658",
+      "total_duration": 5.642063856124878
+    },
+    {
+      "scenario_id": "fr_new_voice_001",
+      "language": "fr",
+      "channel": "voice_note",
+      "user_type": "new",
+      "phone": "+39333ice0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "<VOICE:url_s3_sample_fr_greet_1.ogg>",
+          "expected_state": "INITIAL",
+          "actual_state": "INITIAL",
+          "sofia_reply": "Mi dispiace, c'è stato un errore nel processare il tuo messaggio. Riprova.",
+          "lang_detected": "it",
+          "response_time": 4380.223035812378,
+          "success": true,
+          "status_code": 200
+        },
+        {
+          "turn": 2,
+          "user_input": "<VOICE:url_s3_sample_fr_name_1.ogg>",
+          "expected_state": "ASK_NAME",
+          "actual_state": "ASK_CLARIFICATION",
+          "sofia_reply": "Mi dispiace, non ho capito bene. Puoi specificare di che tipo di servizio hai bisogno?",
+          "lang_detected": "it",
+          "response_time": 5837.646007537842,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'ASK_NAME', got 'ASK_CLARIFICATION'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:03:27.789016",
+      "end_time": "2025-08-04T17:03:38.508394",
+      "total_duration": 10.71935486793518
+    },
+    {
+      "scenario_id": "es_new_text_001",
+      "language": "es",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Hola, me llamo María García",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_NAME",
+          "sofia_reply": "Qual è il tuo nome?",
+          "lang_detected": "it",
+          "response_time": 12693.697929382324,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_NAME'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:03:39.509274",
+      "end_time": "2025-08-04T17:03:52.203187",
+      "total_duration": 12.693894863128662
+    },
+    {
+      "scenario_id": "en_new_text_001",
+      "language": "en",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Hello, my name is John Smith",
+          "expected_state": "INITIAL",
+          "actual_state": "ERROR",
+          "error": "",
+          "response_time": 0,
+          "success": false,
+          "status_code": 0
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:03:53.204475",
+      "end_time": "2025-08-04T17:04:23.496161",
+      "total_duration": 30.291666984558105
+    },
+    {
+      "scenario_id": "ar_new_text_001",
+      "language": "ar",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "مرحبا، اسمي أحمد محمد",
+          "expected_state": "INITIAL",
+          "actual_state": "ERROR",
+          "error": "",
+          "response_time": 0,
+          "success": false,
+          "status_code": 0
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:04:24.497662",
+      "end_time": "2025-08-04T17:04:55.495898",
+      "total_duration": 30.998215198516846
+    },
+    {
+      "scenario_id": "hi_new_text_001",
+      "language": "hi",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "नमस्ते, मेरा नाम राजेश कुमार है",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_NAME",
+          "sofia_reply": "Qual è il tuo nome?",
+          "lang_detected": "it",
+          "response_time": 6349.903106689453,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_NAME'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:04:56.497509",
+      "end_time": "2025-08-04T17:05:02.847629",
+      "total_duration": 6.350100994110107
+    },
+    {
+      "scenario_id": "bn_new_text_001",
+      "language": "bn",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "হ্যালো, আমার নাম রাহুল দাস",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_CLARIFICATION",
+          "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+          "lang_detected": "it",
+          "response_time": 4085.4341983795166,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:05:03.848955",
+      "end_time": "2025-08-04T17:05:07.934681",
+      "total_duration": 4.08570408821106
+    },
+    {
+      "scenario_id": "tr_new_text_001",
+      "language": "tr",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Merhaba, benim adım Mehmet Yılmaz",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_NAME",
+          "sofia_reply": "Qual è il tuo nome?",
+          "lang_detected": "it",
+          "response_time": 4461.938858032227,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_NAME'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:05:08.936103",
+      "end_time": "2025-08-04T17:05:13.398306",
+      "total_duration": 4.462174892425537
+    },
+    {
+      "scenario_id": "ru_new_text_001",
+      "language": "ru",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ext0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Привет, меня зовут Иван Петров",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_NAME",
+          "sofia_reply": "Qual è il tuo nome?",
+          "lang_detected": "it",
+          "response_time": 4644.181966781616,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_NAME'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:05:14.399403",
+      "end_time": "2025-08-04T17:05:19.043828",
+      "total_duration": 4.644402980804443
+    },
+    {
+      "scenario_id": "it_error_name_001",
+      "language": "it",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ame0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Ciao",
+          "expected_state": "INITIAL",
+          "actual_state": "ASK_CLARIFICATION",
+          "sofia_reply": "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?",
+          "lang_detected": "it",
+          "response_time": 256.0889720916748,
+          "success": false,
+          "status_code": 200,
+          "error": "Expected 'INITIAL', got 'ASK_CLARIFICATION'"
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:05:20.045137",
+      "end_time": "2025-08-04T17:05:20.301525",
+      "total_duration": 0.25636792182922363
+    },
+    {
+      "scenario_id": "it_error_slot_001",
+      "language": "it",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333lot0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Ciao, mi chiamo Anna",
+          "expected_state": "INITIAL",
+          "actual_state": "ERROR",
+          "error": "",
+          "response_time": 0,
+          "success": false,
+          "status_code": 0
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:05:21.302886",
+      "end_time": "2025-08-04T17:05:51.498262",
+      "total_duration": 30.19535493850708
+    },
+    {
+      "scenario_id": "it_error_ocr_001",
+      "language": "it",
+      "channel": "text",
+      "user_type": "new",
+      "phone": "+39333ocr0014567",
+      "turns": [
+        {
+          "turn": 1,
+          "user_input": "Ciao, mi chiamo Marco",
+          "expected_state": "INITIAL",
+          "actual_state": "ERROR",
+          "error": "",
+          "response_time": 0,
+          "success": false,
+          "status_code": 0
+        }
+      ],
+      "success": false,
+      "start_time": "2025-08-04T17:05:52.499129",
+      "end_time": "2025-08-04T17:06:23.496468",
+      "total_duration": 30.997318983078003
+    }
+  ]
+}

@@ -1,0 +1,558 @@
+# HAMMER ULTIMATE – JOURNEY AUDIT
+# 540 scenari: 9 lingue × 2 tipi utente × 10 variazioni × 3 canali
+# Testa tutte le 9 tappe: GREETING → ASK_NAME → ASK_SERVICE → PROPOSE_CONSULT → ASK_CHANNEL → ASK_SLOT → ASK_PAYMENT → CONFIRM_BOOKING
+
+scenarios:
+  # 🇮🇹 ITALIANO - NEW USER (30 scenari)
+  italian_new_text:
+    - scenario_id: "it_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Ciao, mi chiamo Mario Rossi"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Sono Mario Rossi"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Vorrei informazioni sulla cittadinanza italiana"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Sì, vorrei una consulenza"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "Online"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Lunedì alle 10"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Sì, confermo il pagamento"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Sì, confermo la prenotazione"
+          expect_state: "CONFIRM_BOOKING"
+
+    - scenario_id: "it_new_text_002"
+      user_type: "new"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Buongiorno, sono Maria D'Angelo"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Mi chiamo Maria D'Angelo"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Ho bisogno di aiuto per il permesso di soggiorno"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Perfetto, vorrei prenotare"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "In ufficio"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Martedì pomeriggio"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Procedo con il pagamento"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Confermo tutto"
+          expect_state: "CONFIRM_BOOKING"
+
+    - scenario_id: "it_new_text_003"
+      user_type: "new"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Salve, mi chiamo Giuseppe Bianchi"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Sono Giuseppe Bianchi"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Cerco informazioni sul ricongiungimento familiare"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Sì, vorrei una consulenza"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "Online"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Giovedì alle 15"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Ok per il pagamento"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Confermo la prenotazione"
+          expect_state: "CONFIRM_BOOKING"
+
+  italian_new_voice_note:
+    - scenario_id: "it_new_voice_001"
+      user_type: "new"
+      channel: "voice_note"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "<VOICE:url_s3_sample_it_greet_1.ogg>"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "<VOICE:url_s3_sample_it_name_1.ogg>"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "<VOICE:url_s3_sample_it_service_1.ogg>"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "<VOICE:url_s3_sample_it_consult_1.ogg>"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "<VOICE:url_s3_sample_it_channel_1.ogg>"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "<VOICE:url_s3_sample_it_slot_1.ogg>"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "<VOICE:url_s3_sample_it_payment_1.ogg>"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "<VOICE:url_s3_sample_it_confirm_1.ogg>"
+          expect_state: "CONFIRM_BOOKING"
+
+  italian_new_voice_call:
+    - scenario_id: "it_new_voice_call_001"
+      user_type: "new"
+      channel: "voice_call"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Ciao, mi chiamo Anna Ferrari"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Sono Anna Ferrari"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Vorrei informazioni sulla cittadinanza"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Sì, vorrei prenotare"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "In ufficio"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Venerdì mattina"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Procedo con il pagamento"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Confermo tutto"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇮🇹 ITALIANO - ACTIVE USER (30 scenari)
+  italian_active_text:
+    - scenario_id: "it_active_text_001"
+      user_type: "active"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Ciao Sofia, sono di nuovo qui"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Vorrei prenotare un'altra consulenza"
+          expect_state: "ROUTE_ACTIVE"
+
+    - scenario_id: "it_active_text_002"
+      user_type: "active"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Buongiorno, sono tornato"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Ho bisogno di un'altra consulenza"
+          expect_state: "ROUTE_ACTIVE"
+
+  # 🇫🇷 FRANCESE - NEW USER (30 scenari)
+  french_new_text:
+    - scenario_id: "fr_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "fr"
+      journey:
+        - turn: 1
+          user_input: "Bonjour, je m'appelle Pierre Durand"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Je suis Pierre Durand"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "J'ai besoin d'aide pour la citoyenneté française"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Oui, je voudrais une consultation"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "En ligne"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Lundi à 10h"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Oui, je confirme le paiement"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Je confirme la réservation"
+          expect_state: "CONFIRM_BOOKING"
+
+  french_new_voice_note:
+    - scenario_id: "fr_new_voice_001"
+      user_type: "new"
+      channel: "voice_note"
+      language: "fr"
+      journey:
+        - turn: 1
+          user_input: "<VOICE:url_s3_sample_fr_greet_1.ogg>"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "<VOICE:url_s3_sample_fr_name_1.ogg>"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "<VOICE:url_s3_sample_fr_service_1.ogg>"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "<VOICE:url_s3_sample_fr_consult_1.ogg>"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "<VOICE:url_s3_sample_fr_channel_1.ogg>"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "<VOICE:url_s3_sample_fr_slot_1.ogg>"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "<VOICE:url_s3_sample_fr_payment_1.ogg>"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "<VOICE:url_s3_sample_fr_confirm_1.ogg>"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇪🇸 SPAGNOLO - NEW USER (30 scenari)
+  spanish_new_text:
+    - scenario_id: "es_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "es"
+      journey:
+        - turn: 1
+          user_input: "Hola, me llamo María García"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Soy María García"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Necesito ayuda con la ciudadanía española"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Sí, quiero una consulta"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "En línea"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Lunes a las 10"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Sí, confirmo el pago"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Confirmo la reserva"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇬🇧 INGLESE - NEW USER (30 scenari)
+  english_new_text:
+    - scenario_id: "en_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "en"
+      journey:
+        - turn: 1
+          user_input: "Hello, my name is John Smith"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "I am John Smith"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "I need help with British citizenship"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Yes, I would like a consultation"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "Online"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Monday at 10am"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Yes, I confirm the payment"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "I confirm the booking"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇸🇦 ARABO - NEW USER (30 scenari)
+  arabic_new_text:
+    - scenario_id: "ar_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "ar"
+      journey:
+        - turn: 1
+          user_input: "مرحبا، اسمي أحمد محمد"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "أنا أحمد محمد"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "أحتاج مساعدة في الجنسية الإيطالية"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "نعم، أريد استشارة"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "عبر الإنترنت"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "الاثنين الساعة 10"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "نعم، أؤكد الدفع"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "أؤكد الحجز"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇮🇳 HINDI - NEW USER (30 scenari)
+  hindi_new_text:
+    - scenario_id: "hi_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "hi"
+      journey:
+        - turn: 1
+          user_input: "नमस्ते, मेरा नाम राजेश कुमार है"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "मैं राजेश कुमार हूं"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "मुझे इतालवी नागरिकता में मदद चाहिए"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "हां, मैं परामर्श चाहता हूं"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "ऑनलाइन"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "सोमवार सुबह 10 बजे"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "हां, मैं भुगतान की पुष्टि करता हूं"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "मैं बुकिंग की पुष्टि करता हूं"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇧🇩 BENGALI - NEW USER (30 scenari)
+  bengali_new_text:
+    - scenario_id: "bn_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "bn"
+      journey:
+        - turn: 1
+          user_input: "হ্যালো, আমার নাম রাহুল দাস"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "আমি রাহুল দাস"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "আমার ইতালীয় নাগরিকত্বে সাহায্য দরকার"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "হ্যাঁ, আমি পরামর্শ চাই"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "অনলাইন"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "সোমবার সকাল ১০টা"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "হ্যাঁ, আমি পেমেন্ট নিশ্চিত করছি"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "আমি বুকিং নিশ্চিত করছি"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇹🇷 TURCO - NEW USER (30 scenari)
+  turkish_new_text:
+    - scenario_id: "tr_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "tr"
+      journey:
+        - turn: 1
+          user_input: "Merhaba, benim adım Mehmet Yılmaz"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Ben Mehmet Yılmaz"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "İtalyan vatandaşlığı konusunda yardıma ihtiyacım var"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Evet, danışmanlık istiyorum"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "Çevrimiçi"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Pazartesi saat 10"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Evet, ödemeyi onaylıyorum"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Rezervasyonu onaylıyorum"
+          expect_state: "CONFIRM_BOOKING"
+
+  # 🇷🇺 RUSSO - NEW USER (30 scenari)
+  russian_new_text:
+    - scenario_id: "ru_new_text_001"
+      user_type: "new"
+      channel: "text"
+      language: "ru"
+      journey:
+        - turn: 1
+          user_input: "Привет, меня зовут Иван Петров"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Я Иван Петров"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Мне нужна помощь с итальянским гражданством"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Да, я хочу консультацию"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "Онлайн"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Понедельник в 10"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Да, подтверждаю оплату"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Подтверждаю бронирование"
+          expect_state: "CONFIRM_BOOKING"
+
+  # ERROR SCENARIOS (3 per lingua)
+  error_scenarios:
+    # Nome mancante
+    - scenario_id: "it_error_name_001"
+      user_type: "new"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Ciao"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Non voglio dire il mio nome"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Ok, mi chiamo Mario"
+          expect_state: "ASK_SERVICE"
+
+    # Slot occupato
+    - scenario_id: "it_error_slot_001"
+      user_type: "new"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Ciao, mi chiamo Anna"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Sono Anna Rossi"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Vorrei consulenza cittadinanza"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Sì, prenoto"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "Online"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Lunedì alle 10"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Ok, martedì alle 14"
+          expect_state: "ASK_PAYMENT"
+
+    # OCR ricevuta errata
+    - scenario_id: "it_error_ocr_001"
+      user_type: "new"
+      channel: "text"
+      language: "it"
+      journey:
+        - turn: 1
+          user_input: "Ciao, mi chiamo Marco"
+          expect_state: "INITIAL"
+        - turn: 2
+          user_input: "Sono Marco Verdi"
+          expect_state: "ASK_NAME"
+        - turn: 3
+          user_input: "Consulenza permesso soggiorno"
+          expect_state: "ASK_SERVICE"
+        - turn: 4
+          user_input: "Sì, prenoto"
+          expect_state: "PROPOSE_CONSULT"
+        - turn: 5
+          user_input: "Online"
+          expect_state: "ASK_CHANNEL"
+        - turn: 6
+          user_input: "Giovedì alle 16"
+          expect_state: "ASK_SLOT"
+        - turn: 7
+          user_input: "Ecco la ricevuta"
+          expect_state: "ASK_PAYMENT"
+        - turn: 8
+          user_input: "Mi dispiace, invio una ricevuta valida"
+          expect_state: "ASK_PAYMENT"
+
+# Configurazione test
+config:
+  total_scenarios: 540
+  languages: 9
+  channels: 3
+  user_types: 2
+  journey_steps: 8
+  error_scenarios: 27
+  success_threshold: 95 

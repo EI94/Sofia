@@ -65,9 +65,16 @@ class Orchestrator:
             if ctx.rag_chunks:
                 log.info(f"🔍 RAG found {len(ctx.rag_chunks)} relevant chunks")
         
-        if name_result:
+        # FORCE SEQUENCE: Only extract name if we're in ASK_NAME state
+        if name_result and ctx.state == "ASK_NAME":
             ctx.extracted_name = name_result
-            log.info(f"👤 Name extracted: {name_result}")
+            ctx.name = name_result  # Set the name in context
+            log.info(f"👤 Name extracted and set: {name_result}")
+        elif name_result:
+            log.info(f"👤 Name detected but IGNORED (not in ASK_NAME state): {name_result}")
+            # Clear any extracted name to force sequence
+            ctx.extracted_name = None
+            ctx.name = None
         
         # Build system prompt (will be updated by each skill with intent-specific prompt)
         # system_prompt = build_system_prompt(ctx)  # REMOVED - each skill will use intent-specific prompt
@@ -92,14 +99,17 @@ class Orchestrator:
         intent = validated_intent
         log.info(f"✅ Intent validated: {intent} (conf: {confidence:.2f})")
         
-        # Short-circuit for predictable responses in GREETING state
+        # Short-circuit for predictable responses in INITIAL and GREETING states
         from . import state
-        if intent in {"GREET", "ASK_NAME", "ASK_SERVICE"} and ctx.state in {"GREETING", "ASK_CLARIFICATION"}:
+        if intent in {"GREET", "ASK_NAME", "ASK_SERVICE"} and ctx.state in {"INITIAL", "GREETING", "ASK_CLARIFICATION"}:
             log.info(f"⚡ Short-circuit for {intent} in {ctx.state} state")
             
             # Force GREETING state for new users to avoid ASK_CLARIFICATION issues
             if ctx.client_type == "new" and ctx.state == "ASK_CLARIFICATION":
                 log.info(f"🔄 Forcing GREETING state for new user")
+                ctx.state = "GREETING"
+            elif ctx.client_type == "new" and ctx.state == "INITIAL":
+                log.info(f"🔄 Forcing GREETING state for new user from INITIAL")
                 ctx.state = "GREETING"
             
             from .executor import _ROUTE
@@ -148,12 +158,15 @@ class Orchestrator:
             log.error(f"❌ Error logging response: {e}")
         
         # Optimistic save - save context before LLM call (only for non-short-circuit)
-        if not (intent in {"GREET", "ASK_NAME", "ASK_SERVICE"} and ctx.state in {"GREETING", "ASK_CLARIFICATION"}):
+        if not (intent in {"GREET", "ASK_NAME", "ASK_SERVICE"} and ctx.state in {"INITIAL", "GREETING", "ASK_CLARIFICATION"}):
             old_state = ctx.state
             
             # Force GREETING state for new users to avoid ASK_CLARIFICATION issues
             if ctx.client_type == "new" and ctx.state == "ASK_CLARIFICATION":
                 log.info(f"🔄 Forcing GREETING state for new user before save")
+                ctx.state = "GREETING"
+            elif ctx.client_type == "new" and ctx.state == "INITIAL":
+                log.info(f"🔄 Forcing GREETING state for new user from INITIAL before save")
                 ctx.state = "GREETING"
             
             save_context(ctx)
@@ -167,6 +180,9 @@ class Orchestrator:
         if ctx.client_type == "new" and ctx.state == "ASK_CLARIFICATION":
             log.info(f"🔄 Forcing ASK_NAME state for new user after skill execution")
             ctx.state = "ASK_NAME"
+        elif ctx.client_type == "new" and ctx.state == "INITIAL":
+            log.info(f"🔄 Forcing GREETING state for new user from INITIAL after skill execution")
+            ctx.state = "GREETING"
         
         save_context(ctx)
         
@@ -175,6 +191,9 @@ class Orchestrator:
         if ctx.client_type == "new" and final_state == "ASK_CLARIFICATION":
             log.info(f"🔄 Forcing ASK_NAME state in response for new user")
             final_state = "ASK_NAME"
+        elif ctx.client_type == "new" and final_state == "INITIAL":
+            log.info(f"🔄 Forcing GREETING state in response for new user from INITIAL")
+            final_state = "GREETING"
         print(f"[DEBUG] orchestrator return: ctx.state={ctx.state}, final_state={final_state}, phone={phone}")
         return {
             "reply": response,

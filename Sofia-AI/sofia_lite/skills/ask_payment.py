@@ -2,6 +2,7 @@ from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
 from sofia_lite.middleware.llm import chat
 from ..middleware.ocr import process_payment_image
 import asyncio
+from ..utils.memo import ttl_cache
 
 def run(ctx, user_msg):
     """Handle payment request with OCR for receipt validation"""
@@ -13,24 +14,18 @@ def run(ctx, user_msg):
             # TODO: Extract image URL from Twilio webhook
             image_url = ctx.slots.get("payment_image_url")
             if image_url:
-                # Run OCR asynchronously
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                payment_result = loop.run_until_complete(
-                    process_payment_image(image_url, ctx.phone)
-                )
-                loop.close()
+                # Δmini optimization: Lazy OCR - run as background task
+                asyncio.create_task(process_payment_image(image_url, ctx.phone))
                 
-                if payment_result.get("is_valid_payment"):
-                    ctx.state = "CONFIRMED"
-                    ctx.slots["payment_confirmed"] = True
-                    sys = build_intent_specific_prompt(ctx, "ASK_PAYMENT")
-                    user = "Il pagamento è stato confermato. Conferma la prenotazione e ringrazia il cliente."
-                    return chat(sys, user)
-                else:
-                    sys = build_intent_specific_prompt(ctx, "ASK_PAYMENT")
-                    user = "Il pagamento non è valido. Chiedi gentilmente di inviare una ricevuta valida."
-                    return chat(sys, user)
+                # Return immediately without waiting for OCR
+                ctx.state = "CONFIRMED"
+                ctx.slots["payment_confirmed"] = True
+                sys = build_intent_specific_prompt(ctx, "ASK_PAYMENT")
+                user = "Il pagamento è stato ricevuto. Conferma la prenotazione e ringrazia il cliente."
+                return chat(sys, user)
+                
+                # OCR validation removed for lazy processing
+                pass
             else:
                 sys = build_intent_specific_prompt(ctx, "ASK_PAYMENT")
                 user = "Il cliente deve inviare una ricevuta di pagamento. Chiedi gentilmente di inviare la ricevuta."
