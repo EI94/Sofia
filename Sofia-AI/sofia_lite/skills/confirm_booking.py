@@ -1,6 +1,7 @@
 from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
 from sofia_lite.middleware.llm import chat
 from ..middleware.calendar import book, create_calendar_event, send_reminder
+from sofia_lite.metrics import bookings_confirmed
 import re
 
 def run(ctx, text):
@@ -39,6 +40,9 @@ def run(ctx, text):
         ctx.state = "CONFIRMED"
         ctx.slots["booking_confirmed"] = True
         ctx.slots["calendar_event_url"] = event_url
+        
+        # Increment bookings confirmed metric
+        bookings_confirmed.inc()
         
         sys = build_intent_specific_prompt(ctx, "CONFIRM")
         user = f"La prenotazione è stata confermata per {ctx.name} alle {selected_slot}. Ringrazia il cliente e conferma i dettagli."

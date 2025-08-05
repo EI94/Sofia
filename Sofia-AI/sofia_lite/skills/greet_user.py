@@ -1,6 +1,7 @@
 import logging
 from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
 from sofia_lite.middleware.llm import chat
+from sofia_lite.metrics import clarifies
 
 log = logging.getLogger("sofia.greet_user")
 
@@ -16,6 +17,10 @@ def run(ctx, user_msg):
     # Don't set state here - let the orchestrator handle state transitions
     # ctx.state = "ASK_NAME"  # REMOVED - let orchestrator handle state
     response = chat(sys, user)
+    
+    # Increment metrics for new clients
+    if ctx.client_type == "new":
+        clarifies.inc()
     
     log.info(f"🤖 LLM Response: {response}")
     

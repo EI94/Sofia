@@ -1,7 +1,11 @@
 from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
 from sofia_lite.middleware.llm import chat
+from sofia_lite.metrics import new_leads
 
 def run(ctx, text):
+    # Increment new leads metric
+    new_leads.inc()
+    
     lowers = text.lower()
     if any(w in lowers for w in ["online","web","zoom","video"]):
         ctx.slots["channel"] = "online"
