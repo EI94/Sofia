@@ -1,0 +1,11 @@
+displayName: "Sofia – No bookings in 6 h"
+conditions:
+  - conditionThreshold:
+      filter: 'metric.type="custom.googleapis.com/sofia_bookings_confirmed_total"'
+      comparison: COMPARISON_GT
+      thresholdValue: 0
+      duration: 21600s
+      trigger:
+        count: 1
+notificationChannels:
+  - "projects/${PROJECT_ID}/notificationChannels/EMAIL_PRIMARY" 

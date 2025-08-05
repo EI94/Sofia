@@ -1,0 +1,104 @@
+{
+  "displayName": "Sofia Operations Dashboard",
+  "gridLayout": {
+    "widgets": [
+      {
+        "title": "New Leads Rate",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia_new_leads_total\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM"
+                  }
+                }
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Leads/min",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Bookings Confirmed Rate",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia_bookings_confirmed_total\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM"
+                  }
+                }
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Bookings/min",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "P95 Latency",
+        "scorecard": {
+          "timeSeriesQuery": {
+            "timeSeriesFilter": {
+              "filter": "metric.type=\"run.googleapis.com/request_latencies\" AND resource.labels.service_name=\"sofia-lite\"",
+              "aggregation": {
+                "alignmentPeriod": "300s",
+                "perSeriesAligner": "ALIGN_PERCENTILE_95",
+                "crossSeriesReducer": "REDUCE_MEAN"
+              }
+            }
+          },
+          "gaugeView": {
+            "lowerBound": 0,
+            "upperBound": 5000
+          }
+        }
+      },
+      {
+        "title": "Success vs Clarify Ratio",
+        "pieChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilterRatio": {
+                  "numerator": {
+                    "filter": "metric.type=\"custom.googleapis.com/sofia_clarify_messages_total\"",
+                    "aggregation": {
+                      "alignmentPeriod": "3600s",
+                      "perSeriesAligner": "ALIGN_SUM"
+                    }
+                  },
+                  "denominator": {
+                    "filter": "metric.type=\"run.googleapis.com/request_count\" AND resource.labels.service_name=\"sofia-lite\"",
+                    "aggregation": {
+                      "alignmentPeriod": "3600s",
+                      "perSeriesAligner": "ALIGN_SUM"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "columns": "2"
+  }
+} 
