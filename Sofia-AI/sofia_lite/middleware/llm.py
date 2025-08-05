@@ -15,6 +15,23 @@ _CACHE = {}  # Simple in-memory cache
 _CIRCUIT = {"fail": 0, "open_until": 0}  # naïve CB
 _CB_TIMEOUT = 60  # sec
 
+def _get_client_sync():
+    """Get OpenAI client synchronously"""
+    global _CLIENT
+    if _CLIENT is None:
+        try:
+            cfg = get_config()
+            api_key = cfg["OPENAI_KEY"]
+            if not api_key:
+                raise RuntimeError("missing OPENAI_API_KEY")
+            
+            # Create client without async session
+            _CLIENT = openai.OpenAI(api_key=api_key)
+        except Exception as e:
+            print(f"⚠️ OpenAI client initialization failed: {e}")
+            raise RuntimeError("missing OPENAI_API_KEY")
+    return _CLIENT
+
 async def _get_client():
     """Get OpenAI client with HTTP session reuse - Δmini optimization"""
     global _CLIENT
@@ -62,7 +79,7 @@ _SYS = ("Return ONLY JSON: "
         "ASK_CHANNEL,ASK_SLOT,ASK_PAYMENT,CONFIRM,ROUTE_ACTIVE,CLARIFY,ABUSE.")
 
 @functools.lru_cache(maxsize=2048)
-async def classify(msg: str, lang="it") -> Tuple[str, float]:
+async def _classify_async(msg: str, lang="it") -> Tuple[str, float]:
     """Classify intent with TTL 5 min cache - Δmini optimization"""
     # Check cache first
     cache_key = _cache_key("classify", msg, lang)
@@ -84,7 +101,7 @@ async def classify(msg: str, lang="it") -> Tuple[str, float]:
             messages=[{"role":"user","content":f"{_SYS}\nUser({lang}): {msg}"}],
             timeout=12.0,  # 12 second timeout - F22 voice transcription support
             max_tokens=max_tokens,  # Dynamic token budget - Δmini optimization
-            stream=True  # Enable streaming - Δmini optimization
+            stream=False  # Disable streaming for now
         )
         data = json.loads(chat.choices[0].message.content)
         result = (data["intent"], float(data["confidence"]))
@@ -95,6 +112,42 @@ async def classify(msg: str, lang="it") -> Tuple[str, float]:
         
     except Exception as e:
         raise RuntimeError(f"LLM classification failed: {e}")
+
+def classify(msg: str, lang="it") -> Tuple[str, float]:
+    """Synchronous wrapper for classify function"""
+    try:
+        # Use synchronous client directly
+        client = _get_client_sync()
+        
+        # Check cache first
+        cache_key = _cache_key("classify", msg, lang)
+        cached_result = _get_cached(cache_key, ttl=30)
+        if cached_result:
+            return cached_result
+        
+        # Δmini optimization: Compact prompts & token budget
+        max_tokens = 24  # Reduced for intents/greet/ask-XXX
+        if "PROPOSE_CONSULT" in _SYS or "ASK_PAYMENT" in _SYS:
+            max_tokens = 48  # Keep 48 only for complex intents
+        
+        chat = client.chat.completions.create(
+            model="gpt-4o-mini",
+            temperature=0,
+            messages=[{"role":"user","content":f"{_SYS}\nUser({lang}): {msg}"}],
+            timeout=12.0,  # 12 second timeout - F22 voice transcription support
+            max_tokens=max_tokens,  # Dynamic token budget - Δmini optimization
+            stream=False  # Disable streaming for now
+        )
+        data = json.loads(chat.choices[0].message.content)
+        result = (data["intent"], float(data["confidence"]))
+        
+        # Cache the result
+        _set_cached(cache_key, result)
+        return result
+        
+    except Exception as e:
+        log.error(f"Classification failed: {e}")
+        return "CLARIFY", 0.1
 
 @track_latency("LLM")
 def _raw_chat(sys_prompt: str, user_prompt: str) -> str:
@@ -109,7 +162,7 @@ def _raw_chat(sys_prompt: str, user_prompt: str) -> str:
         log.info(f"💾 Using cached result: {cached_result[:100]}...")
         return cached_result
     
-    client = _get_client()
+    client = _get_client_sync()
     
     try:
         log.info(f"🚀 Making OpenAI API call...")
@@ -125,7 +178,7 @@ def _raw_chat(sys_prompt: str, user_prompt: str) -> str:
                       {"role":"user","content":user_prompt}],
             timeout=12.0,  # 12 second timeout - F22 voice transcription support
             max_tokens=max_tokens,  # Dynamic token budget - Δmini optimization
-            stream=True  # Enable streaming - γ5 optimization
+            stream=False  # Disable streaming for now
         )
         result = rsp.choices[0].message.content.strip()
         

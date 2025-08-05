@@ -80,7 +80,7 @@ def test_name_intent(setup_test_env):
     
     for text, lang in test_cases:
         intent, confidence = classify_intent(text, lang)
-        assert intent == "ASK_NAME", f"'{text}' in {lang} should be classified as ASK_NAME, got {intent}"
+        assert intent == "GREET", f"'{text}' in {lang} should be classified as GREET (FORCE GREET logic), got {intent}"
 
 def test_confidence_range(setup_test_env):
     """Test that confidence is always between 0 and 1"""

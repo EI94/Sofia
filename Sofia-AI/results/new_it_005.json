@@ -1,0 +1,91 @@
+{
+  "scenario_id": "new_it_005",
+  "type": "new",
+  "lang": "it",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.3836679458618164,
+    1.3937349319458008,
+    1.38792085647583,
+    1.36226487159729,
+    1.3729181289672852,
+    1.3642919063568115,
+    1.3883836269378662
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Buonasera",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3836679458618164,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Giuseppe Rossi",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3937349319458008,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": "Permesso di lavoro",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.38792085647583,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": "Bene",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.36226487159729,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": "Online",
+      "sofia_response": "Perfetto! Quando hai disponibilità? Puoi dirmi giorno e ora?",
+      "response_time": 1.3729181289672852,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": "Venerdì",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3642919063568115,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 6,
+      "user_message": "Sì",
+      "sofia_response": "Grazie! Il tuo appuntamento è confermato. Ti invieremo un promemoria.",
+      "response_time": 1.3883836269378662,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "confirmation"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:10:39.027743",
+  "end_time": "2025-08-05T10:11:02.711631"
+}

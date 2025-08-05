@@ -1,0 +1,91 @@
+{
+  "scenario_id": "new_fr_005",
+  "type": "new",
+  "lang": "fr",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.381593942642212,
+    1.3947410583496094,
+    1.3795840740203857,
+    1.392599105834961,
+    1.9830379486083984,
+    1.3818020820617676,
+    1.3947393894195557
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Bonjour",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.381593942642212,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Paul Moreau",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3947410583496094,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": "Permis de travail",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3795840740203857,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": "Bien",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.392599105834961,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": "En ligne",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.9830379486083984,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": "Vendredi",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3818020820617676,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 6,
+      "user_message": "Oui",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3947393894195557,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:16:40.367940",
+  "end_time": "2025-08-05T10:17:04.699232"
+}

@@ -1,0 +1,91 @@
+{
+  "scenario_id": "new_it_008",
+  "type": "new",
+  "lang": "it",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.3794779777526855,
+    1.4258570671081543,
+    1.3753242492675781,
+    1.4159150123596191,
+    1.3834049701690674,
+    1.3847737312316895,
+    1.4566617012023926
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Buongiorno",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3794779777526855,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Marco Neri",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4258570671081543,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": "Ricongiungimento",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3753242492675781,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": "Ok",
+      "sofia_response": "Grazie! Il tuo appuntamento è confermato. Ti invieremo un promemoria.",
+      "response_time": 1.4159150123596191,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": "Ufficio",
+      "sofia_response": "Perfetto! Quando hai disponibilità? Puoi dirmi giorno e ora?",
+      "response_time": 1.3834049701690674,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": "Martedì",
+      "sofia_response": "Perfetto! Ti confermo l'appuntamento. Per il pagamento, ecco l'IBAN: IT60X0306234210000002350",
+      "response_time": 1.3847737312316895,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 6,
+      "user_message": "Sì",
+      "sofia_response": "Grazie! Il tuo appuntamento è confermato. Ti invieremo un promemoria.",
+      "response_time": 1.4566617012023926,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "confirmation"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:11:50.478365",
+  "end_time": "2025-08-05T10:12:14.334349"
+}

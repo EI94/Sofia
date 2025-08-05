@@ -1,0 +1,91 @@
+{
+  "scenario_id": "new_fr_001",
+  "type": "new",
+  "lang": "fr",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.3708951473236084,
+    1.398589849472046,
+    1.4459331035614014,
+    1.3993210792541504,
+    1.4528310298919678,
+    1.594254732131958,
+    1.405369758605957
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Bonjour!",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3708951473236084,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Je m'appelle Pierre Martin",
+      "sofia_response": "Piacere di conoscerti! Ora dimmi, di quale servizio di immigrazione hai bisogno?",
+      "response_time": 1.398589849472046,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "name_request"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": "Quels services proposez-vous?",
+      "sofia_response": "Offriamo servizi di immigrazione: permessi di soggiorno, cittadinanza, ricongiungimento familiare. La consulenza costa 60 €.",
+      "response_time": 1.4459331035614014,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "service_info"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": "Combien ça coûte?",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3993210792541504,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": "Je préfère en ligne",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4528310298919678,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": "Demain à 15h",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.594254732131958,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 6,
+      "user_message": "Parfait, je confirme",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.405369758605957,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:15:04.109997",
+  "end_time": "2025-08-05T10:15:28.202294"
+}

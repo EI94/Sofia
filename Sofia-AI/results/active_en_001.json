@@ -1,0 +1,36 @@
+{
+  "scenario_id": "active_en_001",
+  "type": "active",
+  "lang": "en",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.3784801959991455,
+    1.4670789241790771
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Hello Sofia!",
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 1.3784801959991455,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "greeting"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "I need another service",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4670789241790771,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:18:13.351065",
+  "end_time": "2025-08-05T10:18:20.208151"
+}

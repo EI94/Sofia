@@ -1,0 +1,36 @@
+{
+  "scenario_id": "active_it_001",
+  "type": "active",
+  "lang": "it",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.3910589218139648,
+    1.397749662399292
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Ciao Sofia!",
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 1.3910589218139648,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "greeting"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Ho bisogno di un altro servizio",
+      "sofia_response": "Offriamo servizi di immigrazione: permessi di soggiorno, cittadinanza, ricongiungimento familiare. La consulenza costa 60 €.",
+      "response_time": 1.397749662399292,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "service_info"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:17:04.700872",
+  "end_time": "2025-08-05T10:17:11.499389"
+}

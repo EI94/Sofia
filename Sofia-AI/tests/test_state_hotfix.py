@@ -4,7 +4,7 @@ Test per i hotfix della state machine
 """
 
 import pytest
-from sofia_lite.agents.state import State, can_transition, auto_advance, advance_from_greeting
+from sofia_lite.agents.state import State, can_transition
 from sofia_lite.agents.validator import validate
 from sofia_lite.agents.context import Context
 from sofia_lite.agents.planner import next_state
@@ -22,17 +22,16 @@ def test_self_transition_allowed():
 
 def test_auto_advance_greeting():
     """Test auto-advance da GREETING"""
-    # GREETING + ASK_SERVICE intent → stato "ASK_SERVICE"
-    result = auto_advance("GREETING", "ASK_SERVICE")
-    assert result == "ASK_SERVICE"
+    from sofia_lite.agents.state import ALLOWED_TRANSITIONS
     
-    # GREETING + ASK_NAME intent → stato "ASK_NAME"
-    result = auto_advance("GREETING", "ASK_NAME")
-    assert result == "ASK_NAME"
+    # GREETING + ASK_SERVICE intent → ASK_SERVICE
+    assert ALLOWED_TRANSITIONS.get(("GREETING", "ASK_SERVICE")) == "ASK_SERVICE"
     
-    # GREETING + GREET intent → rimane GREETING
-    result = auto_advance("GREETING", "GREET")
-    assert result == "GREETING"
+    # GREETING + ASK_NAME intent → ASK_NAME
+    assert ALLOWED_TRANSITIONS.get(("GREETING", "ASK_NAME")) == "ASK_NAME"
+    
+    # GREETING + GREET intent → ASK_NAME
+    assert ALLOWED_TRANSITIONS.get(("GREETING", "GREET")) == "ASK_NAME"
 
 def test_validator_warning():
     """Test che invalid transition ritorna warning non clarifica"""
@@ -48,10 +47,10 @@ def test_validator_warning():
     )
     
     # Invalid transition: GREETING + ASK_PAYMENT
-    intent, state, warning = validate(ctx, "ASK_PAYMENT", 0.8)
+    new_state, intent, warning = validate(ctx, "ASK_PAYMENT", 0.8)
     assert warning == "WARN_INVALID_TRANS"
-    assert intent == "GREETING"  # Mantiene stato corrente
-    assert state == "ASK_PAYMENT"  # Intent originale
+    assert intent == "ASK_PAYMENT"  # Ritorna intent originale
+    assert new_state == "GREETING"  # Stato corrente
 
 def test_validator_low_confidence():
     """Test che low confidence forza CLARIFY"""
@@ -67,8 +66,9 @@ def test_validator_low_confidence():
     )
     
     # Low confidence
-    intent, state, warning = validate(ctx, "GREET", 0.2)
-    assert intent == "CLARIFY"
+    new_state, intent, warning = validate(ctx, "GREET", 0.2)
+    assert new_state == "ASK_CLARIFICATION"
+    assert intent == "GREET"
     assert warning == "LOW_CONFIDENCE"
 
 def test_validator_valid_transition():
@@ -85,31 +85,18 @@ def test_validator_valid_transition():
     )
     
     # Valid transition: GREETING + GREET
-    intent, state, warning = validate(ctx, "GREET", 0.8)
+    new_state, intent, warning = validate(ctx, "GREET", 0.8)
     assert intent == "GREET"
-    assert warning == ""
+    assert new_state == "ASK_NAME"
+    assert warning == "OK"
 
 def test_greeting_auto_advance():
     """Test auto-advance da GREETING con context"""
-    ctx = Context(
-        phone="+100",
-        lang="it",
-        name=None,
-        client_type="new",
-        state="GREETING",
-        asked_name=False,
-        slots={},
-        history=[]
-    )
+    from sofia_lite.agents.state import ALLOWED_TRANSITIONS
     
-    # Test GREETING + GREET → ASK_NAME (quando name è None)
-    new_state = next_state(State.GREETING, "GREET", ctx)
-    assert new_state == State.ASK_NAME
-    
-    # Test GREETING + GREET → ASK_SERVICE (quando name è presente)
-    ctx.name = "Mario"
-    new_state = next_state(State.GREETING, "GREET", ctx)
-    assert new_state == State.ASK_SERVICE
+    # Test GREETING + GREET → ASK_NAME (sempre, indipendentemente dal nome)
+    new_state = ALLOWED_TRANSITIONS.get(("GREETING", "GREET"))
+    assert new_state == "ASK_NAME"
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"]) 

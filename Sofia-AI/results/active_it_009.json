@@ -1,0 +1,36 @@
+{
+  "scenario_id": "active_it_009",
+  "type": "active",
+  "lang": "it",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.3634061813354492,
+    1.4841828346252441
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Buongiorno",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3634061813354492,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Nuovo servizio",
+      "sofia_response": "Offriamo servizi di immigrazione: permessi di soggiorno, cittadinanza, ricongiungimento familiare. La consulenza costa 60 €.",
+      "response_time": 1.4841828346252441,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "service_info"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:17:59.530158",
+  "end_time": "2025-08-05T10:18:06.383191"
+}

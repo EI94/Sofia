@@ -93,112 +93,22 @@ class Orchestrator:
                 confidence = 1.0
         
         # Validate intent and state transition
-        validated_intent, validated_state, warning = validate(ctx, intent, confidence)
+        new_state, validated_intent, warning = validate(ctx, intent, confidence)
         if warning:
             log.warning(f"⚠️ Validation warning: {warning}")
         intent = validated_intent
+        
+        # Update state immediately
+        ctx.state = new_state
+        
         log.info(f"✅ Intent validated: {intent} (conf: {confidence:.2f})")
         
-        # Short-circuit for predictable responses in INITIAL and GREETING states
-        from . import state
-        if intent in {"GREET", "ASK_NAME", "ASK_SERVICE"} and ctx.state in {"INITIAL", "GREETING", "ASK_CLARIFICATION"}:
-            log.info(f"⚡ Short-circuit for {intent} in {ctx.state} state")
-            
-            # Force GREETING state for new users to avoid ASK_CLARIFICATION issues
-            if ctx.client_type == "new" and ctx.state == "ASK_CLARIFICATION":
-                log.info(f"🔄 Forcing GREETING state for new user")
-                ctx.state = "GREETING"
-            elif ctx.client_type == "new" and ctx.state == "INITIAL":
-                log.info(f"🔄 Forcing GREETING state for new user from INITIAL")
-                ctx.state = "GREETING"
-            
-            from .executor import _ROUTE
-            from importlib import import_module
-            skill_module = _ROUTE.get(intent, "clarify")
-            mod = import_module(f"sofia_lite.skills.{skill_module}")
-            response = mod.run(ctx, message)
-            
-            # Update state after short-circuit
-            old_state = ctx.state
-            from .planner import next_state
-            from .state import State
-            current_state = State[ctx.state]
-            new_state = next_state(current_state, intent, ctx)
-            if new_state.name != old_state:
-                log.info(f"🔄 State transition {old_state} ➜ {new_state.name}")
-                ctx.state = new_state.name
-            
-            # Save context after state update in short-circuit
-            save_context(ctx)
-        else:
-            # Execute intent normally
-            log.info(f"🚀 Dispatching intent: {intent} to skill")
-            response = dispatch(intent, ctx, message)
-        
-        # Ensure response is a string and handle any issues
-        try:
-            if not isinstance(response, str):
-                response = str(response) if response is not None else "Mi dispiace, c'è stato un errore nella generazione della risposta."
-            
-            # Clean the response
-            response = response.strip()
-            if not response:
-                response = "Mi dispiace, non ho capito. Puoi ripetere?"
-                
-        except Exception as e:
-            log.error(f"❌ Error processing response: {e}")
-            response = "Mi dispiace, c'è stato un errore nella generazione della risposta."
-        
-        # Safe logging
-        try:
-            # Clean response for logging
-            safe_response = response.replace('\n', ' ').replace('\r', ' ').strip()
-            log.info(f"💬 Response generated for {phone}: {safe_response[:50]}...")
-        except Exception as e:
-            log.error(f"❌ Error logging response: {e}")
-        
-        # Optimistic save - save context before LLM call (only for non-short-circuit)
-        if not (intent in {"GREET", "ASK_NAME", "ASK_SERVICE"} and ctx.state in {"INITIAL", "GREETING", "ASK_CLARIFICATION"}):
-            old_state = ctx.state
-            
-            # Force GREETING state for new users to avoid ASK_CLARIFICATION issues
-            if ctx.client_type == "new" and ctx.state == "ASK_CLARIFICATION":
-                log.info(f"🔄 Forcing GREETING state for new user before save")
-                ctx.state = "GREETING"
-            elif ctx.client_type == "new" and ctx.state == "INITIAL":
-                log.info(f"🔄 Forcing GREETING state for new user from INITIAL before save")
-                ctx.state = "GREETING"
-            
-            save_context(ctx)
-        
-        # Update context
-        ctx.history.append({"role": "user", "content": message})
-        ctx.history.append({"role": "assistant", "content": response})
-        
-        # Save context again with updated history
-        # Force correct state for new users
-        if ctx.client_type == "new" and ctx.state == "ASK_CLARIFICATION":
-            log.info(f"🔄 Forcing ASK_NAME state for new user after skill execution")
-            ctx.state = "ASK_NAME"
-        elif ctx.client_type == "new" and ctx.state == "INITIAL":
-            log.info(f"🔄 Forcing GREETING state for new user from INITIAL after skill execution")
-            ctx.state = "GREETING"
-        
-        save_context(ctx)
-        
-        # Force correct state for new users in response
-        final_state = ctx.state
-        if ctx.client_type == "new" and final_state == "ASK_CLARIFICATION":
-            log.info(f"🔄 Forcing ASK_NAME state in response for new user")
-            final_state = "ASK_NAME"
-        elif ctx.client_type == "new" and final_state == "INITIAL":
-            log.info(f"🔄 Forcing GREETING state in response for new user from INITIAL")
-            final_state = "GREETING"
-        print(f"[DEBUG] orchestrator return: ctx.state={ctx.state}, final_state={final_state}, phone={phone}")
+        # Execute skill
+        response = dispatch(intent, ctx, message)
         return {
             "reply": response,
             "intent": intent,
-            "state": final_state,
+            "state": ctx.state,
             "lang": ctx.lang,
             "phone": phone
         }

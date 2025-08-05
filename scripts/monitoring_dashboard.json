@@ -1,0 +1,146 @@
+{
+  "displayName": "Sofia Lite Monitoring Dashboard",
+  "gridLayout": {
+    "columns": "2",
+    "widgets": [
+      {
+        "title": "Conversation States",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/conversation_states\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_RATE"
+                  }
+                }
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "yAxis": {
+            "label": "Conversations per minute"
+          }
+        }
+      },
+      {
+        "title": "Response Times",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/response_time\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_MEAN"
+                  }
+                }
+              },
+              "plotType": "LINE"
+            }
+          ],
+          "yAxis": {
+            "label": "Response time (ms)"
+          }
+        }
+      },
+      {
+        "title": "Errors by Revision",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/errors\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_RATE"
+                  }
+                }
+              },
+              "plotType": "STACKED_BAR"
+            }
+          ],
+          "yAxis": {
+            "label": "Errors per minute"
+          }
+        }
+      },
+      {
+        "title": "Language Distribution",
+        "pieChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/language_distribution\"",
+                  "aggregation": {
+                    "alignmentPeriod": "3600s",
+                    "perSeriesAligner": "ALIGN_SUM"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "title": "Canary vs Stable Performance",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/response_time\" AND metric.labels.revision=\"canary\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_MEAN"
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "legendTemplate": "Canary"
+            },
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"custom.googleapis.com/sofia/response_time\" AND metric.labels.revision=\"stable\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_MEAN"
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "legendTemplate": "Stable"
+            }
+          ],
+          "yAxis": {
+            "label": "Response time (ms)"
+          }
+        }
+      },
+      {
+        "title": "Alert Summary",
+        "scorecard": {
+          "timeSeriesQuery": {
+            "timeSeriesFilter": {
+              "filter": "metric.type=\"custom.googleapis.com/sofia/alerts\"",
+              "aggregation": {
+                "alignmentPeriod": "3600s",
+                "perSeriesAligner": "ALIGN_SUM"
+              }
+            }
+          },
+          "gaugeView": {
+            "lowerBound": 0,
+            "upperBound": 100
+          }
+        }
+      }
+    ]
+  }
+} 

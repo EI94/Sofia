@@ -1,0 +1,137 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches: [ main, master, sofia-lite-boot ]
+  push:
+    branches: [ main, master, sofia-lite-boot ]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: [3.11]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: test-project
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+        
+    - name: Start Firestore Emulator
+      run: |
+        gcloud emulators firestore start --host-port=localhost:8080 --project=test-project &
+        sleep 10
+        
+    - name: Set environment variables
+      run: |
+        echo "FIRESTORE_EMULATOR_HOST=localhost:8080" >> $GITHUB_ENV
+        echo "GOOGLE_CLOUD_PROJECT=test-project" >> $GITHUB_ENV
+        echo "GOOGLE_APPLICATION_CREDENTIALS=/dev/null" >> $GITHUB_ENV
+        echo "OPENAI_API_KEY=test-key" >> $GITHUB_ENV
+        echo "ELEVENLABS_API_KEY=test-key" >> $GITHUB_ENV
+        echo "TWILIO_ACCOUNT_SID=test-sid" >> $GITHUB_ENV
+        echo "TWILIO_AUTH_TOKEN=test-token" >> $GITHUB_ENV
+        
+    - name: Run E2E tests
+      run: |
+        tox -e e2e
+        
+    - name: Upload test report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: e2e-test-report
+        path: e2e_test_report.md
+        
+    - name: Stop Firestore Emulator
+      if: always()
+      run: |
+        pkill -f "gcloud emulators firestore" || true
+        
+  unit-tests:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: [3.11]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+        
+    - name: Run unit tests
+      run: |
+        tox -e py311
+        
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+        
+    - name: Run linting
+      run: |
+        tox -e lint 

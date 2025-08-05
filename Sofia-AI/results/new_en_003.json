@@ -1,0 +1,91 @@
+{
+  "scenario_id": "new_en_003",
+  "type": "new",
+  "lang": "en",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.4446260929107666,
+    1.3977258205413818,
+    1.4068069458007812,
+    1.3901259899139404,
+    1.3848581314086914,
+    1.3847930431365967,
+    1.6802046298980713
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Good morning",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4446260929107666,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "My name is Michael Brown",
+      "sofia_response": "Piacere di conoscerti! Ora dimmi, di quale servizio di immigrazione hai bisogno?",
+      "response_time": 1.3977258205413818,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "name_request"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": "Citizenship services",
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 1.4068069458007812,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "service_info"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": "Perfect",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3901259899139404,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": "Online",
+      "sofia_response": "Perfetto! Quando hai disponibilità? Puoi dirmi giorno e ora?",
+      "response_time": 1.3848581314086914,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": "Tuesday afternoon",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3847930431365967,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 6,
+      "user_message": "I confirm",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.6802046298980713,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:13:50.645697",
+  "end_time": "2025-08-05T10:14:14.752362"
+}

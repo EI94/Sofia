@@ -1,0 +1,30 @@
+{
+  "name": "sofia-lite-load-tests",
+  "version": "1.0.0",
+  "description": "Load testing for Sofia Lite with k6",
+  "scripts": {
+    "test": "k6 run k6_script.js",
+    "test:local": "SOFIA_URL=http://localhost:8000 k6 run k6_script.js",
+    "test:staging": "SOFIA_URL=https://sofia-lite-staging-xxxxx-ew.a.run.app k6 run k6_script.js",
+    "test:production": "SOFIA_URL=https://sofia-lite-xxxxx-ew.a.run.app k6 run k6_script.js",
+    "test:quick": "k6 run --vus 5 --duration 1m k6_script.js",
+    "test:stress": "k6 run --vus 100 --duration 10m k6_script.js",
+    "install:k6": "npm install -g k6",
+    "validate": "k6 check k6_script.js"
+  },
+  "keywords": [
+    "k6",
+    "load-testing",
+    "performance",
+    "sofia-lite",
+    "chatbot"
+  ],
+  "author": "Studio Immigrato",
+  "license": "MIT",
+  "devDependencies": {
+    "k6": "^0.47.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 

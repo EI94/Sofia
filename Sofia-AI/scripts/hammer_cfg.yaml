@@ -1,0 +1,25 @@
+# Hammer Full Run Ω2025 Configuration
+# Configurazione per test completi con 213 scenari
+
+hammer:
+  n_scenarios: 213
+  languages: [it, en, fr, es, ar, hi, ur, bn, wo]
+  channels: [whatsapp, text, voice]  # voice = WA voice note
+  max_rps: 1  # evita rate-limit
+  
+  # Twilio Configuration
+  msid: "MGbb4ee25182f8fc4de2015ffcf98fb79d"
+  to_phone_default: "whatsapp:+393279467308"
+  template: ""  # template live, es. hello_sandbox o ""
+  
+  # Performance targets
+  success_rate_target: 95
+  p95_latency_target: 2500  # ms
+  
+  # Test distribution
+  new_users_percentage: 50
+  active_users_percentage: 50
+  
+  # Voice test configuration
+  voice_test_audio: "test_audio/it_greet.mp3"
+  voice_test_scenarios: 15  # 5 new-it, 5 new-en, 5 active-it 

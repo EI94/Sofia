@@ -1,0 +1,91 @@
+{
+  "scenario_id": "new_en_001",
+  "type": "new",
+  "lang": "en",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.401258945465088,
+    1.4006121158599854,
+    1.3892450332641602,
+    1.4197721481323242,
+    1.3693821430206299,
+    1.3898341655731201,
+    1.3800861835479736
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Hello!",
+      "sofia_response": "Ciao! Sono Sofia, l'assistente virtuale di Studio Immigrato. Come posso aiutarti?",
+      "response_time": 1.401258945465088,
+      "analysis": {
+        "appropriate": true,
+        "step_type": "greeting"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "My name is John Smith",
+      "sofia_response": "Piacere di conoscerti! Ora dimmi, di quale servizio di immigrazione hai bisogno?",
+      "response_time": 1.4006121158599854,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "name_request"
+      }
+    },
+    {
+      "step": 2,
+      "user_message": "What services do you offer?",
+      "sofia_response": "Offriamo servizi di immigrazione: permessi di soggiorno, cittadinanza, ricongiungimento familiare. La consulenza costa 60 €.",
+      "response_time": 1.3892450332641602,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "service_info"
+      }
+    },
+    {
+      "step": 3,
+      "user_message": "How much does it cost?",
+      "sofia_response": "La consulenza costa 60 €. Preferisci online o in ufficio?",
+      "response_time": 1.4197721481323242,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "service_info"
+      }
+    },
+    {
+      "step": 4,
+      "user_message": "I prefer online",
+      "sofia_response": "Perfetto! Quando hai disponibilità? Puoi dirmi giorno e ora?",
+      "response_time": 1.3693821430206299,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 5,
+      "user_message": "Tomorrow at 3 PM",
+      "sofia_response": "Perfetto! Ti confermo l'appuntamento. Per il pagamento, ecco l'IBAN: IT60X0306234210000002350",
+      "response_time": 1.3898341655731201,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 6,
+      "user_message": "Perfect, I confirm",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3800861835479736,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:13:02.715881",
+  "end_time": "2025-08-05T10:13:26.500817"
+}

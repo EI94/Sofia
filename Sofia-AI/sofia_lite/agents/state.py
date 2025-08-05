@@ -87,50 +87,31 @@ def is_terminal_state(state: State) -> bool:
     """
     return len(get_valid_transitions(state)) == 0
 
-def advance_from_greeting(ctx, intent):
-    """
-    Auto-advance from INITIAL/GREETING state based on intent and context.
-    
-    Args:
-        ctx: Conversation context
-        intent: Detected user intent
-        
-    Returns:
-        New state or None if no auto-advance needed
-    """
-    if ctx.state == "INITIAL":
-        # Always go to GREETING first for sequence control
-        if intent in ["GREET", "ASK_NAME", "ASK_SERVICE"]:
-            return State.GREETING
-    elif ctx.state == "GREETING":
-        # FORCE SEQUENCE: Always go to ASK_NAME for new users, regardless of intent
-        if ctx.client_type == "new":
-            return State.ASK_NAME
-        # For active users, only advance if we have a name
-        elif intent == "GREET" and ctx.name is not None:
-            return State.ASK_SERVICE
-        elif intent == "ASK_NAME":
-            return State.ASK_NAME
-    return None
-
-def auto_advance(current_state: str, intent: str) -> str:
-    """
-    Auto-advance state machine to prevent stuck states.
-    
-    Args:
-        current_state: Current state name
-        intent: Detected user intent
-        
-    Returns:
-        New state name after auto-advance
-    """
-    # Mapping per auto-advance
-    mapping = {
-        ("INITIAL", "GREET"): "GREETING",
-        ("INITIAL", "ASK_NAME"): "ASK_NAME",
-        ("INITIAL", "ASK_SERVICE"): "ASK_SERVICE",
-        ("GREETING", "ASK_SERVICE"): "ASK_SERVICE",
-        ("GREETING", "ASK_NAME"): "ASK_NAME"
-    }
-    
-    return mapping.get((current_state, intent), current_state)
+# Allowed state transitions
+ALLOWED_TRANSITIONS = {
+    ("INITIAL", "GREET"): "ASK_NAME",
+    ("INITIAL", "ASK_NAME"): "ASK_NAME",
+    ("INITIAL", "ASK_SERVICE"): "ASK_SERVICE",
+    ("INITIAL", "ROUTE_ACTIVE"): "ROUTE_ACTIVE",
+    ("GREETING", "GREET"): "ASK_NAME",
+    ("GREETING", "ASK_NAME"): "ASK_NAME",
+    ("GREETING", "ASK_SERVICE"): "ASK_SERVICE",
+    ("ASK_NAME", "ASK_NAME"): "ASK_NAME",
+    ("ASK_NAME", "ASK_SERVICE"): "ASK_SERVICE",
+    ("ASK_SERVICE", "ASK_SERVICE"): "ASK_SERVICE",
+    ("ASK_SERVICE", "PROPOSE_CONSULT"): "PROPOSE_CONSULT",
+    ("PROPOSE_CONSULT", "ASK_CHANNEL"): "ASK_CHANNEL",
+    ("PROPOSE_CONSULT", "ASK_SLOT"): "ASK_SLOT",
+    ("ASK_CHANNEL", "ASK_SLOT"): "ASK_SLOT",
+    ("ASK_SLOT", "ASK_PAYMENT"): "ASK_PAYMENT",
+    ("ASK_PAYMENT", "CONFIRM_BOOKING"): "CONFIRMED",
+    ("CONFIRMED", "ASK_SERVICE"): "ASK_SERVICE",
+    ("CONFIRMED", "ROUTE_ACTIVE"): "ROUTE_ACTIVE",
+    ("ROUTE_ACTIVE", "ASK_SERVICE"): "ASK_SERVICE",
+    ("ROUTE_ACTIVE", "CONFIRM_BOOKING"): "CONFIRMED",
+    ("ASK_CLARIFICATION", "GREET"): "ASK_NAME",
+    ("ASK_CLARIFICATION", "ASK_NAME"): "ASK_NAME",
+    ("ASK_CLARIFICATION", "ASK_SERVICE"): "ASK_SERVICE",
+    ("ASK_CLARIFICATION", "PROPOSE_CONSULT"): "PROPOSE_CONSULT",
+    ("ASK_CLARIFICATION", "ROUTE_ACTIVE"): "ROUTE_ACTIVE",
+}

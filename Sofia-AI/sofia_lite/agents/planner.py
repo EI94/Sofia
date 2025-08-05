@@ -80,6 +80,25 @@ def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
         log.info(f"🚀 Quick greeting heuristic: '{text}' -> GREET")
         return "GREET", 0.99
     
+    # FORCE SEQUENCE: If message contains greeting words or name phrases, force GREET intent
+    greeting_words = ["ciao", "salve", "buongiorno", "buonasera", "hello", "hi", "bonjour", "hola"]
+    name_phrases = ["mi chiamo", "my name is", "je m'appelle", "me llamo"]
+    text_lower = text.lower()
+    if any(word in text_lower for word in greeting_words) or any(phrase in text_lower for phrase in name_phrases):
+        log.info(f"🚀 Force GREET intent for greeting/name message: '{text}'")
+        return "GREET", 0.95
+    
+    # FORCE SEQUENCE: If message starts with greeting, force GREET intent regardless of content
+    first_word = text.strip().split()[0].lower() if text.strip() else ""
+    if first_word in greeting_words:
+        log.info(f"🚀 Force GREET intent for message starting with greeting: '{text}'")
+        return "GREET", 0.95
+    
+    # FORCE SEQUENCE: If message contains greeting words or name phrases anywhere, force GREET intent
+    if any(word in text_lower for word in greeting_words) or any(phrase in text_lower for phrase in name_phrases):
+        log.info(f"🚀 Force GREET intent for message containing greeting/name: '{text}'")
+        return "GREET", 0.95
+    
     # Step 3: Execute OpenAI + similarity in parallel
     try:
         # Run both classification methods in parallel
@@ -291,14 +310,15 @@ def plan(ctx: Context, user_msg: str, llm) -> tuple[str, str]:
     """
     Returns (intent:str, rationale:str) usando Intent Engine 2.0
     """
-    # Classifica intent con confidence (pass context for language caching)
-    intent, confidence = classify_intent(user_msg, ctx.lang, ctx)
-    
-    # FORCE SEQUENCE: If we're in INITIAL or GREETING state, force GREET intent for greeting-like messages
-    if ctx.state in ["INITIAL", "GREETING"] and any(greeting in user_msg.lower() for greeting in ["ciao", "hello", "buongiorno", "salve", "bonjour", "hola"]):
-        log.info(f"🔄 FORCE GREET intent for greeting message in {ctx.state} state")
+    # FORCE SEQUENCE: Force GREET intent for any message containing greeting words
+    greeting_words = ["ciao", "hello", "buongiorno", "salve", "bonjour", "hola"]
+    if any(greeting in user_msg.lower() for greeting in greeting_words):
+        log.info(f"🔄 FORCE GREET intent for message containing greeting: '{user_msg}'")
         intent = "GREET"
         confidence = 0.95
+    else:
+        # Classifica intent con confidence (pass context for language caching)
+        intent, confidence = classify_intent(user_msg, ctx.lang, ctx)
     
     log.info(f"🎯 Intent Engine 2.0: '{user_msg}' → {intent} (conf: {confidence:.2f})")
     
@@ -316,6 +336,7 @@ def next_state(current_state: State, intent: str, ctx=None) -> State:
     Returns:
         Next state to transition to
     """
+
     # Check auto-advance from GREETING first
     if ctx:
         from .state import advance_from_greeting
@@ -342,10 +363,10 @@ def next_state(current_state: State, intent: str, ctx=None) -> State:
             log.info(f"🔄 Force GREETING → ASK_NAME (sequence control, no name)")
             return State.ASK_NAME
         
-        # Special case: if we're in GREETING and get GREET, always go to ASK_NAME for new users
-        if ctx.state == "GREETING" and intent == "GREET" and ctx.client_type == "new":
-            log.info(f"🔄 Force GREETING → ASK_NAME (sequence control for new user)")
-            return State.ASK_NAME
+        # FORCE SEQUENCE: Stay in GREETING state for GREET intent (only if name is present)
+        if ctx.state == "GREETING" and intent == "GREET" and ctx.name is not None:
+            log.info(f"🔄 Force GREETING → GREETING (sequence control, name present)")
+            return State.GREETING
         
         # FORCE SEQUENCE: If we're in GREETING and get ASK_SERVICE, ignore and stay in GREETING
         if ctx.state == "GREETING" and intent == "ASK_SERVICE":
@@ -379,10 +400,6 @@ def next_state(current_state: State, intent: str, ctx=None) -> State:
     
     # Get target state from intent
     to_state = intent_to_state.get(intent, State.ASK_CLARIFICATION)
-    
-    # Apply auto-advance logic
-    from .state import auto_advance
-    to_state = auto_advance(current_state.name, intent)
     
     # Validate transition
     from .state import can_transition

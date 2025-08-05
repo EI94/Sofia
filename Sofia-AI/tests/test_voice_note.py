@@ -1,3 +1,8 @@
+import importlib, pytest
+if importlib.util.find_spec("audioop") is None:
+    pytest.skip("audioop non disponibile in questo ambiente",
+                allow_module_level=True)
+
 """
 Test Voice Notes - F22 WhatsApp Voice Notes
 Test per la trascrizione delle note audio WhatsApp

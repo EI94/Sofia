@@ -1,0 +1,36 @@
+{
+  "scenario_id": "active_it_006",
+  "type": "active",
+  "lang": "it",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.4014778137207031,
+    1.4215881824493408
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Buonasera",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4014778137207031,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Consulenza aggiuntiva",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4215881824493408,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "consultation_proposal"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:17:38.788361",
+  "end_time": "2025-08-05T10:17:45.612235"
+}

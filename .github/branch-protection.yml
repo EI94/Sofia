@@ -1,0 +1,75 @@
+# Sofia Lite Branch Protection Rules
+# This file documents the required branch protection settings
+
+branches:
+  - name: main
+    protection:
+      required_status_checks:
+        strict: true
+        contexts:
+          - "Sofia Lite CI/CD Pipeline"
+          - "Unit Tests"
+          - "E2E Tests"
+          - "Load Tests"
+          - "Security Scan"
+          - "Status Check"
+      enforce_admins: true
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: false
+      restrictions:
+        users: []
+        teams: []
+      allow_force_pushes: false
+      allow_deletions: false
+      block_creations: false
+      required_conversation_resolution: true
+      lock_branch: false
+      allow_fork_syncing: true
+
+  - name: sofia-lite-boot
+    protection:
+      required_status_checks:
+        strict: true
+        contexts:
+          - "Sofia Lite CI/CD Pipeline"
+          - "Unit Tests"
+          - "E2E Tests"
+          - "Load Tests"
+          - "Security Scan"
+          - "Status Check"
+      enforce_admins: false
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: false
+      restrictions:
+        users: []
+        teams: []
+      allow_force_pushes: false
+      allow_deletions: false
+      block_creations: false
+      required_conversation_resolution: true
+      lock_branch: false
+      allow_fork_syncing: true
+
+# Required status checks for all protected branches
+required_status_checks:
+  - "Sofia Lite CI/CD Pipeline"
+  - "Unit Tests"
+  - "E2E Tests"
+  - "Load Tests"
+  - "Security Scan"
+  - "Status Check"
+
+# Failure conditions that will block PR merge
+failure_conditions:
+  - "Unit Tests failed"
+  - "E2E Tests failed"
+  - "Load Tests failed"
+  - "Security Scan failed"
+  - "Coverage below 80%"
+  - "P95 response time > 1500ms"
+  - "Error rate > 10%"
+  - "High severity security issues found" 

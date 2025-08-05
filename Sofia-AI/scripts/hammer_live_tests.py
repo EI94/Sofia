@@ -40,8 +40,10 @@ class HammerTestRunner:
     def __init__(self):
         self.twilio_account_sid = os.getenv("TWILIO_ACCOUNT_SID")
         self.twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-        self.from_phone = os.getenv("TWILIO_FROM_WHATSAPP", "+393279467308")  # Il tuo numero
-        self.to_phone = "+18149149892"     # Sofia WhatsApp
+        self.messaging_service_sid = os.getenv("TWILIO_MSID", "MGbb4ee25182f8fc4de2015ffcf98fb79d")
+        self.to_phone = os.getenv("TWILIO_TO_TEST", "whatsapp:+393279467308")
+        self.from_phone = os.getenv("TWILIO_FROM_VOICE", "+18149149892")
+        self.template = os.getenv("TWILIO_TEMPLATE", "hello_sandbox")
         self.sofia_url = "https://sofia-lite-1075574333382.us-central1.run.app"
         self.used_phones = set()  # Per tracciare numeri già usati
         
@@ -64,9 +66,14 @@ class HammerTestRunner:
     
     def _load_scenarios(self) -> List[Dict]:
         """Carica scenari da YAML"""
-        scenarios_path = Path(__file__).parent / "test_real_scenarios.yaml"
+        # Prova prima i scenari GO-LIVE, poi fallback ai test reali
+        scenarios_path = Path(__file__).parent / "scenarios_golive.yaml"
+        if not scenarios_path.exists():
+            scenarios_path = Path(__file__).parent / "test_real_scenarios.yaml"
+        
         with open(scenarios_path, 'r', encoding='utf-8') as f:
-            return yaml.safe_load(f)
+            data = yaml.safe_load(f)
+            return data.get('scenarios', data)
     
     def _generate_e164_number(self) -> str:
         """Genera un numero E.164 mai usato prima"""
@@ -109,16 +116,20 @@ class HammerTestRunner:
         except Exception as e:
             log.warning(f"⚠️ Errore pulizia Firestore {phone}: {e}")
     
-    def _send_whatsapp_message(self, message: str, to_phone: str = None) -> Dict:
-        """Invia messaggio WhatsApp via Twilio"""
+    def _send_whatsapp_message(self, message: str, to_phone: str = None, first_of_thread: bool = False) -> Dict:
+        """Invia messaggio WhatsApp via Twilio Messaging Service"""
         url = f"https://api.twilio.com/2010-04-01/Accounts/{self.twilio_account_sid}/Messages.json"
         
         # Usa il numero specificato o quello di default
         target_phone = to_phone or self.to_phone
         
+        # Rate limiter: max 1 msg/s
+        time.sleep(1.1)
+        
+        # Usa sempre Body per ora, template non configurato
         data = {
-            "From": f"whatsapp:{self.from_phone}",
-            "To": f"whatsapp:{target_phone}",
+            "MessagingServiceSid": self.messaging_service_sid,
+            "To": target_phone,
             "Body": message
         }
         
@@ -254,7 +265,9 @@ class HammerTestRunner:
             if scenario.get("voice", False):
                 twilio_response = self._make_voice_call(message, to_phone)
             else:
-                twilio_response = self._send_whatsapp_message(message, to_phone)
+                # Primo messaggio del thread se è il primo step
+                first_of_thread = (i == 0)
+                twilio_response = self._send_whatsapp_message(message, to_phone, first_of_thread)
             
             response_time = time.time() - start_time
             result.response_times.append(response_time)
@@ -375,6 +388,12 @@ class HammerTestRunner:
         success_rate = passed / len(results) if results else 0
         avg_response_time = sum(sum(r.response_times) for r in results if r.response_times) / sum(len(r.response_times) for r in results if r.response_times) if any(r.response_times for r in results) else 0
         
+        # Raccogli tutti i response times per P95
+        all_response_times = []
+        for result in results:
+            if result.response_times:
+                all_response_times.extend(result.response_times)
+        
         # Analizza cause di fallimento
         fail_reasons = {}
         for result in results:
@@ -389,6 +408,7 @@ class HammerTestRunner:
             "failed": failed,
             "success_rate": success_rate,
             "avg_response_time": avg_response_time,
+            "response_times": all_response_times,
             "fail_reasons": fail_reasons,
             "results": [{
                 "id": r.scenario_id,
@@ -431,7 +451,35 @@ class HammerTestRunner:
 
 def main():
     """Main function"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Hammer Production Test Runner")
+    parser.add_argument("--scenarios", type=int, default=40, help="Numero di scenari da eseguire")
+    parser.add_argument("--to", help="Numero destinatario")
+    parser.add_argument("--msid", help="Messaging Service SID")
+    parser.add_argument("--outfile", help="File di output per il report")
+    parser.add_argument("--p95", action="store_true", help="Calcola P95 latency")
+    
+    args = parser.parse_args()
+    
+    # Override configurazione se specificato
+    if args.to:
+        os.environ["TWILIO_TO_TEST"] = args.to
+    if args.msid:
+        os.environ["TWILIO_MSID"] = args.msid
+    
+    # Controlla variabile d'ambiente per scenari
+    scenarios_env = os.getenv("SCENARIOS")
+    if scenarios_env:
+        args.scenarios = int(scenarios_env)
+    
     runner = HammerTestRunner()
+    
+    # Limita il numero di scenari se specificato
+    if args.scenarios and args.scenarios < len(runner.scenarios):
+        runner.scenarios = runner.scenarios[:args.scenarios]
+        log.info(f"📊 Esecuzione limitata a {args.scenarios} scenari")
+    
     report = runner.run_all_tests()
     
     # Salva report markdown
@@ -470,11 +518,23 @@ def main():
         fail_reason = result.get('fail_reason', '-')
         report_md += f"| {result['id']} | {result['type']} | {result['lang']} | {status} | {fail_reason} |\n"
     
+    # Calcola P95 se richiesto
+    if args.p95 and report.get('response_times'):
+        sorted_times = sorted(report['response_times'])
+        p95_index = int(len(sorted_times) * 0.95)
+        p95_latency = sorted_times[p95_index] if p95_index < len(sorted_times) else sorted_times[-1]
+        report_md += f"\n## Metriche Performance\n\n- **P95 Latency:** {p95_latency:.2f}s\n"
+        log.info(f"   P95 Latency: {p95_latency:.2f}s")
+    
     # Salva report markdown
     docs_dir = Path("docs")
     docs_dir.mkdir(exist_ok=True)
     
-    report_md_file = docs_dir / f"HAMMER_PROD_REPORT_{datetime.now().strftime('%Y%m%d_%H%M')}.md"
+    if args.outfile:
+        report_md_file = Path(args.outfile)
+    else:
+        report_md_file = docs_dir / f"HAMMER_PROD_REPORT_{datetime.now().strftime('%Y%m%d_%H%M')}.md"
+    
     with open(report_md_file, 'w', encoding='utf-8') as f:
         f.write(report_md)
     

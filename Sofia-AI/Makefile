@@ -62,27 +62,36 @@ hammer:
 hammer-prod:
 	@echo "🔨 Avvio Hammer Production Test Runner..."
 	@echo "📋 Verifica credenziali ambiente..."
-	@if [ -z "$$OPENAI_API_KEY" ] || [ -z "$$TWILIO_ACCOUNT_SID" ] || [ -z "$$TWILIO_AUTH_TOKEN" ] || [ -z "$$FIREBASE_CRED_JSON" ] || [ -z "$$GCP_PROJECT_ID" ]; then \
+	@if [ -z "$$OPENAI_API_KEY" ] || [ -z "$$TWILIO_ACCOUNT_SID" ] || [ -z "$$TWILIO_AUTH_TOKEN" ]; then \
 		echo "❌ Credenziali ambiente mancanti. Imposta:"; \
 		echo "   export OPENAI_API_KEY=your_openai_key"; \
 		echo "   export TWILIO_ACCOUNT_SID=your_account_sid"; \
 		echo "   export TWILIO_AUTH_TOKEN=your_auth_token"; \
-		echo "   export FIREBASE_CRED_JSON='your_firebase_json'"; \
-		echo "   export GCP_PROJECT_ID=your_project_id"; \
 		exit 1; \
 	fi
 	@echo "✅ Credenziali ambiente trovate"
-	@echo "🐍 Creazione ambiente virtuale..."
-	python3 -m venv hammer_env
-	@echo "📦 Installazione dipendenze..."
-	hammer_env/bin/pip install -r requirements.txt
-	hammer_env/bin/pip install pyyaml requests firebase-admin
 	@echo "🚀 Esecuzione Hammer Production Test..."
-	export TEST_WEBHOOK=true && hammer_env/bin/python scripts/hammer_runner.py \
-		--scenarios scenarios_full.yaml \
-		--report docs/HAMMER_PROD_REPORT_$$(date +%Y%m%d_%H%M).md
-	@echo "🧹 Pulizia ambiente..."
-	rm -rf hammer_env
+	@if [ -n "$$n" ]; then \
+		echo "📊 Esecuzione $$n scenari..."; \
+		SCENARIOS=$$n python scripts/hammer_live_tests.py; \
+	else \
+		echo "📊 Esecuzione 40 scenari di default..."; \
+		python scripts/hammer_live_tests.py; \
+	fi
+	@if [ -n "$$to" ]; then \
+		echo "📞 Usando numero TO: $$to"; \
+		export TWILIO_TO_TEST="$$to"; \
+	fi
+	@if [ -n "$$msid" ]; then \
+		echo "🔧 Usando MSID: $$msid"; \
+		export TWILIO_MSID="$$msid"; \
+	fi
+	@if [ -n "$$outfile" ]; then \
+		echo "📄 Output salvato in: $$outfile"; \
+	fi
+	@if [ -n "$$p95" ]; then \
+		echo "📊 Calcolo P95 abilitato"; \
+	fi
 
 clean:
 	@echo "🧹 Pulizia file temporanei..."

@@ -1,0 +1,580 @@
+# Sofia GO-LIVE Scenarios
+# 40 scenari: 20 new users, 20 active users
+# 3 lingue: IT, EN, FR
+# Full user journey: GREET → ASK_NAME → ASK_SERVICE → PROPOSE_CONSULT → ASK_CHANNEL → ASK_SLOT → ASK_PAYMENT → CONFIRM_BOOKING
+
+scenarios:
+  # NEW USERS - ITALIANO (10 scenari)
+  - id: "new_it_001"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Ciao!"
+      - "Mi chiamo Mario Rossi"
+      - "Che servizi offrite?"
+      - "Quanto costa la consulenza?"
+      - "Preferisco online"
+      - "Domani alle 15:00"
+      - "Perfetto, confermo"
+      
+  - id: "new_it_002"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Salve"
+      - "Sono Anna Bianchi"
+      - "Ho bisogno di aiuto per il permesso di soggiorno"
+      - "Ok, va bene"
+      - "In ufficio"
+      - "Lunedì mattina"
+      - "Sì, va bene"
+      
+  - id: "new_it_003"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Buongiorno"
+      - "Mi chiamo Luca Verdi"
+      - "Servizi di cittadinanza"
+      - "Perfetto"
+      - "Online"
+      - "Martedì pomeriggio"
+      - "Confermo"
+      
+  - id: "new_it_004"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Ciao"
+      - "Sono Maria Neri"
+      - "Ricongiungimento familiare"
+      - "Va bene"
+      - "Ufficio"
+      - "Giovedì"
+      - "Ok"
+      
+  - id: "new_it_005"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Buonasera"
+      - "Giuseppe Rossi"
+      - "Permesso di lavoro"
+      - "Bene"
+      - "Online"
+      - "Venerdì"
+      - "Sì"
+      
+  - id: "new_it_006"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Salve"
+      - "Carlo Bianchi"
+      - "Cittadinanza italiana"
+      - "Ok"
+      - "Ufficio"
+      - "Sabato"
+      - "Perfetto"
+      
+  - id: "new_it_007"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Ciao"
+      - "Laura Verdi"
+      - "Permesso per studio"
+      - "Bene"
+      - "Online"
+      - "Lunedì"
+      - "Va bene"
+      
+  - id: "new_it_008"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Buongiorno"
+      - "Marco Neri"
+      - "Ricongiungimento"
+      - "Ok"
+      - "Ufficio"
+      - "Martedì"
+      - "Sì"
+      
+  - id: "new_it_009"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Salve"
+      - "Elena Rossi"
+      - "Cittadinanza"
+      - "Perfetto"
+      - "Online"
+      - "Mercoledì"
+      - "Confermo"
+      
+  - id: "new_it_010"
+    type: "new"
+    lang: "it"
+    steps:
+      - "Ciao"
+      - "Paolo Bianchi"
+      - "Permesso soggiorno"
+      - "Va bene"
+      - "Ufficio"
+      - "Giovedì"
+      - "Ok"
+
+  # NEW USERS - ENGLISH (5 scenari)
+  - id: "new_en_001"
+    type: "new"
+    lang: "en"
+    steps:
+      - "Hello!"
+      - "My name is John Smith"
+      - "What services do you offer?"
+      - "How much does it cost?"
+      - "I prefer online"
+      - "Tomorrow at 3 PM"
+      - "Perfect, I confirm"
+      
+  - id: "new_en_002"
+    type: "new"
+    lang: "en"
+    steps:
+      - "Hi"
+      - "I'm Sarah Johnson"
+      - "I need help with residence permit"
+      - "Ok, that's fine"
+      - "At the office"
+      - "Monday morning"
+      - "Yes, that's good"
+      
+  - id: "new_en_003"
+    type: "new"
+    lang: "en"
+    steps:
+      - "Good morning"
+      - "My name is Michael Brown"
+      - "Citizenship services"
+      - "Perfect"
+      - "Online"
+      - "Tuesday afternoon"
+      - "I confirm"
+      
+  - id: "new_en_004"
+    type: "new"
+    lang: "en"
+    steps:
+      - "Hello"
+      - "I'm Lisa Davis"
+      - "Family reunification"
+      - "That's fine"
+      - "Office"
+      - "Thursday"
+      - "Ok"
+      
+  - id: "new_en_005"
+    type: "new"
+    lang: "en"
+    steps:
+      - "Hi there"
+      - "Robert Wilson"
+      - "Work permit"
+      - "Good"
+      - "Online"
+      - "Friday"
+      - "Yes"
+
+  # NEW USERS - FRENCH (5 scenari)
+  - id: "new_fr_001"
+    type: "new"
+    lang: "fr"
+    steps:
+      - "Bonjour!"
+      - "Je m'appelle Pierre Martin"
+      - "Quels services proposez-vous?"
+      - "Combien ça coûte?"
+      - "Je préfère en ligne"
+      - "Demain à 15h"
+      - "Parfait, je confirme"
+      
+  - id: "new_fr_002"
+    type: "new"
+    lang: "fr"
+    steps:
+      - "Salut"
+      - "Je suis Marie Dubois"
+      - "J'ai besoin d'aide pour le permis de séjour"
+      - "Ok, c'est bien"
+      - "Au bureau"
+      - "Lundi matin"
+      - "Oui, c'est bon"
+      
+  - id: "new_fr_003"
+    type: "new"
+    lang: "fr"
+    steps:
+      - "Bonjour"
+      - "Mon nom est Jean Bernard"
+      - "Services de citoyenneté"
+      - "Parfait"
+      - "En ligne"
+      - "Mardi après-midi"
+      - "Je confirme"
+      
+  - id: "new_fr_004"
+    type: "new"
+    lang: "fr"
+    steps:
+      - "Salut"
+      - "Sophie Leroy"
+      - "Regroupement familial"
+      - "C'est bien"
+      - "Bureau"
+      - "Jeudi"
+      - "Ok"
+      
+  - id: "new_fr_005"
+    type: "new"
+    lang: "fr"
+    steps:
+      - "Bonjour"
+      - "Paul Moreau"
+      - "Permis de travail"
+      - "Bien"
+      - "En ligne"
+      - "Vendredi"
+      - "Oui"
+
+  # ACTIVE USERS - ITALIANO (10 scenari)
+  - id: "active_it_001"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Ciao Sofia!"
+      - "Ho bisogno di un altro servizio"
+      
+  - id: "active_it_002"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Salve"
+      - "Vorrei una nuova consulenza"
+      
+  - id: "active_it_003"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Buongiorno"
+      - "Serve aiuto per documenti"
+      
+  - id: "active_it_004"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Ciao"
+      - "Nuovo appuntamento"
+      
+  - id: "active_it_005"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Salve"
+      - "Altro servizio immigrazione"
+      
+  - id: "active_it_006"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Buonasera"
+      - "Consulenza aggiuntiva"
+      
+  - id: "active_it_007"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Ciao"
+      - "Nuova pratica"
+      
+  - id: "active_it_008"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Salve"
+      - "Altro aiuto"
+      
+  - id: "active_it_009"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Buongiorno"
+      - "Nuovo servizio"
+      
+  - id: "active_it_010"
+    type: "active"
+    lang: "it"
+    steps:
+      - "Ciao"
+      - "Consulenza"
+
+  # ACTIVE USERS - ENGLISH (5 scenari)
+  - id: "active_en_001"
+    type: "active"
+    lang: "en"
+    steps:
+      - "Hello Sofia!"
+      - "I need another service"
+      
+  - id: "active_en_002"
+    type: "active"
+    lang: "en"
+    steps:
+      - "Hi"
+      - "I'd like a new consultation"
+      
+  - id: "active_en_003"
+    type: "active"
+    lang: "en"
+    steps:
+      - "Good morning"
+      - "Need help with documents"
+      
+  - id: "active_en_004"
+    type: "active"
+    lang: "en"
+    steps:
+      - "Hello"
+      - "New appointment"
+      
+  - id: "active_en_005"
+    type: "active"
+    lang: "en"
+    steps:
+      - "Hi there"
+      - "Another immigration service"
+
+  # ACTIVE USERS - FRENCH (5 scenari)
+  - id: "active_fr_001"
+    type: "active"
+    lang: "fr"
+    steps:
+      - "Bonjour Sofia!"
+      - "J'ai besoin d'un autre service"
+      
+  - id: "active_fr_002"
+    type: "active"
+    lang: "fr"
+    steps:
+      - "Salut"
+      - "Je voudrais une nouvelle consultation"
+      
+  - id: "active_fr_003"
+    type: "active"
+    lang: "fr"
+    steps:
+      - "Bonjour"
+      - "Besoin d'aide pour documents"
+      
+  - id: "active_fr_004"
+    type: "active"
+    lang: "fr"
+    steps:
+      - "Salut"
+      - "Nouveau rendez-vous"
+      
+  - id: "active_fr_005"
+    type: "active"
+    lang: "fr"
+    steps:
+      - "Bonjour"
+      - "Autre service immigration"
+
+  # VOICE TEST SCENARIOS (15 scenari)
+  # NEW USERS - ITALIAN VOICE (5 scenari)
+  - id: "voice_new_it_001"
+    type: "new"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Ciao, mi chiamo Mario Rossi e vorrei fissare una consulenza"
+      - "Perfetto"
+      - "Online"
+      - "Domani"
+      - "Confermo"
+      
+  - id: "voice_new_it_002"
+    type: "new"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Salve, sono Anna Bianchi e ho bisogno di aiuto per il permesso di soggiorno"
+      - "Va bene"
+      - "In ufficio"
+      - "Lunedì"
+      - "Sì"
+      
+  - id: "voice_new_it_003"
+    type: "new"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Buongiorno, mi chiamo Carlo Verdi e vorrei informazioni sulla cittadinanza"
+      - "Perfetto"
+      - "Online"
+      - "Martedì"
+      - "Ok"
+      
+  - id: "voice_new_it_004"
+    type: "new"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Ciao, sono Maria Neri e vorrei fissare una consulenza per ricongiungimento"
+      - "Bene"
+      - "Ufficio"
+      - "Mercoledì"
+      - "Confermo"
+      
+  - id: "voice_new_it_005"
+    type: "new"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Salve, mi chiamo Luca Bianchi e ho bisogno di aiuto per il permesso di studio"
+      - "Va bene"
+      - "Online"
+      - "Giovedì"
+      - "Sì"
+
+  # NEW USERS - ENGLISH VOICE (5 scenari)
+  - id: "voice_new_en_001"
+    type: "new"
+    lang: "en"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Hello, my name is John Smith and I would like to book a consultation"
+      - "Perfect"
+      - "Online"
+      - "Tomorrow"
+      - "I confirm"
+      
+  - id: "voice_new_en_002"
+    type: "new"
+    lang: "en"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Hi, I'm Sarah Johnson and I need help with residence permit"
+      - "That's fine"
+      - "At the office"
+      - "Monday"
+      - "Yes"
+      
+  - id: "voice_new_en_003"
+    type: "new"
+    lang: "en"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Good morning, my name is Michael Brown and I want information about citizenship"
+      - "Perfect"
+      - "Online"
+      - "Tuesday"
+      - "Ok"
+      
+  - id: "voice_new_en_004"
+    type: "new"
+    lang: "en"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Hello, I'm Lisa Davis and I would like to book a consultation for family reunification"
+      - "That's fine"
+      - "Office"
+      - "Wednesday"
+      - "I confirm"
+      
+  - id: "voice_new_en_005"
+    type: "new"
+    lang: "en"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Hi, my name is Robert Wilson and I need help with study permit"
+      - "That's fine"
+      - "Online"
+      - "Thursday"
+      - "Yes"
+
+  # ACTIVE USERS - ITALIAN VOICE (5 scenari)
+  - id: "voice_active_it_001"
+    type: "active"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Ciao Sofia, sono di nuovo qui per una nuova consulenza"
+      - "Permesso di lavoro"
+      - "Perfetto"
+      - "Online"
+      - "Venerdì"
+      - "Confermo"
+      
+  - id: "voice_active_it_002"
+    type: "active"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Salve, vorrei aggiornare la mia situazione"
+      - "Cittadinanza"
+      - "Va bene"
+      - "Ufficio"
+      - "Lunedì"
+      - "Sì"
+      
+  - id: "voice_active_it_003"
+    type: "active"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Buongiorno, ho bisogno di una nuova consulenza"
+      - "Ricongiungimento"
+      - "Perfetto"
+      - "Online"
+      - "Martedì"
+      - "Ok"
+      
+  - id: "voice_active_it_004"
+    type: "active"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Ciao, vorrei continuare con i servizi"
+      - "Permesso di soggiorno"
+      - "Bene"
+      - "Ufficio"
+      - "Mercoledì"
+      - "Confermo"
+      
+  - id: "voice_active_it_005"
+    type: "active"
+    lang: "it"
+    voice: true
+    audio_file: "test_audio/it_greet.mp3"
+    steps:
+      - "Salve Sofia, sono tornato per un aggiornamento"
+      - "Permesso di studio"
+      - "Va bene"
+      - "Online"
+      - "Giovedì"
+      - "Sì" 

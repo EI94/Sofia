@@ -1,0 +1,13 @@
+# Twilio Configuration for Sofia GO-LIVE
+twilio:
+  # Messaging Service SID (già configurato)
+  msid: "MGbb4ee25182f8fc4de2015ffcf98fb79d"
+  
+  # Test number (default)
+  to_test: "whatsapp:+393279467308"
+  
+  # WhatsApp template (se approvato)
+  template: "hello_sandbox"
+  
+  # Legacy FROM number (da rimuovere)
+  # from_whatsapp: "whatsapp:+18149149892"  # COMMENTATO 

@@ -1,0 +1,44 @@
+name: Twilio Smoke Test Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install requests pyyaml
+        
+    - name: Run Twilio Smoke Test
+      env:
+        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+        TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+        TWILIO_MSID: ${{ secrets.TWILIO_MSID }}
+        TWILIO_TO_TEST: ${{ secrets.TWILIO_TO_TEST }}
+        TWILIO_TEMPLATE: ${{ secrets.TWILIO_TEMPLATE }}
+      run: |
+        python scripts/smoke_twilio.py
+        
+    - name: Report result
+      if: always()
+      run: |
+        echo "Smoke test completed with exit code: ${{ job.status }}"
+        if [ "${{ job.status }}" != "success" ]; then
+          echo "❌ SMOKE TEST FAILED - Deployment blocked"
+          exit 1
+        else
+          echo "✅ SMOKE TEST PASSED - Deployment can proceed"
+        fi 

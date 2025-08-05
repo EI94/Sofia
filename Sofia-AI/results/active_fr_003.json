@@ -1,0 +1,36 @@
+{
+  "scenario_id": "active_fr_003",
+  "type": "active",
+  "lang": "fr",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.3965020179748535,
+    1.4408211708068848
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Bonjour",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.3965020179748535,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Besoin d'aide pour documents",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4408211708068848,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:19:01.589109",
+  "end_time": "2025-08-05T10:19:08.435049"
+}

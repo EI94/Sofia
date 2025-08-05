@@ -51,6 +51,13 @@ def dispatch(intent, ctx, text):
     if intent != "CLARIFY":
         ctx.clarify_count = 0
     
+    # FORCE SEQUENCE: Let the orchestrator handle all state transitions
+    # Remove special handling for GREET intent
+    # if intent == "GREET" and ctx.state == "GREETING":
+    #     log.info(f"🔄 Force sequence: GREET in GREETING state, staying in GREETING")
+    #     greet_mod = import_module(f"sofia_lite.skills.greet_user")
+    #     return greet_mod.run(ctx, text)
+    
     # Special case: if validator forced ASK_NAME but we're in GREETING state,
     # we should call greet_user first to set the state, then ask_name
     if intent == "ASK_NAME" and ctx.state == "GREETING":

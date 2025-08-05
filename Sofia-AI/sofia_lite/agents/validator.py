@@ -18,35 +18,17 @@ VALID_TRANSITIONS = {
 }
 
 def validate(ctx: Context, intent: str, confidence: float = 1.0) -> tuple[str, str, str]:
-    """Validate state→intent transition, return (intent, state, warning)"""
+    """Validate state→intent transition, return (new_state, intent, warning)"""
     
     # Se confidence < 0.35, forza CLARIFY
     if confidence < 0.35:
-        return ("CLARIFY", ctx.state, "LOW_CONFIDENCE")
+        return ("ASK_CLARIFICATION", intent, "LOW_CONFIDENCE")
     
-    # Smart name handling: force ASK_NAME if no name and not already asking
-    # BUT only if we're in GREETING state and intent is GREET
-    if not ctx.name and ctx.state == "GREETING" and intent == "GREET":
-        return ("GREET", ctx.state, "")  # Allow GREET to proceed to greet_user
+    # Check allowed transitions
+    from .state import ALLOWED_TRANSITIONS
+    if (ctx.state, intent) in ALLOWED_TRANSITIONS:
+        return (ALLOWED_TRANSITIONS[(ctx.state, intent)], intent, "OK")
     
-    # If ASK_NAME but name already present, go to ASK_SERVICE
-    if intent == "ASK_NAME" and ctx.name:
-        return ("ASK_SERVICE", ctx.state, "")
-    
-    # Special case: if we're in ASK_CLARIFICATION and get GREET, allow it
-    if ctx.state == "ASK_CLARIFICATION" and intent == "GREET":
-        return ("GREET", ctx.state, "")
-    
-    # Special case: if we're in ASK_CLARIFICATION and get ASK_NAME, allow it
-    if ctx.state == "ASK_CLARIFICATION" and intent == "ASK_NAME":
-        return ("ASK_NAME", ctx.state, "")
-    
-    current_state = ctx.state
-    valid_intents = VALID_TRANSITIONS.get(current_state, [])
-    
-    if intent in valid_intents:
-        return (intent, ctx.state, "")
-    else:
-        # NON forzare clarifica, ma ritorna warning
-        log.warning("Invalid transition %s→%s", ctx.state, intent)
-        return (intent, ctx.state, "WARN_INVALID_TRANS") 
+    # Invalid transition - stay in current state
+    log.warning("Invalid transition %s→%s", ctx.state, intent)
+    return (ctx.state, intent, "WARN_INVALID_TRANS") 

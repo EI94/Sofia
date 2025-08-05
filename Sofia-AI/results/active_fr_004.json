@@ -1,0 +1,36 @@
+{
+  "scenario_id": "active_fr_004",
+  "type": "active",
+  "lang": "fr",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.471519947052002,
+    1.40610933303833
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Salut",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.471519947052002,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "Nouveau rendez-vous",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.40610933303833,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:19:08.435484",
+  "end_time": "2025-08-05T10:19:15.326449"
+}

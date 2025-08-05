@@ -1,0 +1,36 @@
+{
+  "scenario_id": "active_fr_001",
+  "type": "active",
+  "lang": "fr",
+  "journey_pass": true,
+  "fail_reason": null,
+  "fail_loop": false,
+  "response_times": [
+    1.4388086795806885,
+    1.7884769439697266
+  ],
+  "messages": [
+    {
+      "step": 0,
+      "user_message": "Bonjour Sofia!",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.4388086795806885,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    },
+    {
+      "step": 1,
+      "user_message": "J'ai besoin d'un autre service",
+      "sofia_response": "Mi dispiace, non ho capito bene. Potresti specificare di cosa hai bisogno?",
+      "response_time": 1.7884769439697266,
+      "analysis": {
+        "appropriate": false,
+        "step_type": "unknown"
+      }
+    }
+  ],
+  "start_time": "2025-08-05T10:18:47.573864",
+  "end_time": "2025-08-05T10:18:54.816655"
+}

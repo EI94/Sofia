@@ -13,7 +13,8 @@ def run(ctx, user_msg):
     
     log.info(f"💬 User prompt: {user}")
     
-    ctx.state = "ASK_NAME"
+    # Don't set state here - let the orchestrator handle state transitions
+    # ctx.state = "ASK_NAME"  # REMOVED - let orchestrator handle state
     response = chat(sys, user)
     
     log.info(f"🤖 LLM Response: {response}")

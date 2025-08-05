@@ -1,0 +1,14 @@
+{
+  "scenario_id": "voice_active_it_002",
+  "type": "active",
+  "lang": "it",
+  "journey_pass": false,
+  "fail_reason": "Twilio WhatsApp API error",
+  "fail_loop": false,
+  "response_times": [
+    0.21166586875915527
+  ],
+  "messages": [],
+  "start_time": "2025-08-05T10:08:40.391369",
+  "end_time": "2025-08-05T10:08:40.603039"
+}

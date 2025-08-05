@@ -1,0 +1,333 @@
+{
+  "timestamp": "2025-08-05T08:55:22.270902",
+  "total_scenarios": 40,
+  "passed": 0,
+  "failed": 40,
+  "success_rate": 0.0,
+  "avg_response_time": 1.3159550368785857,
+  "fail_reasons": {
+    "Twilio WhatsApp API error": 40
+  },
+  "results": [
+    {
+      "id": "new_it_001",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_002",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_003",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_004",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_005",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_006",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_007",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_008",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_009",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_it_010",
+      "type": "new",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_en_001",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_en_002",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_en_003",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_en_004",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_en_005",
+      "type": "new",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_fr_001",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_fr_002",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_fr_003",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_fr_004",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "new_fr_005",
+      "type": "new",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_001",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_002",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_003",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_004",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_005",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_006",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_007",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_008",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_009",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_it_010",
+      "type": "active",
+      "lang": "it",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_en_001",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_en_002",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_en_003",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_en_004",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_en_005",
+      "type": "active",
+      "lang": "en",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_fr_001",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_fr_002",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_fr_003",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_fr_004",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    },
+    {
+      "id": "active_fr_005",
+      "type": "active",
+      "lang": "fr",
+      "pass": false,
+      "fail_reason": "Twilio WhatsApp API error",
+      "fail_loop": false
+    }
+  ]
+}

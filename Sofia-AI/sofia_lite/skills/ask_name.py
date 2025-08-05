@@ -16,14 +16,16 @@ def run(ctx, user_msg:str):
     if name:
         ctx.name = name
         ctx.asked_name = True      # segnala che la domanda è già passata
-        ctx.state = "ASK_SERVICE"  # salto al passo successivo
+        # Don't set state here - let the orchestrator handle state transitions
+    # ctx.state = "ASK_SERVICE"  # REMOVED - let orchestrator handle state
         log.info(f"✅ Name extracted, moving to ASK_SERVICE")
         from .ask_service import run as next_skill
         return next_skill(ctx, user_msg)
 
     # 2) se nome già noto → niente domanda ripetuta
     if ctx.name:
-        ctx.state = "ASK_SERVICE"
+        # Don't set state here - let the orchestrator handle state transitions
+        # ctx.state = "ASK_SERVICE"  # REMOVED - let orchestrator handle state
         from .ask_service import run as next_skill
         return next_skill(ctx, user_msg)
 

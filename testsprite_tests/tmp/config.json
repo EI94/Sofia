@@ -1,0 +1,12 @@
+{
+  "status": "init",
+  "executionArgs": {
+    "projectName": "Sofia",
+    "projectPath": "/Users/pierpaololaurito/DevOps/Sofia",
+    "testIds": [],
+    "additionalInstruction": "Testa il sistema Sofia AI completo: endpoint WhatsApp (/webhook/whatsapp), endpoint Voice (/webhook/voice), riconoscimento intent multilingue, flusso conversazionale completo, integrazione Twilio, persistenza Firebase, sistema multi-agent (Planner, Validator, Executor, Memory), loop guard, structured logging. Focus su success rate >= 80% e fallback rate <= 10%.",
+    "envs": {
+      "API_KEY": ""
+    }
+  }
+}

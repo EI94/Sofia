@@ -1,0 +1,104 @@
+[
+  {
+    "name": "timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Timestamp of the conversation event"
+  },
+  {
+    "name": "phone",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Phone number of the user"
+  },
+  {
+    "name": "conversation_id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Unique conversation identifier"
+  },
+  {
+    "name": "message",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "User message content"
+  },
+  {
+    "name": "reply",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Sofia's reply content"
+  },
+  {
+    "name": "intent",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Detected user intent"
+  },
+  {
+    "name": "state",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Current conversation state"
+  },
+  {
+    "name": "lang",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Detected language"
+  },
+  {
+    "name": "channel",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Communication channel (whatsapp/voice)"
+  },
+  {
+    "name": "response_time_ms",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Response time in milliseconds"
+  },
+  {
+    "name": "error",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Error message if any"
+  },
+  {
+    "name": "revision",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Cloud Run revision (stable/canary)"
+  },
+  {
+    "name": "region",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Deployment region"
+  },
+  {
+    "name": "user_type",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "User type (new/active)"
+  },
+  {
+    "name": "abuse_detected",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "Whether abuse was detected"
+  },
+  {
+    "name": "escalated",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "Whether conversation was escalated"
+  },
+  {
+    "name": "metadata",
+    "type": "JSON",
+    "mode": "NULLABLE",
+    "description": "Additional metadata as JSON"
+  }
+] 
