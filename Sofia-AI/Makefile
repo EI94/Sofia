@@ -122,4 +122,15 @@ full-deploy: build deploy
 
 # Comando per test completo
 full-test: test hammer
-	@echo "✅ Tutti i test completati!" 
+	@echo "✅ Tutti i test completati!"
+
+.PHONY: build-monitor deploy-monitor
+build-monitor:
+	docker build -t sofia-monitor:latest -f monitoring/Dockerfile .
+deploy-monitor:
+	gcloud run deploy sofia-monitor \
+	  --source monitoring \
+	  --region europe-west1 \
+	  --platform managed \
+	  --allow-unauthenticated \
+	  --set-env-vars "PORT=8080" 
