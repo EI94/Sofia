@@ -132,5 +132,4 @@ deploy-monitor:
 	  --source monitoring \
 	  --region europe-west1 \
 	  --platform managed \
-	  --allow-unauthenticated \
-	  --set-env-vars "PORT=8080" 
+	  --allow-unauthenticated 
