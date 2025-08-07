@@ -1,0 +1,12 @@
+{
+  "leadsRate": 3,
+  "bookingsRate": 2,
+  "p95": [
+    { "t": 0, "v": 1.3 },
+    { "t": 1, "v": 1.9 }
+  ],
+  "successRatio": [
+    { "label":"Success", "value": 92 },
+    { "label":"Clarify", "value": 8 }
+  ]
+}
