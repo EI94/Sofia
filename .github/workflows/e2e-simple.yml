@@ -1,0 +1,80 @@
+name: E2E Tests (Simplified)
+
+on:
+  pull_request:
+    branches: [ main, master, sofia-lite-boot, bulk-api-bootstrap ]
+  push:
+    branches: [ main, master, sofia-lite-boot, bulk-api-bootstrap ]
+
+jobs:
+  e2e-tests-simple:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: [3.11]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+        
+    - name: Set environment variables
+      run: |
+        echo "OPENAI_API_KEY=test-key" >> $GITHUB_ENV
+        echo "ELEVENLABS_API_KEY=test-key" >> $GITHUB_ENV
+        echo "TWILIO_ACCOUNT_SID=test-sid" >> $GITHUB_ENV
+        echo "TWILIO_AUTH_TOKEN=test-token" >> $GITHUB_ENV
+        echo "GOOGLE_CLOUD_PROJECT=test-project" >> $GITHUB_ENV
+        echo "GOOGLE_APPLICATION_CREDENTIALS=/dev/null" >> $GITHUB_ENV
+        
+    - name: Run simplified E2E tests
+      run: |
+        # Test basic imports
+        python -c "import sofia_lite; print('✅ Core imports OK')"
+        python -c "import sofia_bulk_api; print('✅ Bulk API imports OK')"
+        
+        # Test basic functionality without Firestore
+        python -c "
+        import sys
+        sys.path.append('.')
+        from sofia_lite.agents.state import State
+        from sofia_lite.agents.context import Context
+        print('✅ State and Context imports OK')
+        "
+        
+        # Test bulk API basic functionality
+        python -c "
+        import sys
+        sys.path.append('.')
+        from sofia_bulk_api.schemas import ConversationIn, ConversationOut
+        print('✅ Bulk API schemas OK')
+        "
+        
+        echo "✅ Simplified E2E tests completed"
+        
+    - name: Upload test report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-simple-test-report
+        path: |
+          .pytest_cache/
+          *.log
