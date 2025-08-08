@@ -9,5 +9,5 @@ twilio:
   # WhatsApp template (se approvato)
   template: "hello_sandbox"
   
-  # Legacy FROM number (da rimuovere)
-  # from_whatsapp: "whatsapp:+18149149892"  # COMMENTATO 
+  # FROM number per produzione
+  from_whatsapp: "whatsapp:+18149149892" 
