@@ -3,11 +3,10 @@ Rate limiter per Sofia Bulk API
 Usa slowapi per limitare a 10 requests/second per API-Key
 """
 
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
 from fastapi import Request
-
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
 # Crea il limiter
 limiter = Limiter(key_func=get_remote_address)
@@ -22,11 +21,11 @@ def rate_limit_by_api_key(request: Request) -> str:
     """Custom key function per rate limiting basato su API key"""
     # Estrai API key dall'header Authorization
     auth_header = request.headers.get("Authorization", "")
-    
+
     if auth_header.startswith("Bearer "):
         api_key = auth_header[7:]  # Rimuovi "Bearer "
         return f"api_key:{api_key}"
-    
+
     # Fallback all'IP se non c'è API key
     return get_remote_address(request)
 

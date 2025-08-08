@@ -2,9 +2,9 @@ name: E2E Tests
 
 on:
   pull_request:
-    branches: [ main, master, sofia-lite-boot ]
+    branches: [ main, master, sofia-lite-boot, bulk-api-bootstrap ]
   push:
-    branches: [ main, master, sofia-lite-boot ]
+    branches: [ main, master, sofia-lite-boot, bulk-api-bootstrap ]
 
 jobs:
   e2e-tests:
@@ -27,8 +27,11 @@ jobs:
       uses: google-github-actions/setup-gcloud@v2
       with:
         project_id: test-project
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
+        
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
         
     - name: Cache pip dependencies
       uses: actions/cache@v3
@@ -63,7 +66,7 @@ jobs:
         tox -e e2e
         
     - name: Upload test report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: e2e-test-report
@@ -106,6 +109,39 @@ jobs:
     - name: Run unit tests
       run: |
         tox -e py311
+        
+  bulk-tests:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: [3.11]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+        
+    - name: Run bulk API tests
+      run: |
+        tox -e bulk
         
   lint:
     runs-on: ubuntu-latest

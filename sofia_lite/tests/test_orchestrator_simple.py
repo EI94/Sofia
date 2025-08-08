@@ -3,13 +3,16 @@ Sofia Lite - Simple Orchestrator Test
 """
 
 import pytest
-from sofia_lite.agents.orchestrator import Orchestrator
+
 from sofia_lite.agents.context import Context
+from sofia_lite.agents.orchestrator import Orchestrator
+
 
 def test_orchestrator_creation():
     """Test orchestrator can be created"""
     orchestrator = Orchestrator()
     assert orchestrator is not None
+
 
 def test_orchestrator_process_message():
     """Test orchestrator can process a message"""
@@ -22,5 +25,6 @@ def test_orchestrator_process_message():
     assert "lang" in result
     assert "phone" in result
 
+
 if __name__ == "__main__":
-    pytest.main([__file__]) 
+    pytest.main([__file__])
