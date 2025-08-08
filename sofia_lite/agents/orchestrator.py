@@ -4,9 +4,7 @@ Manages conversation flow and state transitions
 """
 
 import logging
-from typing import Any, Dict, Optional
-
-from ..middleware.llm import chat_completion
+from typing import Any, Dict
 from ..middleware.memory import load_context, save_context
 from .context import Context
 from .executor import IntentExecutor
@@ -54,7 +52,8 @@ class Orchestrator:
         if not self.validator.validate_intent(intent, ctx.state):
             intent = "clarify"
             log.warning(
-                f"⚠️ Invalid intent {intent} for state {ctx.state}, falling back to clarify"
+                f"⚠️ Invalid intent {intent} for state {ctx.state}, "
+                f"falling back to clarify"
             )
 
         # Execute intent

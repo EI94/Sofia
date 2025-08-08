@@ -5,7 +5,7 @@ Sofia Lite - Main Application Entry Point
 import logging
 import os
 
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 # Configure logging

@@ -4,9 +4,8 @@ Handles incoming WhatsApp messages using the common handler.
 """
 
 import logging
-import os
 
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from .handlers.common import handle_incoming
