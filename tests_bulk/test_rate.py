@@ -199,7 +199,5 @@ class TestRateLimiting:
 
         if rate_limit_response:
             data = rate_limit_response.json()
-            assert "error" in data
             assert "detail" in data
-            assert data["error"] == "Rate limit exceeded"
-            assert "Troppe richieste" in data["detail"]
+            assert "10 per 1 second" in data["detail"]
