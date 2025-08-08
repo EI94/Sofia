@@ -9,7 +9,6 @@ from typing import Dict, List
 
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .memory import get_conv, upsert_conv

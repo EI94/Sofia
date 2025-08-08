@@ -1,0 +1,29 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="sofia",
+    version="1.0.0",
+    description="Sofia AI Assistant and Bulk API",
+    packages=find_packages(),
+    install_requires=[
+        "fastapi>=0.111.0",
+        "uvicorn>=0.30.0",
+        "openai>=1.57.0",
+        "twilio>=9.0.0",
+        "httpx>=0.27.0",
+        "slowapi>=0.1.9",
+        "tinydb>=4.8.0",
+        "pydantic>=2.10.0",
+        "python-dotenv>=1.0.0",
+    ],
+    extras_require={
+        "dev": [
+            "pytest>=7.4.0",
+            "pytest-asyncio>=0.21.1",
+            "pytest-mock>=3.11.1",
+            "black>=22.0.0",
+            "isort>=5.10.0",
+            "flake8>=4.0.0",
+        ]
+    }
+)
