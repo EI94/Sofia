@@ -2,10 +2,8 @@
 Pydantic schemas per Sofia Bulk API
 """
 
-from datetime import datetime
-from typing import Any, Dict, List
-
 from pydantic import BaseModel, Field
+from typing import List
 
 
 class Message(BaseModel):
@@ -55,7 +53,10 @@ class ConversationOut(BaseModel):
                     {"role": "user", "message": "Ciao, mi chiamo Mario"},
                     {
                         "role": "assistant",
-                        "message": "Ciao Mario! Sono Sofia di Studio Immigrato. Come posso aiutarti?",
+                        "message": (
+                            "Ciao Mario! Sono Sofia di Studio Immigrato. "
+                            "Come posso aiutarti?"
+                        ),
                     },
                     {
                         "role": "user",
@@ -63,7 +64,10 @@ class ConversationOut(BaseModel):
                     },
                     {
                         "role": "assistant",
-                        "message": "Perfetto! Ti spiego i requisiti per la cittadinanza italiana...",
+                        "message": (
+                            "Perfetto! Ti spiego i requisiti per la "
+                            "cittadinanza italiana..."
+                        ),
                     },
                 ],
                 "timestamp_utc": "2025-08-07T12:00:00Z",

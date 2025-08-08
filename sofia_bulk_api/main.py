@@ -14,7 +14,6 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .memory import get_conv, upsert_conv
 from .rate_limiter import (
-    RateLimitExceeded,
     get_api_key_limiter,
     rate_limit_10_per_second,
 )
@@ -38,16 +37,7 @@ app = FastAPI(
 app.state.limiter = limiter
 
 
-# Rate limit exception handler
-@app.exception_handler(RateLimitExceeded)
-async def ratelimit_handler(request, exc):
-    return JSONResponse(
-        status_code=429,
-        content={
-            "error": "Rate limit exceeded",
-            "detail": "Troppe richieste. Limite: 10/second per API key",
-        },
-    )
+# Rate limit exception handler removed - slowapi handles this automatically
 
 
 def verify_api_key(

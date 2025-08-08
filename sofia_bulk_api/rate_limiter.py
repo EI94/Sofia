@@ -4,8 +4,7 @@ Usa slowapi per limitare a 10 requests/second per API-Key
 """
 
 from fastapi import Request
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.errors import RateLimitExceeded
+from slowapi import Limiter
 from slowapi.util import get_remote_address
 
 # Crea il limiter
