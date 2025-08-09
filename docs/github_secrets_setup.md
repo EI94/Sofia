@@ -51,3 +51,4 @@ Il bulk API sarà disponibile su:
 
 Swagger UI disponibile su:
 `https://sofia-bulk-api-ew1-1075574333382.europe-west1.run.app/docs`
+

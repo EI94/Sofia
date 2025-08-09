@@ -1,0 +1,101 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation
+docs/
+*.md
+
+# Data files
+data/
+*.json
+*.csv
+
+# Temporary files
+tmp/
+temp/
+
+# Sofia-AI (duplicate)
+Sofia-AI/
+
+# Dashboard (frontend)
+dashboard/
+
+# Monitoring
+monitoring/
+
+# Load testing
+load/
+
+# Scripts
+scripts/
+
+# Tests
+tests/
+tests_bulk/
+test_*.py
+
+# Utils
+utils/
+
+# Cleanup scripts
+clean_*.py
+
+# Reports
+*_REPORT_*.md
+*_REPORT_*.json
+
+# Tox
+.tox/
+
+# Cache
+.cache/

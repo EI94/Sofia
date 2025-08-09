@@ -4,6 +4,7 @@ Unified flow for processing incoming messages from any channel.
 """
 
 import logging
+import os
 from typing import Any, Dict, Optional
 
 from ..agents.context import Context
@@ -147,7 +148,9 @@ def handle_voice_with_fallback(phone: str, transcript: str) -> Dict[str, Any]:
         return {
             "twiml": """<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say voice="Polly.Bianca" rate="medium" pitch="medium">Mi dispiace, si è verificato un errore. Riprova più tardi.</Say>
+    <Say voice="Polly.Bianca" rate="medium" pitch="medium">
+        Mi dispiace, si è verificato un errore. Riprova più tardi.
+    </Say>
 </Response>""",
             "reply": "Mi dispiace, si è verificato un errore. Riprova più tardi.",
             "intent": "ERROR",
@@ -179,8 +182,6 @@ def generate_tts_with_fallback(text: str, lang: str = "it") -> Optional[str]:
 
         if audio_data and len(audio_data) > 0:
             # Save to file
-            import os
-
             audio_path = "/tmp/audio.wav"
             with open(audio_path, "wb") as f:
                 f.write(audio_data)
@@ -192,7 +193,6 @@ def generate_tts_with_fallback(text: str, lang: str = "it") -> Optional[str]:
 
     try:
         # Fallback to pyttsx3
-        import os
 
         import pyttsx3
 
