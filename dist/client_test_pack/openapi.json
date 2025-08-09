@@ -1,0 +1,166 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Sofia Bulk API",
+    "description": "API per processare conversazioni in bulk per Sofia Lite",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://sofia-bulk-api-ew1-xxxx.run.app",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/api/sofia/conversation": {
+      "post": {
+        "summary": "Process Conversation",
+        "description": "Processa una conversazione e completa i messaggi assistant vuoti",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "language": {
+                        "type": "string"
+                      },
+                      "messages": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "role": {
+                              "type": "string"
+                            },
+                            "content": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conversazione processata con successo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "conversation_id": {
+                      "type": "string"
+                    },
+                    "processed_messages": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sofia/conversation/{conversation_id}": {
+      "get": {
+        "summary": "Get Conversation",
+        "description": "Recupera una conversazione salvata",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "conversation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conversazione trovata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "messages": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Verifica lo stato del servizio",
+        "responses": {
+          "200": {
+            "description": "Servizio operativo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+sofia_bulk_api
+sofia_lite

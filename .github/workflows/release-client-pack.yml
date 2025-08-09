@@ -1,0 +1,82 @@
+name: Release Client Pack
+
+on:
+  push:
+    tags: ['client-pack-*']
+    branches: [ main, develop, bulk-api-bootstrap ]
+
+jobs:
+  build-and-release:
+    name: Build and Release Client Pack
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+        pip install -r requirements-dev.txt
+        
+    - name: Build client pack
+      run: |
+        make client-pack
+        
+    - name: List generated files
+      run: |
+        echo "📁 Contenuto directory dist/:"
+        ls -la dist/
+        echo ""
+        echo "📦 Contenuto ZIP:"
+        unzip -l dist/client_test_pack.zip
+        
+    - name: Upload build artifacts (debug)
+      uses: actions/upload-artifact@v4
+      with:
+        name: client-pack-debug
+        path: |
+          dist/
+          reports/
+        retention-days: 90
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: dist/client_test_pack.zip
+        tag_name: ${{ github.ref_name }}
+        name: "Client Test Pack - ${{ github.ref_name }}"
+        body: |
+          ## 🎯 Sofia Client Test Pack
+          
+          **Versione**: ${{ github.ref_name }}
+          **Data**: ${{ github.event.head_commit.timestamp }}
+          
+          ### 📦 Contenuto
+          - ✅ Test completi per funzionalità client
+          - 📚 Documentazione dettagliata
+          - 💬 Dataset di esempio con 5 conversazioni
+          - 📮 Collezione Postman per Bulk API
+          - 📋 Specifica OpenAPI completa
+          
+          ### 🚀 Utilizzo
+          1. Scarica e estrai il file ZIP
+          2. Segui le istruzioni in `docs/CLIENT_TESTS_README.md`
+          3. Esegui i test con `tox -e client311`
+          
+          ### 🔒 Sicurezza
+          - Nessun codice interno o sensibile
+          - Test progettati per ambiente isolato
+          - Copertura 80% funzionalità pubbliche
+          
+          ---
+          *Generato automaticamente da GitHub Actions*
+        draft: false
+        prerelease: false

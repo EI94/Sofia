@@ -1,5 +1,7 @@
 # Sofia Lite - AI Assistant
 
+[![Client Tests](https://github.com/pierpaololaurito/Sofia/workflows/Client%20Tests/badge.svg)](https://github.com/pierpaololaurito/Sofia/actions?query=workflow%3A%22Client+Tests%22)
+
 Sofia Lite è un assistente AI per Studio Immigrato che gestisce prenotazioni di consulenze legali tramite WhatsApp e Voice.
 
 ## Deploy on Google Cloud Run
@@ -68,6 +70,36 @@ Monta il file delle credenziali Google Cloud come volume:
    python scripts/smoke_live.py
    ```
 
+## Sofia Bulk API
+
+Micro-servizio REST per test bulk conversazioni.
+
+### Quick Start
+
+```bash
+curl -X POST https://sofia-bulk-api-ew1-xxxx.run.app/api/sofia/conversation \
+  -H "Authorization: Bearer $BULK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d @sample_convo.json
+```
+
+### Environment Variables
+
+- `BULK_API_KEY`: API key per autenticazione (32 caratteri random)
+- `CORE_SOFIA_URL`: URL del core Sofia (https://sofia-lite-$(PROJECT_ID).run.app/api/prompt)
+
+### Endpoints
+
+- `POST /api/sofia/conversation` - Processa conversazione e completa messaggi assistant vuoti
+- `GET /api/sofia/conversation/{cid}` - Recupera conversazione salvata
+- `GET /health` - Health check
+- `GET /docs` - Swagger documentation
+
+### Rate Limiting
+
+- 10 requests/second per API key
+- Headers X-RateLimit automatici
+
 ## Architecture
 
 - **Orchestrator**: Gestisce il flusso conversazionale
@@ -75,10 +107,12 @@ Monta il file delle credenziali Google Cloud come volume:
 - **Memory**: Persistenza Firestore per contesto utente
 - **Skills**: Moduli specializzati per ogni fase conversazionale
 - **ParaHelp Template**: Template di sistema per risposte consistenti
+- **Bulk API**: Micro-servizio per test bulk conversazioni
 
 ## Security
 
 - ✅ Nessun secret hardcoded nel codice
 - ✅ Gestione secrets tramite environment variables
 - ✅ Integrazione con Google Secret Manager
-- ✅ Fail-fast se secrets mancanti 
+- ✅ Fail-fast se secrets mancanti
+- ✅ Rate limiting per API protection # Test trigger workflow

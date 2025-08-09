@@ -1,0 +1,29 @@
+{
+  "conversation_id": "sample_conv_001",
+  "messages": [
+    {
+      "role": "user",
+      "message": "Ciao, mi chiamo Mario Rossi"
+    },
+    {
+      "role": "assistant",
+      "message": ""
+    },
+    {
+      "role": "user",
+      "message": "Vorrei informazioni sulla cittadinanza italiana"
+    },
+    {
+      "role": "assistant",
+      "message": ""
+    },
+    {
+      "role": "user",
+      "message": "Quali sono i requisiti principali?"
+    },
+    {
+      "role": "assistant",
+      "message": ""
+    }
+  ]
+}

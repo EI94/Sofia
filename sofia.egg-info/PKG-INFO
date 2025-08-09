@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: sofia
+Version: 1.0.0
+Summary: Sofia AI Assistant and Bulk API
+Requires-Dist: fastapi>=0.111.0
+Requires-Dist: uvicorn>=0.30.0
+Requires-Dist: openai>=1.57.0
+Requires-Dist: twilio>=9.0.0
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: slowapi>=0.1.9
+Requires-Dist: tinydb>=4.8.0
+Requires-Dist: pydantic>=2.10.0
+Requires-Dist: python-dotenv>=1.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.1; extra == "dev"
+Requires-Dist: pytest-mock>=3.11.1; extra == "dev"
+Requires-Dist: black>=22.0.0; extra == "dev"
+Requires-Dist: isort>=5.10.0; extra == "dev"
+Requires-Dist: flake8>=4.0.0; extra == "dev"
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: summary

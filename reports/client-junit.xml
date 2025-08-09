@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="21" time="0.391" timestamp="2025-08-09T16:47:26.182348+02:00" hostname="Mac.homenet.telecomitalia.it"><testcase classname="tests_client.test_auth.TestAuthentication" name="test_post_conversation_without_auth" time="0.006" /><testcase classname="tests_client.test_auth.TestAuthentication" name="test_get_conversation_without_auth" time="0.001" /><testcase classname="tests_client.test_auth.TestAuthentication" name="test_post_conversation_with_invalid_auth" time="0.001" /><testcase classname="tests_client.test_auth.TestAuthentication" name="test_get_conversation_with_invalid_auth" time="0.001" /><testcase classname="tests_client.test_auth.TestAuthentication" name="test_post_conversation_with_malformed_auth" time="0.001" /><testcase classname="tests_client.test_auth.TestAuthentication" name="test_health_endpoint_no_auth_required" time="0.001" /><testcase classname="tests_client.test_auth.TestAuthentication" name="test_root_endpoint_no_auth_required" time="0.001" /><testcase classname="tests_client.test_config" name="test_env_loaded" time="0.000" /><testcase classname="tests_client.test_config" name="test_config_caching" time="0.000" /><testcase classname="tests_client.test_config" name="test_validate_config_success" time="0.000" /><testcase classname="tests_client.test_config" name="test_validate_config_missing_keys" time="0.000" /><testcase classname="tests_client.test_config" name="test_default_values" time="0.000" /><testcase classname="tests_client.test_flow.TestConversationFlow" name="test_post_conversation_happy_path" time="0.002" /><testcase classname="tests_client.test_flow.TestConversationFlow" name="test_get_conversation_happy_path" time="0.003" /><testcase classname="tests_client.test_flow.TestConversationFlow" name="test_get_conversation_not_found" time="0.001" /><testcase classname="tests_client.test_flow.TestConversationFlow" name="test_conversation_with_no_empty_assistant_messages" time="0.001" /><testcase classname="tests_client.test_flow.TestConversationFlow" name="test_conversation_with_mixed_empty_messages" time="0.001" /><testcase classname="tests_client.test_name_extract" name="test_extract_name_regex" time="0.004" /><testcase classname="tests_client.test_name_extract" name="test_extract_name_regex_no_match" time="0.000" /><testcase classname="tests_client.test_name_extract" name="test_extract_name_with_context" time="0.000" /><testcase classname="tests_client.test_name_extract" name="test_clean_name" time="0.001"><failure message="AssertionError: Failed for 'محمد': got '', expected 'محمد'&#10;assert '' == 'محمد'&#10;  &#10;  #x1B[0m#x1B[91m- محمد#x1B[39;49;00m#x1B[90m#x1B[39;49;00m">def test_clean_name():
+        """Test name cleaning and normalization"""
+        test_cases = [
+            ("  pierpaolo  ", "Pierpaolo"),
+            ("MARIA LUISA", "Maria Luisa"),
+            ("jose-maria", "Jose-Maria"),
+            ("o'connor", "O'Connor"),
+            ("jean-pierre", "Jean-Pierre"),
+            ("محمد", "محمد"),  # Arabic should be preserved
+            ("राजेश", "राजेश"),  # Hindi should be preserved
+            ("", ""),
+            ("   ", ""),
+            ("a", "A"),
+            ("123", ""),  # Numbers should be removed
+            ("!@#$%", ""),  # Special chars should be removed
+        ]
+    
+        for input_name, expected in test_cases:
+            result = clean_name(input_name)
+&gt;           assert (
+                result == expected
+            ), f"Failed for '{input_name}': got '{result}', expected '{expected}'"
+E           AssertionError: Failed for 'محمد': got '', expected 'محمد'
+E           assert '' == 'محمد'
+E             
+E             #x1B[0m#x1B[91m- محمد#x1B[39;49;00m#x1B[90m#x1B[39;49;00m
+
+tests_client/test_name_extract.py:128: AssertionError</failure></testcase></testsuite></testsuites>

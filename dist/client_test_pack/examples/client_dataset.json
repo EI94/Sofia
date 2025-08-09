@@ -1,0 +1,145 @@
+[
+  {
+    "id": "conv_001",
+    "language": "it",
+    "user_type": "new",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Ciao, vorrei prenotare una consulenza per immigrazione"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      },
+      {
+        "role": "user",
+        "content": "Sono cittadino ucraino, ho bisogno di aiuto per il permesso di soggiorno"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      }
+    ],
+    "expected_intents": [
+      "GREETING",
+      "SERVICE",
+      "BOOKING"
+    ],
+    "expected_state": "BOOKING"
+  },
+  {
+    "id": "conv_002",
+    "language": "en",
+    "user_type": "active",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Hi, I need to change my appointment from tomorrow to next week"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      },
+      {
+        "role": "user",
+        "content": "I have a work emergency and can't make it tomorrow"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      }
+    ],
+    "expected_intents": [
+      "STATUS",
+      "BOOKING"
+    ],
+    "expected_state": "SLOT_SELECT"
+  },
+  {
+    "id": "conv_003",
+    "language": "fr",
+    "user_type": "new",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Bonjour, j'ai besoin d'aide pour un visa de travail"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      },
+      {
+        "role": "user",
+        "content": "Je suis ingénieur et j'ai une offre d'emploi en Italie"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      }
+    ],
+    "expected_intents": [
+      "GREETING",
+      "SERVICE",
+      "BOOKING"
+    ],
+    "expected_state": "SERVICE"
+  },
+  {
+    "id": "conv_004",
+    "language": "es",
+    "user_type": "active",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Hola, ¿puedo cancelar mi cita de la próxima semana?"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      },
+      {
+        "role": "user",
+        "content": "Tengo un problema familiar y no puedo asistir"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      }
+    ],
+    "expected_intents": [
+      "GREETING",
+      "STATUS"
+    ],
+    "expected_state": "SLOT_SELECT"
+  },
+  {
+    "id": "conv_005",
+    "language": "it",
+    "user_type": "new",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Salve, vorrei sapere i prezzi per una consulenza legale"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      },
+      {
+        "role": "user",
+        "content": "Ho bisogno di aiuto per ricongiungimento familiare"
+      },
+      {
+        "role": "assistant",
+        "content": ""
+      }
+    ],
+    "expected_intents": [
+      "GREETING",
+      "PRICE",
+      "SERVICE"
+    ],
+    "expected_state": "PRICE"
+  }
+]

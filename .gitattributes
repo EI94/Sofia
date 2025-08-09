@@ -1,0 +1,39 @@
+# Sofia - Git Attributes
+# Esclude test interni e file sensibili dagli artefatti
+
+# Test interni - NON condivisibili con il cliente
+tests_internal/** export-ignore
+tests_legacy/** export-ignore
+
+# File di configurazione sensibili
+*.env export-ignore
+env.yaml export-ignore
+secrets.yaml export-ignore
+
+# File di sviluppo e debug
+.pytest_cache/** export-ignore
+__pycache__/** export-ignore
+*.pyc export-ignore
+.coverage export-ignore
+htmlcov/** export-ignore
+
+# File temporanei
+*.tmp export-ignore
+*.log export-ignore
+reports/** export-ignore
+
+# Documentazione interna
+docs/HAMMER_*.md export-ignore
+docs/IMPLEMENTATION_AUDIT*.md export-ignore
+docs/DEPLOYMENT_*.md export-ignore
+docs/DB_CLEAN.log export-ignore
+
+# Script di deployment e configurazione
+scripts/setup_*.sh export-ignore
+scripts/deploy_*.sh export-ignore
+scripts/monitoring_*.sh export-ignore
+
+# Workflow interni (escludi da artefatti)
+.github/workflows/ci.yml export-ignore
+.github/workflows/bulk-api.yml export-ignore
+.github/workflows/e2e-simple.yml.disabled export-ignore

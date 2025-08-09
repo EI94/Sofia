@@ -1,22 +1,29 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="sofia-lite",
+    name="sofia",
     version="1.0.0",
-    description="Sofia AI Lite - Minimal core package",
-    author="Sofia AI Team",
+    description="Sofia AI Assistant and Bulk API",
     packages=find_packages(),
     install_requires=[
-        "fastapi==0.116.1",
-        "uvicorn==0.35.0",
-        "openai==1.97.0",
-        "twilio==9.6.5",
-        "google-cloud-firestore==2.21.0",
-        "python-multipart==0.0.20",
-        "fasttext==0.9.2",
-        "psutil==6.1.0",
-        "aiohttp==3.10.11",
-        "PyYAML==6.0.1",
+        "fastapi>=0.111.0",
+        "uvicorn>=0.30.0",
+        "openai>=1.57.0",
+        "twilio>=9.0.0",
+        "httpx>=0.27.0",
+        "slowapi>=0.1.9",
+        "tinydb>=4.8.0",
+        "pydantic>=2.10.0",
+        "python-dotenv>=1.0.0",
     ],
-    python_requires=">=3.8",
-) 
+    extras_require={
+        "dev": [
+            "pytest>=7.4.0",
+            "pytest-asyncio>=0.21.1",
+            "pytest-mock>=3.11.1",
+            "black>=22.0.0",
+            "isort>=5.10.0",
+            "flake8>=4.0.0",
+        ]
+    }
+)

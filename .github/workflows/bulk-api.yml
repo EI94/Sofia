@@ -1,0 +1,86 @@
+name: Deploy Bulk API
+
+on:
+  push:
+    tags:
+      - 'bulk-api/v*'
+    paths:
+      - 'sofia_bulk_api/**'
+      - 'Dockerfile'
+      - 'requirements.txt'
+    branches:
+      - main
+      - bulk-api-bootstrap
+
+jobs:
+  deploy-bulk-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
+          project_id: ${{ secrets.GCP_PROJECT }}
+      
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT }}
+      
+      - name: Configure Docker
+        run: gcloud auth configure-docker
+      
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/sofia-bulk-api:${{ github.sha }} .
+          docker push gcr.io/${{ secrets.GCP_PROJECT }}/sofia-bulk-api:${{ github.sha }}
+      
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy sofia-bulk-api-ew1 \
+            --image gcr.io/${{ secrets.GCP_PROJECT }}/sofia-bulk-api:${{ github.sha }} \
+            --platform managed \
+            --region europe-west1 \
+            --allow-unauthenticated \
+            --port 8080 \
+            --memory 1Gi \
+            --cpu 1 \
+            --max-instances 10 \
+            --set-env-vars BULK_API_KEY=${{ secrets.BULK_API_KEY }},CORE_SOFIA_URL=${{ secrets.CORE_SOFIA_URL }}
+      
+      - name: Run Smoke Test
+        run: |
+          # Wait for deployment to be ready
+          sleep 30
+          
+          # Run smoke test
+          curl -H "Authorization: Bearer ${{ secrets.BULK_API_KEY }}" \
+               -H "Content-Type: application/json" \
+               -d '{"conversation_id":"smoke-01","messages":[{"role":"user","message":"test"}]}' \
+               https://sofia-bulk-api-ew1-${{ secrets.GCP_PROJECT }}.run.app/api/sofia/conversation
+      
+      - name: Update PR Comment
+        if: github.event_name == 'push' && github.ref == 'refs/heads/bulk-api-bootstrap'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Sofia Bulk API')
+            );
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: botComment.body + '\n\n✅ **Deployed successfully!**\n🌐 Live URL: https://sofia-bulk-api-ew1-${{ secrets.GCP_PROJECT }}.run.app'
+              });
+            }

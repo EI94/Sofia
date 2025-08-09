@@ -1,0 +1,51 @@
+name: Essential Tests
+
+on:
+  pull_request:
+    branches: [ main, master, sofia-lite-boot, bulk-api-bootstrap ]
+  push:
+    branches: [ main, master, sofia-lite-boot, bulk-api-bootstrap ]
+
+jobs:
+  essential-tests:
+    name: Essential Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio
+        
+    - name: Run essential tests
+      run: |
+        echo "🧪 Running essential tests..."
+        cd sofia_lite
+        python -m pytest tests/test_simple_suite.py tests/test_config.py tests/test_simple.py -v
+        
+    - name: Test basic imports
+      run: |
+        echo "📦 Testing basic imports..."
+        python -c "import sofia_lite; print('✅ Sofia Lite imports OK')"
+        python -c "from sofia_lite.agents.context import Context; print('✅ Context imports OK')"
+        python -c "from sofia_lite.agents.state import State; print('✅ State imports OK')"
+        
+    - name: Test bulk API imports
+      run: |
+        echo "🚀 Testing Bulk API imports..."
+        python -c "import sofia_bulk_api; print('✅ Bulk API imports OK')"
+        
+    - name: Success message
+      run: |
+        echo "🎉 All essential tests passed!"
+        echo "✅ Core functionality verified"
+        echo "✅ Imports working correctly"
+        echo "✅ Ready for deployment"
