@@ -183,8 +183,6 @@ jobs:
     - name: Start Sofia Lite for testing
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
       run: |
         echo "🚀 Starting Sofia Lite for load testing..."
         python -m sofia_lite.whatsapp &
@@ -360,10 +358,10 @@ jobs:
             
             Some checks have failed:
             
-            - ${{ needs.unit-tests.result == 'success' ? '✅' : '❌' }} **Unit Tests**: ${{ needs.unit-tests.result }}
-            - ${{ needs.e2e-tests.result == 'success' ? '✅' : '❌' }} **E2E Tests**: ${{ needs.e2e-tests.result }}
-            - ${{ needs.load-tests.result == 'success' ? '✅' : '❌' }} **Load Tests**: ${{ needs.load-tests.result }}
-            - ${{ needs.security-scan.result == 'success' ? '✅' : '❌' }} **Security Scan**: ${{ needs.security-scan.result }}
+            - ${{ needs.unit-tests.result == 'success' && '✅' || '❌' }} **Unit Tests**: ${{ needs.unit-tests.result }}
+            - ${{ needs.e2e-tests.result == 'success' && '✅' || '❌' }} **E2E Tests**: ${{ needs.e2e-tests.result }}
+            - ${{ needs.load-tests.result == 'success' && '✅' || '❌' }} **Load Tests**: ${{ needs.load-tests.result }}
+            - ${{ needs.security-scan.result == 'success' && '✅' || '❌' }} **Security Scan**: ${{ needs.security-scan.result }}
             
             🔧 Please fix the failing checks before merging.`;
           
