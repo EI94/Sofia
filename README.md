@@ -113,4 +113,4 @@ curl -X POST https://sofia-bulk-api-ew1-xxxx.run.app/api/sofia/conversation \
 - ✅ Gestione secrets tramite environment variables
 - ✅ Integrazione con Google Secret Manager
 - ✅ Fail-fast se secrets mancanti
-- ✅ Rate limiting per API protection 
+- ✅ Rate limiting per API protection # Test trigger workflow
