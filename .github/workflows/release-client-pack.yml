@@ -3,6 +3,7 @@ name: Release Client Pack
 on:
   push:
     tags: ['client-pack-*']
+    branches: [ main, develop, bulk-api-bootstrap ]
 
 jobs:
   build-and-release:

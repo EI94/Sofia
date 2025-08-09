@@ -2,9 +2,9 @@ name: Client Tests
 
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, develop, bulk-api-bootstrap ]
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop, bulk-api-bootstrap ]
 
 jobs:
   client-tests:
