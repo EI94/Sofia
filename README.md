@@ -1,5 +1,7 @@
 # Sofia Lite - AI Assistant
 
+[![Client Tests](https://github.com/pierpaololaurito/Sofia/workflows/Client%20Tests/badge.svg)](https://github.com/pierpaololaurito/Sofia/actions?query=workflow%3A%22Client+Tests%22)
+
 Sofia Lite è un assistente AI per Studio Immigrato che gestisce prenotazioni di consulenze legali tramite WhatsApp e Voice.
 
 ## Deploy on Google Cloud Run

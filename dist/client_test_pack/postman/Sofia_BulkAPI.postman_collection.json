@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "Sofia Bulk API - Client Tests",
+    "description": "Collezione Postman per testare l'API Bulk di Sofia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Process Conversation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{BULK_API_KEY}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"conversation\": {\n    \"id\": \"test_conv_001\",\n    \"language\": \"it\",\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": \"Ciao, vorrei prenotare una consulenza\"\n      },\n      {\n        \"role\": \"assistant\",\n        \"content\": \"\"\n      }\n    ]\n  }\n}"
+        },
+        "url": {
+          "raw": "{{BULK_API_BASE_URL}}/api/sofia/conversation",
+          "host": [
+            "{{BULK_API_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "sofia",
+            "conversation"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Conversation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{BULK_API_KEY}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{BULK_API_BASE_URL}}/api/sofia/conversation/{{CONVERSATION_ID}}",
+          "host": [
+            "{{BULK_API_BASE_URL}}"
+          ],
+          "path": [
+            "api",
+            "sofia",
+            "conversation",
+            "{{CONVERSATION_ID}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{BULK_API_BASE_URL}}/health",
+          "host": [
+            "{{BULK_API_BASE_URL}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BULK_API_BASE_URL",
+      "value": "https://sofia-bulk-api-ew1-xxxx.run.app",
+      "type": "string"
+    },
+    {
+      "key": "BULK_API_KEY",
+      "value": "your-api-key-here",
+      "type": "string"
+    },
+    {
+      "key": "CONVERSATION_ID",
+      "value": "test_conv_001",
+      "type": "string"
+    }
+  ]
+}

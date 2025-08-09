@@ -77,7 +77,15 @@ test-bulk:
 	@echo "🧪 Running Bulk API tests..."
 	python -m pytest tests_bulk/ -v -m bulk
 
-test-all: test test-bulk
+client-tests:
+	@echo "🧪 Running Client Tests..."
+	tox -e client311
+
+client-pack:
+	@echo "📦 Building Client Test Pack..."
+	python scripts/build_client_pack.py
+
+test-all: test test-bulk client-tests
 	@echo "✅ All tests completed!"
 
 # Clean target

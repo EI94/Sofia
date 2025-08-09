@@ -10,8 +10,9 @@ from app.agents.context import Context
 from app.policy.language_support import T
 
 
+@pytest.mark.internal
 class TestStateIntegrity:
-    """Test suite per l'integrità dello state machine"""
+    """Test suite per l'integrità dello state machine (INTERNAL ONLY)"""
     
     def setup_method(self):
         """Setup per ogni test"""

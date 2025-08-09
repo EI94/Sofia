@@ -18,15 +18,8 @@ sofia_lite/whatsapp.py
 sofia_lite/handlers/__init__.py
 sofia_lite/handlers/common.py
 sofia_lite/tests/__init__.py
-sofia_lite/tests/conftest.py
 sofia_lite/tests/test_config.py
-sofia_lite/tests/test_guardrails.py
-sofia_lite/tests/test_multi_intent.py
 sofia_lite/tests/test_name_extract.py
-sofia_lite/tests/test_orchestrator.py
-sofia_lite/tests/test_orchestrator_simple.py
 sofia_lite/tests/test_prompt_builder.py
-sofia_lite/tests/test_secrets.py
 sofia_lite/tests/test_simple.py
-sofia_lite/tests/test_state_transitions.py
-tests/test_state_integrity.py
+sofia_lite/tests/test_simple_suite.py
