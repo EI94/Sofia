@@ -184,6 +184,51 @@ async def voice_webhook(request: Request):
             status_code=500
         )
 
+@app.get("/audio/{audio_id}")
+async def serve_elevenlabs_audio(audio_id: str):
+    """Serve ElevenLabs generated audio for TwiML streaming"""
+    try:
+        from middleware.elevenlabs_tts import _GLOBAL_AUDIO_CACHE
+        from fastapi.responses import Response
+        import time
+        
+        # Get cached audio data directly from global cache
+        audio_data = _GLOBAL_AUDIO_CACHE.get(audio_id)
+        
+        # Clean up old cache entries (older than 1 hour) 
+        if audio_data:
+            current_time = time.time()
+            if current_time - audio_data['created'] > 3600:  # 1 hour
+                del _GLOBAL_AUDIO_CACHE[audio_id]
+                audio_data = None
+        
+        if not audio_data:
+            logger.warning(f"⚠️ Audio not found for ID: {audio_id}")
+            return Response(
+                content="Audio not found or expired",
+                status_code=404,
+                media_type="text/plain"
+            )
+        
+        logger.info(f"🎤 Serving ElevenLabs audio: {audio_id} ({len(audio_data['data'])} bytes)")
+        
+        return Response(
+            content=audio_data['data'],
+            media_type=audio_data['content_type'],
+            headers={
+                "Cache-Control": "public, max-age=3600",
+                "Content-Length": str(len(audio_data['data']))
+            }
+        )
+        
+    except Exception as e:
+        logger.error(f"❌ Error serving audio {audio_id}: {e}")
+        return Response(
+            content="Internal server error",
+            status_code=500,
+            media_type="text/plain"
+        )
+
 @app.get("/status")
 async def status():
     """Status endpoint per monitoraggio."""
