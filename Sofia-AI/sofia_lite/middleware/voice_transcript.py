@@ -12,7 +12,7 @@ import io
 from typing import Optional
 from pydub import AudioSegment
 import openai
-from .. import get_config
+from  import get_config
 
 log = logging.getLogger("sofia.voice_transcript")
 

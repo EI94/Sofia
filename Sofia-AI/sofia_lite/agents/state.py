@@ -28,19 +28,20 @@ class Stage(Enum):
     PAYMENT_PENDING = auto()
     COMPLETED = auto()
 
-# Valid state transitions
+# 🎯 GOAL-BASED STATE TRANSITIONS - Sofia Lite
+# Ogni stato ha un obiettivo specifico e transizioni logiche verso il goal finale
 TRANSITIONS: Dict[State, List[State]] = {
-    State.INITIAL:         [State.GREETING, State.ASK_NAME, State.ASK_SERVICE, State.ROUTE_ACTIVE],
-    State.GREETING:        [State.ASK_NAME, State.ASK_SERVICE, State.ROUTE_ACTIVE],
-    State.ASK_NAME:        [State.ASK_SERVICE],
-    State.ASK_SERVICE:     [State.PROPOSE_CONSULT],
-    State.PROPOSE_CONSULT: [State.ASK_CHANNEL, State.ASK_SLOT],
-    State.ASK_CHANNEL:     [State.ASK_SLOT],
-    State.ASK_SLOT:        [State.ASK_PAYMENT],
-    State.ASK_PAYMENT:     [State.CONFIRMED],
-    State.CONFIRMED:       [State.ASK_SERVICE, State.ROUTE_ACTIVE],
-    State.ROUTE_ACTIVE:    [State.ASK_SERVICE, State.CONFIRMED],
-    State.ASK_CLARIFICATION: [State.ASK_NAME, State.ASK_SERVICE, State.PROPOSE_CONSULT, State.ROUTE_ACTIVE],
+    State.INITIAL:         [State.GREETING],  # Solo GREETING per iniziare
+    State.GREETING:        [State.ASK_NAME, State.ASK_SERVICE],  # Nome o servizio
+    State.ASK_NAME:        [State.ASK_SERVICE],  # Solo servizio dopo nome
+    State.ASK_SERVICE:     [State.PROPOSE_CONSULT],  # Solo consulenza dopo servizio
+    State.PROPOSE_CONSULT: [State.ASK_CHANNEL],  # Solo canale dopo consulenza
+    State.ASK_CHANNEL:     [State.ASK_SLOT],  # Solo slot dopo canale
+    State.ASK_SLOT:        [State.ASK_PAYMENT],  # Solo pagamento dopo slot
+    State.ASK_PAYMENT:     [State.CONFIRMED],  # Solo conferma dopo pagamento
+    State.CONFIRMED:       [],  # Stato finale - nessuna transizione
+    State.ROUTE_ACTIVE:    [State.ASK_SERVICE],  # Solo servizio per clienti attivi
+    State.ASK_CLARIFICATION: [State.ASK_NAME, State.ASK_SERVICE],  # Solo nome o servizio
 }
 
 def can_transition(from_state: State, to_state: State) -> bool:

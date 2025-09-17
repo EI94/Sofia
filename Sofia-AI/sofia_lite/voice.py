@@ -2,12 +2,12 @@ from fastapi import APIRouter, Form, Request
 from twilio.twiml.voice_response import VoiceResponse
 import os
 import logging
-from sofia_lite.middleware.llm import classify
-from sofia_lite.agents.orchestrator import Orchestrator
-from sofia_lite.middleware.loop_guard import LoopGuard
-from sofia_lite.skills import dispatch
-from sofia_lite.agents.context import Context
-from sofia_lite.middleware.memory import load_context, save_context
+from middleware.llm import classify
+from agents.orchestrator import Orchestrator
+from middleware.loop_guard import LoopGuard
+from skills import dispatch
+from agents.context import Context
+from middleware.memory import load_context, save_context
 
 router = APIRouter()
 logger = logging.getLogger(__name__)

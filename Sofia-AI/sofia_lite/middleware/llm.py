@@ -1,8 +1,8 @@
 import openai, json, functools, asyncio, logging, tenacity
 from typing import Tuple
-from .. import get_config
-from .latency import track_latency
-from .http_session import get_session
+from __init__ import get_config
+from latency import track_latency
+from http_session import get_session
 
 log = logging.getLogger("sofia.llm")
 
@@ -22,13 +22,18 @@ def _get_client_sync():
         try:
             cfg = get_config()
             api_key = cfg["OPENAI_KEY"]
+            log.info(f"🔍 DEBUG: OpenAI API key length: {len(api_key) if api_key else 0}")
+            log.info(f"🔍 DEBUG: OpenAI API key starts with: {api_key[:10] if api_key else 'EMPTY'}...")
+            
             if not api_key:
+                log.error("❌ OpenAI API key is empty or missing")
                 raise RuntimeError("missing OPENAI_API_KEY")
             
             # Create client without async session
             _CLIENT = openai.OpenAI(api_key=api_key)
+            log.info("✅ OpenAI client initialized successfully")
         except Exception as e:
-            print(f"⚠️ OpenAI client initialization failed: {e}")
+            log.error(f"❌ OpenAI client initialization failed: {e}")
             raise RuntimeError("missing OPENAI_API_KEY")
     return _CLIENT
 
@@ -195,12 +200,12 @@ def _fallback(messages) -> str:
     """Fallback response when LLM fails"""
     # Simple fallback based on intent detection
     try:
-        from ..agents.planner import _classify_with_similarity
+        from agents.planner import _classify_with_similarity
         user_msg = messages[-1]["content"] if messages else "Ciao"
         intent, confidence = _classify_with_similarity(user_msg)
         
         if intent == "GREET":
-            return "Ciao! Sono Sofia di Studio Immigrato. Come ti chiami?"
+            return "Ciao! Come ti chiami?"
         elif intent == "ASK_NAME":
             return "Per favore, dimmi il tuo nome."
         elif intent == "ASK_SERVICE":
@@ -215,17 +220,23 @@ def chat(sys_prompt: str, user_prompt: str) -> str:
     """Circuit breaker wrapper for LLM chat (synchronous for compatibility)"""
     import time
     now = time.time()
+    
+    log.info(f"🔍 DEBUG: Circuit breaker state - fail: {_CIRCUIT['fail']}, open_until: {_CIRCUIT['open_until']}, now: {now}")
+    
     if _CIRCUIT["open_until"] > now:
-        log.warning("LLM CB OPEN – serving fallback")
+        log.warning("🚨 LLM CB OPEN – serving fallback")
         return _fallback([{"role": "system", "content": sys_prompt}, {"role": "user", "content": user_prompt}])
 
     try:
+        log.info("🚀 Attempting LLM call...")
         rsp = _raw_chat(sys_prompt, user_prompt)
         _CIRCUIT["fail"] = 0
+        log.info("✅ LLM call successful")
         return rsp
     except Exception as e:
         _CIRCUIT["fail"] += 1
         if _CIRCUIT["fail"] >= 3:
             _CIRCUIT["open_until"] = now + _CB_TIMEOUT
-        log.error("LLM failure %s – using fallback", e)
+            log.error(f"🚨 LLM circuit breaker OPENED after {_CIRCUIT['fail']} failures")
+        log.error(f"❌ LLM failure #{_CIRCUIT['fail']}: {e} – using fallback")
         return _fallback([{"role": "system", "content": sys_prompt}, {"role": "user", "content": user_prompt}]) 

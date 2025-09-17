@@ -1,5 +1,5 @@
 import re
-from .language_support import T
+from language_support import T
 
 # Simple abuse detection patterns
 ABUSE_PATTERNS = [

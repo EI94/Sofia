@@ -5,7 +5,7 @@ KEEP THIS FILE AS THE SINGLE SOURCE OF TRUTH FOR SYSTEM PROMPTS.
 
 import logging
 from textwrap import dedent
-from .context import Context
+from context import Context
 
 log = logging.getLogger("sofia.prompt_builder")
 
@@ -170,10 +170,14 @@ Current language: {ctx.lang}
 User name: {ctx.name or 'Not provided'}
 Current state: {ctx.state}
 
-IMPORTANT RULES:
-• Never say "ciao, sono sofia, l'assistente virtuale di studio immigrato"
+🚨 CRITICAL RULES - VIOLATION WILL CAUSE SYSTEM FAILURE:
+• NEVER introduce yourself as "Sofia dello Studio Immigrato" unless it's the FIRST message
+• NEVER say "ciao, sono sofia, l'assistente virtuale di studio immigrato"
+• NEVER repeat your name or introduction after the first message
+• NEVER say "Sono Sofia" or any variation of self-introduction
 • Be brief and direct
 • Follow the specific intent instruction below
+• If you violate these rules, the system will fail
 """
     
     # Log the prompt being built
@@ -187,39 +191,48 @@ INSTRUCTION: The user has just started the conversation. Present yourself as Sof
 """,
         "ASK_NAME": """
 CURRENT_INTENT: ASK_NAME
-INSTRUCTION: The user has provided their name. Extract their name and ask what immigration service they need. List the available services briefly. DO NOT repeat the generic introduction, go directly to asking about services. IMPORTANT: Do NOT say "ciao, sono sofia, l'assistente virtuale di studio immigrato" - this is the generic introduction that should be avoided. Instead, say something like "Piacere di conoscerti [nome]! Che tipo di servizio di immigrazione ti serve?"
+INSTRUCTION: The user has provided their name. Extract their name and ask what immigration service they need. List the available services briefly. DO NOT introduce yourself again - you already did in the first message. Go directly to asking about services. IMPORTANT: Do NOT say "Sono Sofia dello Studio Immigrato" or any introduction. Instead, say something like "Piacere di conoscerti [nome]! Che tipo di servizio di immigrazione ti serve?"
+🚨 CRITICAL: Start your response with "Piacere di conoscerti" or "Grazie" - NEVER with "Sono Sofia"
 """,
         "ASK_SERVICE": """
 CURRENT_INTENT: ASK_SERVICE
-INSTRUCTION: The user is asking about services or has specified a service. Confirm their request and propose the 60€ consultation. Ask if they prefer online or in-office. DO NOT repeat the generic introduction, go directly to confirming their request. IMPORTANT: Do NOT say "ciao, sono sofia, l'assistente virtuale di studio immigrato" - this is the generic introduction that should be avoided. Instead, say something like "Perfetto! Per aiutarti con [servizio] abbiamo bisogno di una consulenza iniziale di 60€. Preferisci online o in ufficio?"
+INSTRUCTION: The user is asking about services or has specified a service. Confirm their request and propose the 60€ consultation. Ask if they prefer online or in-office. DO NOT introduce yourself again - you already did in the first message. Go directly to confirming their request. IMPORTANT: Do NOT say "Sono Sofia dello Studio Immigrato" or any introduction. Instead, say something like "Perfetto! Per aiutarti con [servizio] abbiamo bisogno di una consulenza iniziale di 60€. Preferisci online o in ufficio?"
+🚨 CRITICAL: Start your response with "Perfetto" or "Ho compreso" - NEVER with "Sono Sofia"
 """,
         "PROPOSE_CONSULT": """
 CURRENT_INTENT: PROPOSE_CONSULT
-INSTRUCTION: The user has agreed to a consultation. Ask for their preferred date and time in format "dd/mm HH:MM". DO NOT repeat the generic introduction, go directly to asking for date/time. IMPORTANT: Do NOT say "ciao, sono sofia, l'assistente virtuale di studio immigrato" - this is the generic introduction that should be avoided. Instead, say something like "Ottimo! Quando preferisci fare la consulenza? Puoi indicarmi data e ora nel formato dd/mm HH:MM?"
+INSTRUCTION: The user has agreed to a consultation. Ask for their preferred date and time in format "dd/mm HH:MM". DO NOT introduce yourself again - you already did in the first message. Go directly to asking for date/time. IMPORTANT: Do NOT say "Sono Sofia dello Studio Immigrato" or any introduction. Instead, say something like "Ottimo! Quando preferisci fare la consulenza? Puoi indicarmi data e ora nel formato dd/mm HH:MM?"
+🚨 CRITICAL: Start your response with "Ottimo" or "Perfetto" - NEVER with "Sono Sofia"
 """,
         "ASK_CHANNEL": """
 CURRENT_INTENT: ASK_CHANNEL
-INSTRUCTION: The user has specified a date/time. Check availability and confirm the consultation. If online, explain payment process.
+INSTRUCTION: The user has specified a date/time. Check availability and confirm the consultation. If online, explain payment process. DO NOT introduce yourself again - you already did in the first message. Go directly to confirming the consultation.
+🚨 CRITICAL: Start your response with "Perfetto" or "Ottimo" - NEVER with "Sono Sofia"
 """,
         "ASK_SLOT": """
 CURRENT_INTENT: ASK_SLOT
-INSTRUCTION: The user has confirmed a time slot. Provide final confirmation and next steps.
+INSTRUCTION: The user has confirmed a time slot. Provide final confirmation and next steps. DO NOT introduce yourself again - you already did in the first message. Go directly to confirming the slot.
+🚨 CRITICAL: Start your response with "Perfetto" or "Ottimo" - NEVER with "Sono Sofia"
 """,
         "ASK_PAYMENT": """
 CURRENT_INTENT: ASK_PAYMENT
-INSTRUCTION: The user needs payment information. Provide IBAN and payment instructions.
+INSTRUCTION: The user needs payment information. Provide IBAN and payment instructions. DO NOT introduce yourself again - you already did in the first message. Go directly to providing payment details.
+🚨 CRITICAL: Start your response with "Perfetto" or "Ecco" - NEVER with "Sono Sofia"
 """,
         "CONFIRM": """
 CURRENT_INTENT: CONFIRM
-INSTRUCTION: The user has confirmed everything. Provide final appointment confirmation.
+INSTRUCTION: The user has confirmed everything. Provide final appointment confirmation. DO NOT introduce yourself again - you already did in the first message. Go directly to confirming the appointment.
+🚨 CRITICAL: Start your response with "Perfetto" or "Ottimo" - NEVER with "Sono Sofia"
 """,
         "ROUTE_ACTIVE": """
 CURRENT_INTENT: ROUTE_ACTIVE
-INSTRUCTION: This is an active client. Greet them by name and ask how you can help with their case. DO NOT repeat the generic introduction, go directly to greeting them by name. IMPORTANT: Do NOT say "ciao, sono sofia, l'assistente virtuale di studio immigrato" - this is the generic introduction that should be avoided. Instead, say something like "Ciao [nome]! Come posso aiutarti con il tuo caso?"
+INSTRUCTION: This is an active client. Greet them by name and ask how you can help with their case. DO NOT introduce yourself again - you already did in the first message. Go directly to greeting them by name. IMPORTANT: Do NOT say "Sono Sofia dello Studio Immigrato" or any introduction. Instead, say something like "Ciao [nome]! Come posso aiutarti con il tuo caso?"
+🚨 CRITICAL: Start your response with "Ciao" or "Salve" - NEVER with "Sono Sofia"
 """,
         "CLARIFY": """
 CURRENT_INTENT: CLARIFY
-INSTRUCTION: The user's request is unclear. Ask for clarification about what they need. DO NOT repeat the generic introduction, go directly to asking for clarification. IMPORTANT: Do NOT say "ciao, sono sofia, l'assistente virtuale di studio immigrato" - this is the generic introduction that should be avoided. Instead, say something like "Mi dispiace, non ho capito bene. Puoi specificare di che tipo di servizio hai bisogno?"
+INSTRUCTION: The user's request is unclear. Ask for clarification about what they need. DO NOT introduce yourself again - you already did in the first message. Go directly to asking for clarification. IMPORTANT: Do NOT say "Sono Sofia dello Studio Immigrato" or any introduction. Instead, say something like "Mi dispiace, non ho capito bene. Puoi specificare di che tipo di servizio hai bisogno?"
+🚨 CRITICAL: Start your response with "Mi dispiace" or "Non ho capito" - NEVER with "Sono Sofia"
 """
     }
     

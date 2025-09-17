@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
         logger.info("Inizializzazione Sofia Lite (versione semplificata)...")
         
         # Import orchestrator solo quando necessario
-        from .agents.orchestrator import Orchestrator
+        from agents.orchestrator import Orchestrator
         orchestrator = Orchestrator()
         
         logger.info("✅ Sofia Lite inizializzata con successo")

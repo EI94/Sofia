@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from .state import Stage
+from state import Stage
 
 SUPPORTED_LANGS = ["it","en","fr","es","ar","hi","ur","bn","wo"]
 

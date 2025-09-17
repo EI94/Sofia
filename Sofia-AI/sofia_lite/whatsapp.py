@@ -6,13 +6,13 @@ import logging
 
 # Test webhook flag for direct testing
 TEST_WEBHOOK = os.getenv("TEST_WEBHOOK") == "true"
-from sofia_lite.middleware.llm import classify
-from sofia_lite.agents.orchestrator import Orchestrator
-# from sofia_lite.middleware.loop_guard import LoopGuard  # Removed - not implemented
-from sofia_lite.skills import dispatch
-from sofia_lite.agents.context import Context
-from sofia_lite.middleware.memory import load_context, save_context
-from sofia_lite.middleware import voice_transcript
+from middleware.llm import classify
+from agents.orchestrator import Orchestrator
+# from middleware.loop_guard import LoopGuard  # Removed - not implemented
+from skills import dispatch
+from agents.context import Context
+from middleware.memory import load_context, save_context
+from middleware import voice_transcript
 
 router = APIRouter()
 logger = logging.getLogger(__name__)

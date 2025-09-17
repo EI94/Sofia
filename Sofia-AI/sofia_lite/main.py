@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
         logger.info("Inizializzazione Sofia Lite...")
         
         # Import orchestrator solo quando necessario
-        from .agents.orchestrator import Orchestrator
+        from agents.orchestrator import Orchestrator
         orchestrator = Orchestrator()
         
         logger.info("✅ Sofia Lite inizializzata con successo")
@@ -186,31 +186,37 @@ async def voice_webhook(request: Request):
 
 @app.get("/audio/{audio_id}")
 async def serve_elevenlabs_audio(audio_id: str):
-    """Serve ElevenLabs generated audio for TwiML streaming"""
+    """🎯 GOAL-BASED: Serve ElevenLabs generated audio with persistent cache"""
     try:
-        from middleware.elevenlabs_tts import _GLOBAL_AUDIO_CACHE
+        from middleware.elevenlabs_tts import _GLOBAL_AUDIO_CACHE, elevenlabs_tts_service
         from fastapi.responses import Response
         import time
         
-        # Get cached audio data directly from global cache
-        audio_data = _GLOBAL_AUDIO_CACHE.get(audio_id)
+        # 🎯 PERSISTENT CACHE: Prova prima Firestore, poi cache locale
+        audio_data = None
         
-        # Clean up old cache entries (older than 1 hour) 
+        # 1. Prova cache locale (fallback)
+        audio_data = _GLOBAL_AUDIO_CACHE.get(audio_id)
         if audio_data:
+            # Clean up old cache entries (older than 1 hour) 
             current_time = time.time()
             if current_time - audio_data['created'] > 3600:  # 1 hour
                 del _GLOBAL_AUDIO_CACHE[audio_id]
                 audio_data = None
         
+        # 2. Se non trovato in cache locale, prova Firestore
         if not audio_data:
-            logger.warning(f"⚠️ Audio not found for ID: {audio_id}")
+            audio_data = elevenlabs_tts_service._load_audio_from_firestore(audio_id)
+        
+        if not audio_data:
+            logger.warning(f"🎯 GOAL: Audio not found for ID: {audio_id}")
             return Response(
                 content="Audio not found or expired",
                 status_code=404,
                 media_type="text/plain"
             )
         
-        logger.info(f"🎤 Serving ElevenLabs audio: {audio_id} ({len(audio_data['data'])} bytes)")
+        logger.info(f"🎤 GOAL: Serving ElevenLabs audio: {audio_id} ({len(audio_data['data'])} bytes)")
         
         return Response(
             content=audio_data['data'],
@@ -222,7 +228,7 @@ async def serve_elevenlabs_audio(audio_id: str):
         )
         
     except Exception as e:
-        logger.error(f"❌ Error serving audio {audio_id}: {e}")
+        logger.error(f"❌ GOAL: Error serving audio {audio_id}: {e}")
         return Response(
             content="Internal server error",
             status_code=500,

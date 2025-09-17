@@ -1,6 +1,6 @@
-from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
-from sofia_lite.middleware.llm import chat
-from ..middleware.calendar import get_three_slots
+from agents.prompt_builder import build_intent_specific_prompt
+from middleware.llm import chat
+from middleware.calendar import get_three_slots
 
 def run(ctx, text):
     slots = get_three_slots()

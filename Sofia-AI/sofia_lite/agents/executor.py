@@ -1,9 +1,9 @@
 import logging
-from .context import Context
+from context import Context
 from importlib import import_module
-from ..utils.name_extract import extract_name
-from ..middleware.memory import save_context
-from ..policy.guardrails import is_inappropriate, abuse_reply, warning_reply
+from utils.name_extract import extract_name
+from middleware.memory import save_context
+from policy.guardrails import is_inappropriate, abuse_reply, warning_reply
 
 log = logging.getLogger("sofia.executor")
 _ROUTE = {          # intent → skill module
@@ -92,8 +92,8 @@ def dispatch(intent, ctx, text):
 
 def _update_context_state(ctx, intent):
     """Update context state and stage based on intent"""
-    from .planner import next_state
-    from .state import State, Stage
+    from planner import next_state
+    from state import State, Stage
     
     # Update state
     try:

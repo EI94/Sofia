@@ -5,14 +5,14 @@ Manages conversation flow and state transitions
 
 import logging
 from typing import Optional, Dict, Any
-from .context import Context
-from .planner import plan
-from .executor import dispatch
-from .validator import validate
-from .prompt_builder import build_system_prompt
-from ..middleware.llm import chat
-from ..middleware.memory import get_or_create_context, save_context, search_similar
-from ..middleware.latency import track_latency
+from context import Context
+from planner import plan
+from executor import dispatch
+from validator import validate
+from prompt_builder import build_intent_specific_prompt
+from middleware.llm import chat
+from middleware.memory import get_or_create_context, save_context, search_similar
+from middleware.latency import track_latency
 
 log = logging.getLogger("sofia.orchestrator")
 
@@ -65,11 +65,13 @@ class Orchestrator:
             if ctx.rag_chunks:
                 log.info(f"🔍 RAG found {len(ctx.rag_chunks)} relevant chunks")
         
-        # FORCE SEQUENCE: Only extract name if we're in ASK_NAME state
-        if name_result and ctx.state == "ASK_NAME":
+        # 🎯 GOAL-BASED NAME EXTRACTION: Extract and keep name if not already present
+        if name_result and not ctx.name:
             ctx.extracted_name = name_result
             ctx.name = name_result  # Set the name in context
             log.info(f"👤 Name extracted and set: {name_result}")
+        elif name_result and ctx.name:
+            log.info(f"👤 Name already present: {ctx.name}, ignoring new extraction: {name_result}")
         elif name_result:
             log.info(f"👤 Name detected but IGNORED (not in ASK_NAME state): {name_result}")
             # Clear any extracted name to force sequence
@@ -105,6 +107,14 @@ class Orchestrator:
         
         # Execute skill
         response = dispatch(intent, ctx, message)
+        
+        # 🎯 GOAL-BASED PERSISTENCE: Save context after every interaction
+        save_context(ctx)
+        log.info(f"💾 GOAL: Context saved - name={ctx.name}, state={ctx.state}, service={ctx.slots.get('service')}")
+        
+        # 🎯 FIX 1: Log dettagliato per debug perdita dati
+        log.info(f"🔍 DEBUG: Context details - name={ctx.name}, state={ctx.state}, slots={ctx.slots}, history_len={len(ctx.history) if ctx.history else 0}")
+        
         return {
             "reply": response,
             "intent": intent,
@@ -116,14 +126,14 @@ class Orchestrator:
     def _detect_language(self, message: str, ctx) -> tuple[str, Optional[str]]:
         """Helper method for language detection - γ5 optimization"""
         if not ctx.lang or ctx.lang == "unknown":
-            from ..middleware.language import detect_lang_with_heuristics
+            from middleware.language import detect_lang_with_heuristics
             return detect_lang_with_heuristics(message, ctx)
         return None
     
     def _extract_name(self, message: str, ctx) -> Optional[str]:
         """Helper method for name extraction - γ5 optimization"""
         try:
-            from ..utils.name_extract import extract_name
+            from utils.name_extract import extract_name
             return extract_name(message, ctx.lang)
         except Exception as e:
             log.warning(f"Name extraction failed: {e}")

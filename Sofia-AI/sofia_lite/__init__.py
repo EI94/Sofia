@@ -14,6 +14,7 @@ def get_config():
     """
     return {
         "OPENAI_KEY": os.getenv("OPENAI_API_KEY", ""),
+        "OPENAI_API_KEY": os.getenv("OPENAI_API_KEY", ""),  # Alias per compatibilità
         "ELEVEN_KEY": os.getenv("ELEVENLABS_API_KEY", ""),
         "GCLOUD_PROJECT": os.getenv("GOOGLE_PROJECT_ID", "local-dev"),
         "TWILIO_SID": os.getenv("TWILIO_ACCOUNT_SID", ""),

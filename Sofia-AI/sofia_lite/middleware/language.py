@@ -5,8 +5,8 @@ Sofia Lite - Language Detection Middleware
 import logging
 import functools
 from typing import Optional
-from .latency import track_latency
-from ..utils.memo import ttl_cache
+from latency import track_latency
+from utils.memo import ttl_cache
 
 log = logging.getLogger("sofia.language")
 

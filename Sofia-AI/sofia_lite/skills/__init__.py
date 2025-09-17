@@ -1,13 +1,13 @@
-from .greet_user import run as greet_user
-from .ask_name import run as ask_name
-from .ask_service import run as ask_service
-from .propose_consult import run as propose_consult
-from .ask_channel import run as ask_channel
-from .ask_slot import run as ask_slot
-from .ask_payment import run as ask_payment
-from .confirm_booking import run as confirm_booking
-from .route_active import run as route_active
-from .clarify import run as clarify
+from greet_user import run as greet_user
+from ask_name import run as ask_name
+from ask_service import run as ask_service
+from propose_consult import run as propose_consult
+from ask_channel import run as ask_channel
+from ask_slot import run as ask_slot
+from ask_payment import run as ask_payment
+from confirm_booking import run as confirm_booking
+from route_active import run as route_active
+from clarify import run as clarify
 
 _MAP = {
     "GREETING": greet_user,

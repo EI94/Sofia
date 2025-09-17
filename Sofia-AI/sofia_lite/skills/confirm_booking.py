@@ -1,6 +1,6 @@
-from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
-from sofia_lite.middleware.llm import chat
-from ..middleware.calendar import book, create_calendar_event, send_reminder
+from agents.prompt_builder import build_intent_specific_prompt
+from middleware.llm import chat
+from middleware.calendar import book, create_calendar_event, send_reminder
 import re
 
 def run(ctx, text):

@@ -1,8 +1,8 @@
-from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
-from sofia_lite.middleware.llm import chat
-from ..middleware.ocr import process_payment_image
+from agents.prompt_builder import build_intent_specific_prompt
+from middleware.llm import chat
+from middleware.ocr import process_payment_image
 import asyncio
-from ..utils.memo import ttl_cache
+from utils.memo import ttl_cache
 
 def run(ctx, user_msg):
     """Handle payment request with OCR for receipt validation"""

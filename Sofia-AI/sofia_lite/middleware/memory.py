@@ -2,14 +2,15 @@
 import logging
 import os
 import json
+import time
 import numpy as np
 from typing import List, Dict, Any
 from tenacity import retry, stop_after_attempt, wait_exponential
 from google.cloud import firestore
 from google.oauth2 import service_account
-from ..agents.context import Context
-from .. import get_config
-from .latency import track_latency
+from agents.context import Context
+from  import get_config
+from latency import track_latency
 
 log = logging.getLogger("sofia.memory")
 
@@ -254,7 +255,7 @@ def get_or_create_context(phone: str) -> Context:
             if client_type == 'new' and state == 'ASK_CLARIFICATION':
                 log.info(f"🔄 Forcing GREETING state for existing new user {phone}")
                 state = 'GREETING'
-            print(f"[DEBUG] get_or_create_context: phone={phone}, state={state}, client_type={client_type}")
+            print(f"[DEBUG] get_or_create_context: phone={phone}, state={state}, client_type={client_type}, name={user_data.get('name')}")
             return Context(
                 phone=phone,
                 lang=user_data.get('lang', 'it'),
@@ -298,12 +299,15 @@ def load_context(phone: str) -> Context | None:
     return get_or_create_context(phone)
 
 def save_context(ctx: Context):
-    """Save context to memory"""
+    """🎯 GOAL-BASED CONTEXT SAVING - Sofia Lite
+    Salva il context con persistenza robusta per mantenere dati durante il flusso"""
     try:
         if not ctx.phone:
             log.error("Missing phone in context, skip save")
             return
-        print(f"[DEBUG] save_context: phone={ctx.phone}, state={ctx.state}, client_type={ctx.client_type}")
+        
+        log.info(f"💾 GOAL: Saving context - phone={ctx.phone}, state={ctx.state}, name={ctx.name}, service={ctx.slots.get('service')}")
+        
         gateway = _get_memory_gateway()
         user_data = {
             'lang': ctx.lang,
@@ -312,9 +316,14 @@ def save_context(ctx: Context):
             'state': ctx.state,
             'asked_name': ctx.asked_name,
             'slots': ctx.slots,
-            'history': ctx.history
+            'history': ctx.history,
+            'last_updated': time.time()  # Timestamp per debug
         }
+        
+        # Salva con retry per robustezza
         gateway.save_user_context(ctx.phone, user_data)
+        log.info(f"✅ GOAL: Context saved successfully - name={ctx.name}, service={ctx.slots.get('service')}")
+        
         # Add recent messages to vector store for RAG
         if ctx.history and len(ctx.history) > 0:
             # Add the last message to vector store
@@ -326,8 +335,10 @@ def save_context(ctx: Context):
                     'role': last_message.get('role', 'user')
                 }
                 gateway.add_to_vector_store(last_message['text'], metadata)
+                
     except Exception as e:
-        log.error(f"❌ Save context error: {e}")
+        log.error(f"❌ GOAL: Save context error: {e}")
+        # Non passare silenziosamente, logga l'errore
         pass
 
 def patch_context(phone: str, old_state: str):

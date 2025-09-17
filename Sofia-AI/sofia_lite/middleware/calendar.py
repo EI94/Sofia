@@ -1,7 +1,7 @@
 # Wrapper for Google Calendar
 from datetime import datetime, timedelta
 import logging
-from .. import get_config
+from  import get_config
 
 logger = logging.getLogger(__name__)
 

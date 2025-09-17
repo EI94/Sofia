@@ -1,7 +1,7 @@
 import logging
-from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
-from sofia_lite.middleware.llm import chat
-from ..policy.exclusions import is_excluded
+from agents.prompt_builder import build_intent_specific_prompt
+from middleware.llm import chat
+from policy.exclusions import is_excluded
 
 log = logging.getLogger("sofia.ask_service")
 
@@ -39,7 +39,7 @@ def run(ctx, text):
     # Se lang non è italiano, traduci la lista servizi
     if ctx.lang != "it":
         try:
-            from ..policy.language_support import get_service_list
+            from policy.language_support import get_service_list
             services_text = get_service_list(ctx.lang)
         except ImportError:
             services_text = "permesso di soggiorno, cittadinanza, ricongiungimento familiare"

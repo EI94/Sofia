@@ -4,10 +4,10 @@ import logging
 import functools
 from typing import Tuple
 from tenacity import retry, stop_after_attempt, wait_exponential
-from .prompt_builder import build_system_prompt
-from .context import Context
-from .state import State
-from .. import get_config
+from prompt_builder import build_system_prompt
+from context import Context
+from state import State
+from __init__ import get_config
 
 log = logging.getLogger("sofia.planner")
 
@@ -71,7 +71,7 @@ def classify_intent(text: str, lang: str, ctx=None) -> Tuple[str, float]:
     import asyncio
     
     # Step 1: Language detection with heuristics
-    from ..middleware.language import detect_lang_with_heuristics
+    from middleware.language import detect_lang_with_heuristics
     detected_lang, extra_tag = detect_lang_with_heuristics(text, ctx)
     log.info(f"🌍 Language detected: {detected_lang} for text: '{text[:20]}...'")
     
@@ -326,56 +326,82 @@ def plan(ctx: Context, user_msg: str, llm) -> tuple[str, str]:
 
 def next_state(current_state: State, intent: str, ctx=None) -> State:
     """
-    Determine the next state based on current state and intent.
+    🎯 LINEAR GOAL-BASED STATE PLANNER - Sofia Lite
+    Determina il prossimo stato basato su obiettivo finale: PRENOTAZIONE CONSULENZA
+    LOGICA LINEARE: Ogni stato ha un solo prossimo stato possibile
     
     Args:
-        current_state: Current conversation state
-        intent: Detected user intent
-        ctx: Conversation context (optional)
+        current_state: Stato corrente della conversazione
+        intent: Intent rilevato dall'utente
+        ctx: Context della conversazione (opzionale)
         
     Returns:
-        Next state to transition to
+        Prossimo stato verso il goal finale
     """
-
-    # Check auto-advance from GREETING first
-    if ctx:
-        from .state import advance_from_greeting
-        auto = advance_from_greeting(ctx, intent)
-        if auto:
-            return auto
-        
-        # Special case: if we're in ASK_CLARIFICATION and get GREET, go to ASK_NAME
-        if ctx.state == "ASK_CLARIFICATION" and intent == "GREET":
-            return State.ASK_NAME
-        
-        # Special case: if we're in INITIAL and get GREET, go to GREETING
-        if ctx.state == "INITIAL" and intent == "GREET":
-            log.info(f"🔄 Auto-advance INITIAL → GREETING")
-            return State.GREETING
-        
-        # Special case: if we're in GREETING and get GREET, force ASK_NAME if no name
-        if ctx.state == "GREETING" and intent == "GREET" and ctx.name is None:
-            log.info(f"🔄 Auto-advance GREETING → ASK_NAME (no name)")
-            return State.ASK_NAME
-        
-        # Special case: if we're in GREETING and get ASK_SERVICE, force ASK_NAME first
-        if ctx.state == "GREETING" and intent == "ASK_SERVICE" and ctx.name is None:
-            log.info(f"🔄 Force GREETING → ASK_NAME (sequence control, no name)")
-            return State.ASK_NAME
-        
-        # FORCE SEQUENCE: Stay in GREETING state for GREET intent (only if name is present)
-        if ctx.state == "GREETING" and intent == "GREET" and ctx.name is not None:
-            log.info(f"🔄 Force GREETING → GREETING (sequence control, name present)")
-            return State.GREETING
-        
-        # FORCE SEQUENCE: If we're in GREETING and get ASK_SERVICE, ignore and stay in GREETING
-        if ctx.state == "GREETING" and intent == "ASK_SERVICE":
-            log.info(f"🔄 IGNORE ASK_SERVICE in GREETING state (sequence control)")
-            return State.GREETING
     
-    # Intent to state mapping (YAML quick-ref)
+    # 🎯 GOAL: PRENOTAZIONE CONSULENZA
+    # Flusso LINEARE: GREETING → ASK_NAME → ASK_SERVICE → PROPOSE_CONSULT → ASK_CHANNEL → ASK_SLOT → ASK_PAYMENT → CONFIRMED
+    
+    if ctx:
+        # 🧠 LINEAR GOAL-BASED LOGIC - Ogni stato avanza solo verso il prossimo
+        
+        # 1. GREETING → ASK_NAME (sempre, se non abbiamo nome)
+        if current_state == State.GREETING:
+            if not ctx.name:
+                log.info(f"🎯 LINEAR: GREETING → ASK_NAME (no name)")
+                return State.ASK_NAME
+            else:
+                log.info(f"🎯 LINEAR: GREETING → ASK_SERVICE (name present: {ctx.name})")
+                return State.ASK_SERVICE
+        
+        # 2. ASK_NAME → ASK_SERVICE (sempre, dopo aver ottenuto nome)
+        if current_state == State.ASK_NAME:
+            log.info(f"🎯 LINEAR: ASK_NAME → ASK_SERVICE")
+            return State.ASK_SERVICE
+        
+        # 3. ASK_SERVICE → PROPOSE_CONSULT (sempre, dopo aver ottenuto servizio)
+        if current_state == State.ASK_SERVICE:
+            log.info(f"🎯 LINEAR: ASK_SERVICE → PROPOSE_CONSULT")
+            return State.PROPOSE_CONSULT
+        
+        # 4. PROPOSE_CONSULT → ASK_CHANNEL (sempre, dopo aver accettato consulenza)
+        if current_state == State.PROPOSE_CONSULT:
+            log.info(f"🎯 LINEAR: PROPOSE_CONSULT → ASK_CHANNEL")
+            return State.ASK_CHANNEL
+        
+        # 5. ASK_CHANNEL → ASK_SLOT (sempre, dopo aver scelto canale)
+        if current_state == State.ASK_CHANNEL:
+            log.info(f"🎯 LINEAR: ASK_CHANNEL → ASK_SLOT")
+            return State.ASK_SLOT
+        
+        # 6. ASK_SLOT → ASK_PAYMENT (sempre, dopo aver scelto slot)
+        if current_state == State.ASK_SLOT:
+            # 🎯 FIX 1: Avanza automaticamente se l'utente conferma lo slot
+            if intent in ["ASK_SLOT", "ASK_PAYMENT", "CONFIRM"] or "slot" in intent.lower() or "confermo" in intent.lower():
+                log.info(f"🎯 LINEAR: ASK_SLOT → ASK_PAYMENT (user confirmed slot)")
+                return State.ASK_PAYMENT
+            else:
+                log.info(f"🎯 LINEAR: ASK_SLOT → ASK_PAYMENT (default advance)")
+                return State.ASK_PAYMENT
+        
+        # 7. ASK_PAYMENT → CONFIRMED (sempre, dopo aver confermato pagamento)
+        if current_state == State.ASK_PAYMENT:
+            log.info(f"🎯 LINEAR: ASK_PAYMENT → CONFIRMED")
+            return State.CONFIRMED
+        
+        # 8. CONFIRM → CONFIRMED (sempre, dopo aver confermato tutto)
+        if current_state == State.CONFIRM:
+            log.info(f"🎯 LINEAR: CONFIRM → CONFIRMED (user confirmed everything)")
+            return State.CONFIRMED
+        
+        # 9. CONFIRMED → CONFIRMED (stato finale, nessuna transizione)
+        if current_state == State.CONFIRMED:
+            log.info(f"🎯 LINEAR: CONFIRMED → CONFIRMED (final state)")
+            return State.CONFIRMED
+    
+    # 🎯 INTENT TO STATE MAPPING (Linear)
     intent_to_state = {
-        "GREET": State.GREETING,  # GREET leads to GREETING (self-transition allowed)
+        "GREET": State.GREETING,
         "ASK_NAME": State.ASK_NAME,
         "ASK_SERVICE": State.ASK_SERVICE,
         "PROPOSE_CONSULT": State.PROPOSE_CONSULT,
@@ -385,26 +411,26 @@ def next_state(current_state: State, intent: str, ctx=None) -> State:
         "CONFIRM_BOOKING": State.CONFIRMED,
         "ROUTE_ACTIVE": State.ROUTE_ACTIVE,
         "CLARIFY": State.ASK_CLARIFICATION,
-        "WHO_ARE_YOU": State.GREETING,  # Rimane in GREETING per presentarsi
-        "REQUEST_SERVICE": State.ASK_SERVICE,  # Mappa a ASK_SERVICE
-        "ASK_COST": State.PROPOSE_CONSULT,     # Mappa a PROPOSE_CONSULT
+        "WHO_ARE_YOU": State.GREETING,
+        "REQUEST_SERVICE": State.ASK_SERVICE,
+        "ASK_COST": State.PROPOSE_CONSULT,
         "CONFIRM": State.CONFIRMED,
         "UNKNOWN": State.ASK_CLARIFICATION,
     }
     
-    # Special handling for INITIAL state - FORCE SEQUENCE
+    # Special handling for INITIAL state
     if current_state == State.INITIAL:
-        # Always go to GREETING first, regardless of intent
-        log.info(f"🔄 Force INITIAL → GREETING (sequence control)")
+        log.info(f"🎯 LINEAR: INITIAL → GREETING")
         return State.GREETING
     
     # Get target state from intent
     to_state = intent_to_state.get(intent, State.ASK_CLARIFICATION)
     
     # Validate transition
-    from .state import can_transition
+    from state import can_transition
     if can_transition(current_state, to_state):
         return to_state
     else:
         # Fallback to clarification if transition is invalid
+        log.warning(f"🎯 LINEAR: Transizione invalida {current_state} → {to_state}, fallback a ASK_CLARIFICATION")
         return State.ASK_CLARIFICATION 

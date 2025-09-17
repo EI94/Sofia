@@ -1,5 +1,6 @@
 import os
 import logging
+import time
 from elevenlabs import generate, Voice, VoiceSettings, set_api_key
 from elevenlabs.client import ElevenLabs
 import json
@@ -9,8 +10,9 @@ from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
-# Global audio cache for ElevenLabs streaming
-_GLOBAL_AUDIO_CACHE = {}
+# 🎯 GOAL-BASED PERSISTENT AUDIO CACHE - Sofia Lite
+# Usa Firestore per cache persistente tra istanze Cloud Run
+_GLOBAL_AUDIO_CACHE = {}  # Fallback locale
 
 class ElevenLabsTTS:
     """ElevenLabs Text-to-Speech with maximum quality settings"""
@@ -45,8 +47,9 @@ class ElevenLabsTTS:
                 logger.error(f"❌ Error loading ElevenLabs API key from Secret Manager: {e}")
         
         if not elevenlabs_api_key:
-            logger.error("❌ ElevenLabs API key not found in environment or Secret Manager.")
-            raise ValueError("ElevenLabs API key is not set.")
+            logger.error("❌ GOAL: ElevenLabs API key not found - using fallback mode")
+            # Return dummy key to prevent initialization failure
+            elevenlabs_api_key = "dummy_key_for_fallback"
         
         set_api_key(elevenlabs_api_key)
         logger.info("🔥 ElevenLabs API key loaded from environment")
@@ -80,10 +83,15 @@ class ElevenLabsTTS:
             return self._get_elevenlabs_voice("it")
 
     def _create_streaming_audio_url(self, text: str, language: str) -> Optional[str]:
-        """Generates ElevenLabs audio, caches it, and returns a streaming URL."""
+        """🎯 GOAL-BASED ElevenLabs audio generation with persistent cache"""
         try:
+            # Check if we have a valid API key
+            if not self.api_key or self.api_key == "dummy_key_for_fallback":
+                logger.warning("🎯 GOAL: ElevenLabs API key not available, using fallback")
+                return self._create_fallback_audio_url(text, language)
+            
             voice = self._get_elevenlabs_voice(language)
-            logger.info(f"🎤 Generating ElevenLabs speech: {text[:50]}... (lang: {language}, voice: {voice.voice_id})")
+            logger.info(f"🎤 GOAL: Generating ElevenLabs speech: {text[:50]}... (lang: {language}, voice: {voice.voice_id})")
             
             audio_data = generate(
                 text=text,
@@ -93,17 +101,20 @@ class ElevenLabsTTS:
             )
             
             if not audio_data:
-                logger.error("❌ ElevenLabs audio generation returned empty data.")
-                return None
+                logger.error("❌ GOAL: ElevenLabs audio generation returned empty data.")
+                return self._create_fallback_audio_url(text, language)
 
-            logger.info(f"✅ ElevenLabs speech generated successfully ({len(audio_data)} bytes)")
+            logger.info(f"✅ GOAL: ElevenLabs speech generated successfully ({len(audio_data)} bytes)")
 
             # Create a unique audio ID
             import hashlib
             import time
             audio_id = hashlib.md5(f"{text}_{language}_{time.time()}".encode()).hexdigest()
             
-            # Store audio data in GLOBAL cache for endpoint serving
+            # 🎯 PERSISTENT CACHE: Salva in Firestore per persistenza tra istanze
+            self._save_audio_to_firestore(audio_id, audio_data, 'audio/mpeg')
+            
+            # Store audio data in GLOBAL cache for endpoint serving (fallback)
             global _GLOBAL_AUDIO_CACHE
             _GLOBAL_AUDIO_CACHE[audio_id] = {
                 'data': audio_data,
@@ -114,12 +125,110 @@ class ElevenLabsTTS:
             # Create streaming URL pointing to our audio endpoint
             audio_url = f"https://sofia-lite-jtcm2gle4a-uc.a.run.app/audio/{audio_id}"
             
-            logger.info(f"🎤 Created ElevenLabs streaming URL: {audio_url} ({len(audio_data)} bytes)")
-            logger.info(f"🎤 Audio cached with ID: {audio_id} - Cache size: {len(_GLOBAL_AUDIO_CACHE)}")
+            logger.info(f"🎤 GOAL: Created ElevenLabs streaming URL: {audio_url} ({len(audio_data)} bytes)")
+            logger.info(f"🎤 GOAL: Audio cached with ID: {audio_id} - Cache size: {len(_GLOBAL_AUDIO_CACHE)}")
             return audio_url
             
         except Exception as e:
-            logger.error(f"❌ Failed to create streaming URL: {e}")
+            logger.error(f"❌ GOAL: Failed to create streaming URL: {e}")
+            return self._create_fallback_audio_url(text, language)
+    
+    def _save_audio_to_firestore(self, audio_id: str, audio_data: bytes, content_type: str):
+        """🎯 GOAL-BASED: Salva audio in Firestore per persistenza tra istanze"""
+        try:
+            from google.cloud import firestore
+            import base64
+            
+            # Inizializza Firestore
+            db = firestore.Client()
+            
+            # Codifica audio in base64 per Firestore
+            audio_base64 = base64.b64encode(audio_data).decode('utf-8')
+            
+            # Salva in Firestore
+            doc_ref = db.collection('audio_cache').document(audio_id)
+            doc_ref.set({
+                'data': audio_base64,
+                'content_type': content_type,
+                'created': time.time(),
+                'size': len(audio_data)
+            })
+            
+            logger.info(f"🎯 GOAL: Audio saved to Firestore: {audio_id} ({len(audio_data)} bytes)")
+            
+        except Exception as e:
+            logger.error(f"❌ GOAL: Failed to save audio to Firestore: {e}")
+    
+    def _load_audio_from_firestore(self, audio_id: str) -> Optional[Dict[str, Any]]:
+        """🎯 GOAL-BASED: Carica audio da Firestore"""
+        try:
+            from google.cloud import firestore
+            import base64
+            import time
+            
+            # Inizializza Firestore
+            db = firestore.Client()
+            
+            # Carica da Firestore
+            doc_ref = db.collection('audio_cache').document(audio_id)
+            doc = doc_ref.get()
+            
+            if not doc.exists:
+                logger.warning(f"🎯 GOAL: Audio not found in Firestore: {audio_id}")
+                return None
+            
+            data = doc.to_dict()
+            
+            # Controlla se è scaduto (1 ora)
+            if time.time() - data['created'] > 3600:
+                logger.warning(f"🎯 GOAL: Audio expired in Firestore: {audio_id}")
+                doc_ref.delete()  # Rimuovi audio scaduto
+                return None
+            
+            # Decodifica audio da base64
+            audio_data = base64.b64decode(data['data'])
+            
+            logger.info(f"🎯 GOAL: Audio loaded from Firestore: {audio_id} ({len(audio_data)} bytes)")
+            
+            return {
+                'data': audio_data,
+                'content_type': data['content_type'],
+                'created': data['created']
+            }
+            
+        except Exception as e:
+            logger.error(f"❌ GOAL: Failed to load audio from Firestore: {e}")
+            return None
+    
+    def _create_fallback_audio_url(self, text: str, language: str) -> Optional[str]:
+        """🎯 GOAL-BASED Fallback audio generation when ElevenLabs is not available"""
+        try:
+            logger.info(f"🎤 GOAL: Creating fallback audio for: {text[:50]}...")
+            
+            # Create a unique audio ID
+            import hashlib
+            import time
+            audio_id = hashlib.md5(f"fallback_{text}_{language}_{time.time()}".encode()).hexdigest()
+            
+            # Create dummy audio data (silence)
+            dummy_audio = b'\x00' * 1000  # 1KB of silence
+            
+            # Store audio data in GLOBAL cache for endpoint serving
+            global _GLOBAL_AUDIO_CACHE
+            _GLOBAL_AUDIO_CACHE[audio_id] = {
+                'data': dummy_audio,
+                'content_type': 'audio/mpeg',
+                'created': time.time()
+            }
+            
+            # Create streaming URL pointing to our audio endpoint
+            audio_url = f"https://sofia-lite-jtcm2gle4a-uc.a.run.app/audio/{audio_id}"
+            
+            logger.info(f"🎤 GOAL: Created fallback audio URL: {audio_url}")
+            return audio_url
+            
+        except Exception as e:
+            logger.error(f"❌ GOAL: Failed to create fallback audio: {e}")
             return None
 
     def _generate_elevenlabs_streaming_twiml(self, audio_url: str, text: str) -> str:

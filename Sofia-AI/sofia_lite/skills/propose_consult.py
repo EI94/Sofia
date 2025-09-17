@@ -1,5 +1,5 @@
-from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
-from sofia_lite.middleware.llm import chat
+from agents.prompt_builder import build_intent_specific_prompt
+from middleware.llm import chat
 
 def run(ctx, text):
     lowers = text.lower()

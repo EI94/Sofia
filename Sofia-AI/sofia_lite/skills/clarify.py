@@ -1,5 +1,5 @@
-from sofia_lite.agents.prompt_builder import build_intent_specific_prompt
-from sofia_lite.middleware.llm import chat
+from agents.prompt_builder import build_intent_specific_prompt
+from middleware.llm import chat
 
 def run(ctx, user_msg):
     # Incrementa il contatore clarify
@@ -8,7 +8,7 @@ def run(ctx, user_msg):
     # Se clarify_count >= 2, scala a route_human
     if ctx.clarify_count >= 2:
         try:
-            from sofia_lite.skills.route_human import run as route_human
+            from skills.route_human import run as route_human
             return route_human(ctx, user_msg)
         except ImportError:
             # Fallback se route_human non esiste
